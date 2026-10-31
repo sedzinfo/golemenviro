@@ -220,3 +220,219 @@ plot_gauge <- function(data, variable = "Temperature") {
     )
   return(plot_g)
 }
+##########################################################################################
+#
+##########################################################################################
+#' @title Units of the metrics
+#' @description By metric name, for the color bars, axes and hover labels of the
+#' Daily Pattern tab; proximity has none.
+#' @noRd
+metric_units <- c(
+  temperature = degrees_celsius, humidity = "%", pressure = "hPa", lux = "lux", proximity = "",
+  NH3 = "Ohms", reducing = "Ohms", oxidising = "Ohms",
+  PM1 = micrograms_m3, PM25 = micrograms_m3, PM10 = micrograms_m3
+)
+##########################################################################################
+#
+##########################################################################################
+#' @title Steps of one blue, from light to dark
+#' @description The color scale of the daily pattern. In dark mode it runs the
+#' other way, so that low values fade into the dark page and high values stand
+#' out, as they do on a light page.
+#' @noRd
+blue_steps <- c("#cde2fb", "#86b6ef", "#3987e5", "#1c5cab", "#0d366b")
+##########################################################################################
+#
+##########################################################################################
+#' @title The time zone of the app
+#' @description The one [pimoroni()] sets while the app runs, for the axis
+#' titles of the hours.
+#' @return The name of the time zone, such as "Europe/Bucharest".
+#' @noRd
+app_time_zone <- function() {
+  Sys.timezone()
+}
+##########################################################################################
+#
+##########################################################################################
+#' @title Heatmap of the hourly averages of one sensor
+#' @description A column per day and a row per hour of the day, from midnight at
+#' the top, each colored by the average of that hour, so that what happens at
+#' the same time every day shows as a horizontal band. The colors stop at the
+#' 2nd and 98th percentiles, so that a few spikes do not wash out the rest;
+#' the hover label has the exact value.
+#' @param hourly Data frame from [get_hourly()].
+#' @param variable Name of the sensor, for the title and the hover labels.
+#' @param unit Unit of the readings, `""` for none.
+#' @param mode `"light"` or `"dark"`, the mode of the app.
+#' @return A plotly object.
+#' @keywords internal
+#' @examples
+#' hourly <- expand.grid(hour = 0:23, date = as.Date("2026-10-01") + 0:13)
+#' hourly$value <- 21 + 2 * sin((hourly$hour - 9) / 24 * 2 * pi)
+#' golemenviro:::plot_daily_pattern(hourly, "Temperature", "C")
+plot_daily_pattern <- function(hourly, variable, unit = "", mode = "light") {
+  dates <- seq(min(hourly$date), max(hourly$date), by = "day")
+  z <- matrix(NA_real_, nrow = 24, ncol = length(dates))
+  z[cbind(hourly$hour + 1, match(hourly$date, dates))] <- hourly$value
+  hours <- sprintf("%02d:00", 0:23)
+  value_text <- ifelse(
+    is.na(z),
+    "no readings",
+    paste0(formatC(z, format = "f", digits = 1, big.mark = ","), if (nzchar(unit)) " ", unit)
+  )
+  hover <- matrix(paste0(
+    format(rep(dates, each = 24), "%a %d %b %Y"), ", ",
+    rep(hours, length(dates)), "-", rep(c(hours[-1], hours[1]), length(dates)),
+    "<br>", variable, ": ", value_text
+  ), nrow = 24)
+  limits <- stats::quantile(hourly$value, c(0.02, 0.98), na.rm = TRUE, names = FALSE)
+  steps <- if (identical(mode, "dark")) rev(blue_steps) else blue_steps
+  plot_ly(
+    x = dates,
+    y = 0:23,
+    z = z,
+    type = "heatmap",
+    zmin = limits[1],
+    zmax = limits[2],
+    colorscale = lapply(seq_along(steps), function(i) list((i - 1) / (length(steps) - 1), steps[i])),
+    colorbar = list(title = list(text = unit), thickness = 12),
+    text = hover,
+    hovertemplate = "%{text}<extra></extra>",
+    # a thin gap of the page between the cells, left out when the days are too narrow for it
+    xgap = if (length(dates) <= 120) 1 else 0,
+    ygap = 1
+  ) %>%
+    layout(
+      title = paste(variable, "by hour of the day"),
+      xaxis = list(title = "", showgrid = FALSE),
+      yaxis = list(
+        title = paste0("Hour (", app_time_zone(), ")"),
+        autorange = "reversed",
+        tickvals = seq(0, 21, 3),
+        ticktext = hours[seq(1, 22, 3)],
+        showgrid = FALSE,
+        zeroline = FALSE
+      ),
+      margin = list(l = 80, r = 40, b = 50, t = 50)
+    )
+}
+##########################################################################################
+#
+##########################################################################################
+#' @title A typical day of one sensor
+#' @description For each hour of the day, the median of the hourly averages
+#' over all the days (the line), and the middle half of the days, between the
+#' 25th and 75th percentiles (the band): a narrow band means that hour is much
+#' the same every day.
+#' @inheritParams plot_daily_pattern
+#' @return A plotly object.
+#' @keywords internal
+#' @examples
+#' hourly <- expand.grid(hour = 0:23, date = as.Date("2026-10-01") + 0:13)
+#' hourly$value <- 21 + 2 * sin((hourly$hour - 9) / 24 * 2 * pi) + rnorm(nrow(hourly), sd = 0.5)
+#' golemenviro:::plot_average_day(hourly, "Temperature", "C")
+plot_average_day <- function(hourly, variable, unit = "", mode = "light") {
+  by_hour <- split(hourly$value, factor(hourly$hour, levels = 0:23))
+  quartiles <- t(vapply(by_hour, function(x) {
+    if (all(is.na(x))) rep(NA_real_, 3) else stats::quantile(x, c(0.25, 0.5, 0.75), na.rm = TRUE, names = FALSE)
+  }, numeric(3)))
+  hours <- 0:23
+  labels <- sprintf("%02d:00", hours)
+  in_unit <- function(x) paste0(formatC(x, format = "f", digits = 1, big.mark = ","), if (nzchar(unit)) " ", unit)
+  line <- if (identical(mode, "dark")) "#3987e5" else "#2a78d6"
+  band <- if (identical(mode, "dark")) "rgba(57,135,229,0.3)" else "rgba(42,120,214,0.2)"
+  plot_ly(x = hours) %>%
+    add_lines(y = quartiles[, 1], line = list(width = 0), hoverinfo = "skip", showlegend = FALSE) %>%
+    add_lines(
+      y = quartiles[, 3],
+      fill = "tonexty",
+      fillcolor = band,
+      line = list(width = 0),
+      hoverinfo = "skip",
+      name = "Middle half of the days"
+    ) %>%
+    add_lines(
+      y = quartiles[, 2],
+      line = list(width = 2, color = line),
+      name = "Median",
+      text = paste0(
+        labels, "-", c(labels[-1], labels[1]),
+        "<br>median: ", in_unit(quartiles[, 2]),
+        "<br>middle half: ", in_unit(quartiles[, 1]), " to ", in_unit(quartiles[, 3])
+      ),
+      hovertemplate = "%{text}<extra></extra>"
+    ) %>%
+    layout(
+      title = paste("A typical day of", variable),
+      xaxis = list(title = paste0("Hour (", app_time_zone(), ")"), tickvals = seq(0, 21, 3), ticktext = labels[seq(1, 22, 3)]),
+      yaxis = list(title = unit),
+      legend = list(orientation = "h", x = 0, xanchor = "left", yref = "container", y = 0, yanchor = "bottom"),
+      margin = list(l = 80, r = 40, b = 80, t = 50)
+    )
+}
+##########################################################################################
+#
+##########################################################################################
+#' @title The guidelines of the World Health Organization for particles
+#' @description The air quality guidelines of 2021, in micrograms per cubic metre:
+#' for the average of a day, which should not be exceeded on more than 3 to 4
+#' days a year (the 99th percentile), and for the average of a year. PM1 has
+#' none.
+#' @noRd
+who_guidelines <- data.frame(
+  metric = c("PM25", "PM10"),
+  day = c(15, 45),
+  year = c(5, 15)
+)
+##########################################################################################
+#
+##########################################################################################
+#' @title Bars of the daily averages of a particle sensor
+#' @description One bar per day, with the guideline of the World Health
+#' Organization for the average of a day as a dashed line, so the days above it
+#' stand out. The axis starts at 0 and always reaches above the guideline.
+#' @param daily Data frame from [get_daily()].
+#' @param variable Name of the sensor, for the title and the hover labels.
+#' @param guideline The guideline for the average of a day.
+#' @param mode `"light"` or `"dark"`, the mode of the app.
+#' @return A plotly object.
+#' @keywords internal
+#' @examples
+#' daily <- data.frame(date = as.Date("2026-10-01") + 0:29, value = 8 + 10 * abs(sin(1:30)), hours = 24)
+#' golemenviro:::plot_daily_means(daily, "PM2.5", 15)
+plot_daily_means <- function(daily, variable, guideline, mode = "light") {
+  dark <- identical(mode, "dark")
+  unit <- micrograms_m3
+  hover <- paste0(
+    format(daily$date, "%a %d %b %Y"), "<br>", variable, ": ",
+    formatC(daily$value, format = "f", digits = 1), " ", unit,
+    ifelse(daily$hours < 24, paste0(" (", daily$hours, " hours with readings)"), "")
+  )
+  plot_ly(
+    x = daily$date,
+    y = daily$value,
+    type = "bar",
+    marker = list(color = if (dark) "#3987e5" else "#2a78d6"),
+    text = hover,
+    textposition = "none",
+    hovertemplate = "%{text}<extra></extra>"
+  ) %>%
+    layout(
+      title = paste(variable, "average of each day"),
+      xaxis = list(title = ""),
+      yaxis = list(title = unit, range = c(0, max(guideline * 1.25, daily$value * 1.05, na.rm = TRUE))),
+      bargap = 0.15,
+      shapes = list(list(
+        type = "line", xref = "paper", x0 = 0, x1 = 1, y0 = guideline, y1 = guideline,
+        line = list(color = if (dark) "#c3c2b7" else "#52514e", width = 1.5, dash = "dash")
+      )),
+      # the label of the line to its right, outside the bars, which can reach above it
+      annotations = list(list(
+        text = paste0("WHO guideline<br>for a day: ", guideline, " ", unit),
+        xref = "paper", x = 1, xanchor = "left", xshift = 8, y = guideline, yanchor = "middle",
+        align = "left", showarrow = FALSE, font = list(size = 12)
+      )),
+      margin = list(l = 80, r = 140, b = 50, t = 50)
+    )
+}

@@ -7,6 +7,15 @@
   // set before the page is drawn, so that it does not flash white
   document.documentElement.classList.toggle('dark-mode', dark);
 
+  // the server is told too (input$dark_mode), for the colors it draws itself, such as those of
+  // the heatmap of the Daily Pattern tab, which are out of reach of dark_mode.css
+  const report = function() {
+    if (window.Shiny && Shiny.setInputValue) {
+      Shiny.setInputValue('dark_mode', document.documentElement.classList.contains('dark-mode'));
+    }
+  };
+  $(document).on('shiny:connected', report);
+
   $(function() {
     const button = $('<a href="#" id="dark-mode-toggle"></a>');
     const label = function() {
@@ -19,6 +28,7 @@
       const on = document.documentElement.classList.toggle('dark-mode');
       try { localStorage.setItem(key, on); } catch (err) {}
       label();
+      report();
     });
     // inside the collapsing part of the navbar, so that it sits on the row of the tabs
     let navbar = $('.navbar .navbar-collapse').first();

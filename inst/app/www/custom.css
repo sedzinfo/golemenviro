@@ -47,3 +47,47 @@ body:has(.full-screen) {
 .navbar {
   min-height: 25px;
 }
+
+/* the About tab: a column of text that stays easy to read on wide screens, with lines between
+   the rows of its table (dark_mode.css has the dark ones) */
+.about {
+  max-width: 52em;
+  margin: 0 auto 2em;
+  font-size: 15px;
+  line-height: 1.55;
+}
+.about h3 {
+  margin-top: 1.6em;
+}
+.about table {
+  margin-bottom: 1em;
+}
+.about th,
+.about td {
+  padding: 6px 12px;
+  border-bottom: 1px solid #ddd;
+  vertical-align: top;
+}
+
+/* the numbers of the Air Quality tab: the days above the guideline, large, over the explanation,
+   with as much space under the two boxes as between them */
+.aq-tiles {
+  margin-bottom: 30px;
+}
+.aq-tile {
+  padding: 0 15px 10px;
+}
+.aq-tile h4 {
+  margin-top: 0;
+}
+.aq-number {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1.1;
+  margin: 0 0 6px;
+}
+.aq-of {
+  font-size: 16px;
+  font-weight: normal;
+  margin-left: 6px;
+}

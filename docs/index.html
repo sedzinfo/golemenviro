@@ -48,15 +48,18 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="data-visualization-for-enviro-using-prometheus">Data Visualization for Enviro Using Prometheus<a class="anchor" aria-label="anchor" href="#data-visualization-for-enviro-using-prometheus"></a>
 </h1></div>
-<p>Displays data of pimoroni enviro from prometheus</p>
+<p>Displays data of Pimoroni Enviro from Prometheus</p>
+<p>Live app: <a href="https://sedzinfo-golemenviro.share.connect.posit.cloud/" class="external-link uri">https://sedzinfo-golemenviro.share.connect.posit.cloud/</a><br>
+Documentation: <a href="https://sedzinfo.github.io/golemenviro/" class="uri">https://sedzinfo.github.io/golemenviro/</a></p>
 <p><img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_front.png" alt="Alt text"><img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_back.png" alt="Alt text"></p>
 <div class="section level2">
-<h2 id="examples-of-how-to-setup-your-own-pimoroni-enviro">Examples of how to setup your own Pimoroni Enviro<a class="anchor" aria-label="anchor" href="#examples-of-how-to-setup-your-own-pimoroni-enviro"></a>
+<h2 id="examples-of-how-to-set-up-your-own-pimoroni-enviro">Examples of how to set up your own Pimoroni Enviro<a class="anchor" aria-label="anchor" href="#examples-of-how-to-set-up-your-own-pimoroni-enviro"></a>
 </h2>
 <p><a href="https://learn.pimoroni.com/article/getting-started-with-enviro-plus" class="external-link">Getting Started with Enviro Plus</a><br><a href="https://github.com/pimoroni/enviroplus-python" class="external-link">Enviro Plus Python GitHub Repository</a></p>
-<p>In order to create your own server you need to: 1. Install pimoroni drivers in pi<br>
-2. Deploy a prometheus server in pi<br>
-3. After you deploy the server use the url as an argument in prometheus_url (see bellow)</p>
+<p>In order to create your own server you need to: 1. Install the Pimoroni drivers on the Pi<br>
+2. Install <a href="https://github.com/tijmenvandenbrink/enviroplus_exporter" class="external-link">enviroplus_exporter</a> on the Pi; it exports the readings under the metric names the app reads (temperature, humidity, pressure, lux, proximity, NH3, reducing, oxidising, PM1, PM25, PM10). On an Enviro (not Enviro+), start it with <code>--enviro=true</code>, as it has no gas or particulate sensors<br>
+3. Deploy a Prometheus server on the Pi that scrapes the exporter<br>
+4. After you deploy the server use the url as an argument in prometheus_url (see below)</p>
 </div>
 </div>
 <div class="section level1">
@@ -143,9 +146,9 @@ installation instructions can be found here: <a href="https://posit.co/downloads
 </table>
 <p>Run the tests with <code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test()</a></code>, and the full package check with <code><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">devtools::check()</a></code>.</p>
 <div class="section level2">
-<h2 id="deploying-to-shinyappsio">Deploying to shinyapps.io<a class="anchor" aria-label="anchor" href="#deploying-to-shinyappsio"></a>
+<h2 id="deploying-to-posit-connect-cloud">Deploying to Posit Connect Cloud<a class="anchor" aria-label="anchor" href="#deploying-to-posit-connect-cloud"></a>
 </h2>
-<p><code>app.R</code> starts the app with the two servers above; change them there for your own. It also sets <code>analytics = TRUE</code>, which adds the cookie banner of the sedzinfo.github.io sites and, once a visitor accepts, Google Analytics; <code><a href="reference/pimoroni.html">pimoroni()</a></code> leaves them out unless asked, so running the app yourself sends nothing. Run <code><a href="https://rstudio.github.io/rsconnect/reference/deployApp.html" class="external-link">rsconnect::deployApp()</a></code> from the package folder, or open <code>app.R</code> in RStudio and click Publish. <code>.rscignore</code> keeps the upload to the files the app needs.</p>
+<p>The live app runs on Posit Connect Cloud, which deploys it from this GitHub repository using <code>manifest.json</code>. <code>app.R</code> starts the app with the two servers above; change them there for your own. It also sets <code>analytics = TRUE</code>, which adds the cookie banner of the sedzinfo.github.io sites and, once a visitor accepts, Google Analytics; <code><a href="reference/pimoroni.html">pimoroni()</a></code> leaves them out unless asked, so running the app yourself sends nothing. Whenever you add or remove files or change the packages the app uses, regenerate <code>manifest.json</code> from the package folder with <code>rsconnect::writeManifest(appDir = ".", appPrimaryDoc = "app.R")</code> (the command is commented at the bottom of <code>app.R</code>) and push it with the other changes. <code>.rscignore</code> keeps the manifest to the files the app needs.</p>
 <hr>
 <p><img src="https://img.shields.io/github/stars/sedzinfo/golemenviro" alt="Stars"><img src="https://img.shields.io/github/watchers/sedzinfo/golemenviro" alt="Watchers"><img src="https://img.shields.io/github/repo-size/sedzinfo/golemenviro" alt="Repo Size"><img src="https://img.shields.io/github/issues/sedzinfo/golemenviro" alt="Open Issues"><img src="https://img.shields.io/github/forks/sedzinfo/golemenviro" alt="Forks"><img src="https://img.shields.io/github/last-commit/sedzinfo/golemenviro" alt="Last Commit"><img src="https://img.shields.io/github/contributors/sedzinfo/golemenviro" alt="Contributors"><img src="https://img.shields.io/github/license/sedzinfo/golemenviro" alt="License"><img src="https://img.shields.io/github/actions/workflow/status/sedzinfo/golemenviro/build-tarball.yml" alt="Workflow Status"><img src="https://github.com/sedzinfo/golemenviro/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></p>
 </div>

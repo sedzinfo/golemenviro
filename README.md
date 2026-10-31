@@ -42,24 +42,18 @@ pimoroni(prometheus_url=c("http://pip1.crabdance.com:1507/api/v1/query_range","h
 
 When a server cannot be reached, its gauges and charts say so instead of showing an error, and `get_data()` returns `NULL` with a message.
 
+# Tabs
+- **Current**: a gauge per sensor with its last reading, updated every 5 minutes
+- **Time Series**: a chart of one sensor, picked as in the Daily Pattern tab, over a period from 6 hours to 1 year, with a moving average and a summary
+- **Daily Pattern**: the hourly averages of one sensor as a heatmap, a column per day and a row per hour, so that what repeats every day shows as bands, and a typical day: the median of each hour and the range of its middle half
+- **Air Quality**: the daily averages of PM2.5 and PM10 against the guidelines of the World Health Organization, with the number of days above them and the average of the period
+- **About**: what each tab shows, what the sensors measure and how to read their numbers, such as the gas readings, which are resistances rather than concentrations. The text is in `inst/app/about.md`
+
 # Screenshots
 ![Alt text](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/enviro1.png)
 ![Alt text](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/enviro2.png)
 
 # Development
-
-The package is a [golem](https://thinkr-open.github.io/golem/) app:
-
-| File | Contents |
-|---|---|
-| `R/run_app.R` | `pimoroni()`, which starts the app |
-| `R/app_ui.R`, `R/app_server.R` | The navbar page and the server, which connect the modules |
-| `R/mod_current.R` | The Current tab: a gauge with the latest reading of each sensor |
-| `R/mod_timeseries.R` | The Time Series tab: a chart per sensor |
-| `R/fct_data.R` | `get_data()`, which downloads the readings from Prometheus |
-| `R/fct_plots.R` | `plot_time_series()` and `plot_gauge()` |
-| `inst/app/www/` | The CSS, the full screen button of the charts and the favicon |
-| `tests/testthat/` | Tests, which run offline on saved Prometheus answers |
 
 Run the tests with `devtools::test()`, and the full package check with `devtools::check()`.
 

@@ -1,4 +1,5 @@
-// Full screen button of the time series charts: shows a chart over the whole window, and back
+// Full screen button of the charts of the Time Series and Daily Pattern tabs: shows a chart over the
+// whole window, and back
 function plotZoom(el) {
   el = $(el);
   var parent = el.parent().parent();
@@ -9,7 +10,7 @@ function plotZoom(el) {
     parent.removeClass('full-screen').trigger('resize').fadeOut().fadeIn();
     el.attr('data-full_screen', 'false');
   }
-  // the charts drawn by renderUI() only resize with the window
+  // plotly resizes its charts with the window
   window.dispatchEvent(new Event('resize'));
 }
 
@@ -25,8 +26,8 @@ function addZoomButtons() {
     </div>`);
 }
 
-// the charts of the gas and particle sensors come from renderUI(), after the page has loaded and
-// again after each download, so the charts are watched for new ones
+// the chart is drawn after the page has loaded, and again for each sensor, server and period,
+// so the charts are watched for new ones
 $(function() {
   addZoomButtons();
   $('.plotly-full-screen').each(function() {

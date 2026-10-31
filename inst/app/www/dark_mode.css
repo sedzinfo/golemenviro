@@ -109,3 +109,13 @@ html.dark-mode .js-plotly-plot .angularaxis path {
 html.dark-mode .js-plotly-plot .threshold-arc path {
   stroke: #ddd !important;
 }
+
+/* the About tab: the lines of its table and the code */
+html.dark-mode .about th,
+html.dark-mode .about td {
+  border-color: #3a3a3a;
+}
+html.dark-mode .about code {
+  background-color: #2b2b2b;
+  color: #f0a0b0;
+}

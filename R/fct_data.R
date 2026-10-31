@@ -137,3 +137,107 @@ get_data <- function(start_time = format(Sys.time() - 60 * 60 * 24 * 7, "%Y-%m-%
   names(filtered_df)[renamed] <- metric_names[names(filtered_df)[renamed]]
   return(filtered_df)
 }
+##########################################################################################
+#
+##########################################################################################
+#' @title The name of a sensor in the app
+#' @description The column name of its metric in the data from `get_data()`,
+#' such as "PM2.5" for PM25, and the metric itself when it has none.
+#' @param metric Names of metrics, from `metrics`.
+#' @return A character vector as long as `metric`.
+#' @noRd
+sensor_label <- function(metric) {
+  unname(ifelse(metric %in% names(metric_names), metric_names[metric], metric))
+}
+##########################################################################################
+#
+##########################################################################################
+#' @title Get the hourly averages of one sensor
+#' @description Asks Prometheus for the average of each clock hour of the last
+#' `days` days, for the Daily Pattern tab. The average Prometheus gives at a
+#' time covers the hour before it, so it is filed under the hour that starts
+#' one hour earlier, in the time zone of the app.
+#' @param urlq Prometheus query_range url.
+#' @param metric Name of the metric, one of `metrics`.
+#' @param days Number of days, up to the start of the current hour.
+#' @param end_time The time to count back from, by default now.
+#' @return A data frame with one row per hour: `date` (a Date), `hour` (0 to
+#'   23) and `value`. It has no rows when the server has no readings of the
+#'   metric in that time, and is `NULL`, with a message, when the server
+#'   cannot be reached.
+#' @keywords internal
+#' @examples
+#' \dontrun{
+#' url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
+#' golemenviro:::get_hourly(url, "temperature", days = 7)
+#' }
+get_hourly <- function(urlq, metric, days = 30, end_time = Sys.time()) {
+  end <- as.POSIXct(trunc(end_time, "hours"))
+  start <- end - days * 24 * 60 * 60
+  values <- tryCatch(
+    query_prometheus(
+      urlq, metric,
+      format(start, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"),
+      format(end, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"),
+      "3600s",
+      average = TRUE
+    ),
+    error = function(e) e
+  )
+  if (inherits(values, "error")) {
+    message("Could not get data from ", urlq, ": ", conditionMessage(values))
+    return(NULL)
+  }
+  if (length(values) == 0) {
+    return(data.frame(date = as.Date(character()), hour = integer(), value = numeric()))
+  }
+  readings <- do.call(rbind, lapply(values, function(v) {
+    data.frame(timestamp = as.numeric(v[, 1]), value = as.numeric(v[, 2]))
+  }))
+  readings$value[is.nan(readings$value)] <- NA
+  hour_start <- as.POSIXct(readings$timestamp - 60 * 60, origin = "1970-01-01")
+  readings$date <- as.Date(format(hour_start, "%Y-%m-%d"))
+  readings$hour <- as.integer(format(hour_start, "%H"))
+  # several series of the metric (after a restart), and the hour that repeats when the clocks go back
+  hourly <- stats::aggregate(readings["value"], by = readings[c("date", "hour")], FUN = mean, na.rm = TRUE)
+  hourly$value[is.nan(hourly$value)] <- NA
+  hourly <- hourly[order(hourly$date, hourly$hour), c("date", "hour", "value")]
+  rownames(hourly) <- NULL
+  hourly
+}
+##########################################################################################
+#
+##########################################################################################
+#' @title Get the daily averages of one sensor
+#' @description The average of the hourly averages of each whole day, midnight
+#' to midnight in the time zone of the app, of the `days` days before today,
+#' for the Air Quality tab. Today, still running, is left out, and so is a day
+#' with readings in fewer than 18 of its hours (75%), as in the usual rules for
+#' daily averages of air quality.
+#' @inheritParams get_hourly
+#' @param end_time A time on the day after the last day, by default now.
+#' @return A data frame with one row per day: `date` (a Date), `value` (the
+#'   average) and `hours` (how many hours had readings). It has no rows when
+#'   no day has enough readings, and is `NULL`, with a message, when the
+#'   server cannot be reached.
+#' @keywords internal
+#' @examples
+#' \dontrun{
+#' url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
+#' golemenviro:::get_daily(url, "PM25", days = 30)
+#' }
+get_daily <- function(urlq, metric, days = 30, end_time = Sys.time()) {
+  hourly <- get_hourly(urlq, metric, days, end_time = as.POSIXct(trunc(end_time, "days")))
+  if (is.null(hourly)) {
+    return(NULL)
+  }
+  hourly <- hourly[!is.na(hourly$value), ]
+  daily <- data.frame(date = as.Date(character()), value = numeric(), hours = integer())
+  if (nrow(hourly) > 0) {
+    daily <- stats::aggregate(hourly["value"], by = hourly["date"], FUN = mean)
+    daily$hours <- as.integer(table(hourly$date)[as.character(daily$date)])
+  }
+  daily <- daily[daily$hours >= 18, ]
+  rownames(daily) <- NULL
+  daily
+}

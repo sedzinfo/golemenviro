@@ -1,23 +1,32 @@
 # Data Visualization for Enviro Using Prometheus
 
-Displays data of pimoroni enviro from prometheus
+Displays data of Pimoroni Enviro from Prometheus
+
+Live app: <https://sedzinfo-golemenviro.share.connect.posit.cloud/>\
+Documentation: <https://sedzinfo.github.io/golemenviro/>
 
 ![Alt
 text](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_front.png)![Alt
 text](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_back.png)
 
-## Examples of how to setup your own Pimoroni Enviro
+## Examples of how to set up your own Pimoroni Enviro
 
 [Getting Started with Enviro
 Plus](https://learn.pimoroni.com/article/getting-started-with-enviro-plus)\
 [Enviro Plus Python GitHub
 Repository](https://github.com/pimoroni/enviroplus-python)
 
-In order to create your own server you need to: 1. Install pimoroni
-drivers in pi\
-2. Deploy a prometheus server in pi\
-3. After you deploy the server use the url as an argument in
-prometheus_url (see bellow)
+In order to create your own server you need to: 1. Install the Pimoroni
+drivers on the Pi\
+2. Install
+[enviroplus_exporter](https://github.com/tijmenvandenbrink/enviroplus_exporter)
+on the Pi; it exports the readings under the metric names the app reads
+(temperature, humidity, pressure, lux, proximity, NH3, reducing,
+oxidising, PM1, PM25, PM10). On an Enviro (not Enviro+), start it with
+`--enviro=true`, as it has no gas or particulate sensors\
+3. Deploy a Prometheus server on the Pi that scrapes the exporter\
+4. After you deploy the server use the url as an argument in
+prometheus_url (see below)
 
 # Installation Instructions
 
@@ -74,18 +83,21 @@ Run the tests with
 and the full package check with
 [`devtools::check()`](https://devtools.r-lib.org/reference/check.html).
 
-## Deploying to shinyapps.io
+## Deploying to Posit Connect Cloud
 
-`app.R` starts the app with the two servers above; change them there for
-your own. It also sets `analytics = TRUE`, which adds the cookie banner
-of the sedzinfo.github.io sites and, once a visitor accepts, Google
-Analytics;
+The live app runs on Posit Connect Cloud, which deploys it from this
+GitHub repository using `manifest.json`. `app.R` starts the app with the
+two servers above; change them there for your own. It also sets
+`analytics = TRUE`, which adds the cookie banner of the
+sedzinfo.github.io sites and, once a visitor accepts, Google Analytics;
 [`pimoroni()`](https://sedzinfo.github.io/golemenviro/reference/pimoroni.md)
 leaves them out unless asked, so running the app yourself sends nothing.
-Run
-[`rsconnect::deployApp()`](https://rstudio.github.io/rsconnect/reference/deployApp.html)
-from the package folder, or open `app.R` in RStudio and click Publish.
-`.rscignore` keeps the upload to the files the app needs.
+Whenever you add or remove files or change the packages the app uses,
+regenerate `manifest.json` from the package folder with
+`rsconnect::writeManifest(appDir = ".", appPrimaryDoc = "app.R")` (the
+command is commented at the bottom of `app.R`) and push it with the
+other changes. `.rscignore` keeps the manifest to the files the app
+needs.
 
 ------------------------------------------------------------------------
 

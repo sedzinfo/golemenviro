@@ -2561,7 +2561,7 @@
       "checksum": "b6b9fb54a5f6ac675a21bee6188829e4"
     },
     "inst/app/www/plot_zoom.js": {
-      "checksum": "7ae1eb03fe05b725e9ce014c9435a58d"
+      "checksum": "6dabf267094756727038f9f19e85431a"
     },
     "inst/golem-config.yml": {
       "checksum": "4cad7a97bb6c4402b48e873610e2d410"
@@ -2585,7 +2585,7 @@
       "checksum": "a4496c9a81021cd9826c195ea176dea4"
     },
     "R/fct_plots.R": {
-      "checksum": "da3cc49ceabe124a2efb3a360de39db1"
+      "checksum": "9aabf569273a83fba20231e2f2e4cc1c"
     },
     "R/mod_about.R": {
       "checksum": "e15352d24a05bcefc763fd456fc0dc2b"

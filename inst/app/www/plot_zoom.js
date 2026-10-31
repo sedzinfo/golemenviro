@@ -1,16 +1,25 @@
 // Full screen button of the charts of the Time Series and Daily Pattern tabs: shows a chart over the
-// whole window, and back
+// whole window, and back. The chart is hidden at once, redrawn by plotly for its new size, and only
+// then faded in, so that it is never seen at the wrong size, which made it flicker
 function plotZoom(el) {
   el = $(el);
-  var parent = el.parent().parent();
-  if (el.attr('data-full_screen') === 'false') {
-    parent.addClass('full-screen').trigger('resize').fadeOut().fadeIn();
-    el.attr('data-full_screen', 'true');
-  } else {
-    parent.removeClass('full-screen').trigger('resize').fadeOut().fadeIn();
-    el.attr('data-full_screen', 'false');
-  }
-  // plotly resizes its charts with the window
+  var chart = el.parent().parent();
+  var graph = chart[0];
+  var full = el.attr('data-full_screen') === 'false';
+  chart.css({transition: 'none', opacity: 0});
+  chart.toggleClass('full-screen', full);
+  el.attr('data-full_screen', full ? 'true' : 'false');
+  var shown = false;
+  var show = function() {
+    if (shown) return;
+    shown = true;
+    if (graph.removeListener) graph.removeListener('plotly_relayout', show);
+    chart.css({transition: 'opacity 0.15s ease-in', opacity: 1});
+  };
+  // plotly redraws the chart for the new size of the window, and then says so
+  if (graph.on) graph.on('plotly_relayout', show);
+  // and when the size has not changed, nothing is redrawn
+  setTimeout(show, 600);
   window.dispatchEvent(new Event('resize'));
 }
 

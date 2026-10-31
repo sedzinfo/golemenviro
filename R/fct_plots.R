@@ -11,6 +11,52 @@ micrograms_m3 <- paste0(intToUtf8(0x00b5), "g/m", intToUtf8(0x00b3))
 ##########################################################################################
 #
 ##########################################################################################
+#' @title Units of the metrics
+#' @description By metric name, for the color bars, axes and hover labels of the
+#' Daily Pattern tab; proximity has none.
+#' @noRd
+metric_units <- c(
+  temperature = degrees_celsius, humidity = "%", pressure = "hPa", lux = "lux", proximity = "",
+  NH3 = "Ohms", reducing = "Ohms", oxidising = "Ohms",
+  PM1 = micrograms_m3, PM25 = micrograms_m3, PM10 = micrograms_m3
+)
+##########################################################################################
+#
+##########################################################################################
+#' @title Steps of one blue, from light to dark
+#' @description The color scale of the daily pattern. In dark mode it runs the
+#' other way, so that low values fade into the dark page and high values stand
+#' out, as they do on a light page.
+#' @noRd
+blue_steps <- c("#cde2fb", "#86b6ef", "#3987e5", "#1c5cab", "#0d366b")
+##########################################################################################
+#
+##########################################################################################
+#' @title The time zone of the app
+#' @description The one [pimoroni()] sets while the app runs, for the axis
+#' titles of the hours.
+#' @return The name of the time zone, such as "Europe/Bucharest".
+#' @noRd
+app_time_zone <- function() {
+  Sys.timezone()
+}
+##########################################################################################
+#
+##########################################################################################
+#' @title The guidelines of the World Health Organization for particles
+#' @description The air quality guidelines of 2021, in micrograms per cubic metre:
+#' for the average of a day, which should not be exceeded on more than 3 to 4
+#' days a year (the 99th percentile), and for the average of a year. PM1 has
+#' none.
+#' @noRd
+who_guidelines <- data.frame(
+  metric = c("PM25", "PM10"),
+  day = c(15, 45),
+  year = c(5, 15)
+)
+##########################################################################################
+#
+##########################################################################################
 #' @title Plot Time Series
 #' @description Plots the readings of one sensor, with their moving average,
 #'   their mean, and a summary of the last reading, mean, minimum, maximum,
@@ -221,38 +267,6 @@ plot_gauge <- function(data, variable = "Temperature") {
 ##########################################################################################
 #
 ##########################################################################################
-#' @title Units of the metrics
-#' @description By metric name, for the color bars, axes and hover labels of the
-#' Daily Pattern tab; proximity has none.
-#' @noRd
-metric_units <- c(
-  temperature = degrees_celsius, humidity = "%", pressure = "hPa", lux = "lux", proximity = "",
-  NH3 = "Ohms", reducing = "Ohms", oxidising = "Ohms",
-  PM1 = micrograms_m3, PM25 = micrograms_m3, PM10 = micrograms_m3
-)
-##########################################################################################
-#
-##########################################################################################
-#' @title Steps of one blue, from light to dark
-#' @description The color scale of the daily pattern. In dark mode it runs the
-#' other way, so that low values fade into the dark page and high values stand
-#' out, as they do on a light page.
-#' @noRd
-blue_steps <- c("#cde2fb", "#86b6ef", "#3987e5", "#1c5cab", "#0d366b")
-##########################################################################################
-#
-##########################################################################################
-#' @title The time zone of the app
-#' @description The one [pimoroni()] sets while the app runs, for the axis
-#' titles of the hours.
-#' @return The name of the time zone, such as "Europe/Bucharest".
-#' @noRd
-app_time_zone <- function() {
-  Sys.timezone()
-}
-##########################################################################################
-#
-##########################################################################################
 #' @title Heatmap of the hourly averages of one sensor
 #' @description A column per day and a row per hour of the day, from midnight at
 #' the top, each colored by the average of that hour, so that what happens at
@@ -373,20 +387,6 @@ plot_average_day <- function(hourly, variable, unit = "", mode = "light") {
       margin = list(l = 80, r = 40, b = 80, t = 50)
     )
 }
-##########################################################################################
-#
-##########################################################################################
-#' @title The guidelines of the World Health Organization for particles
-#' @description The air quality guidelines of 2021, in micrograms per cubic metre:
-#' for the average of a day, which should not be exceeded on more than 3 to 4
-#' days a year (the 99th percentile), and for the average of a year. PM1 has
-#' none.
-#' @noRd
-who_guidelines <- data.frame(
-  metric = c("PM25", "PM10"),
-  day = c(15, 45),
-  year = c(5, 15)
-)
 ##########################################################################################
 #
 ##########################################################################################

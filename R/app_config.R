@@ -1,17 +1,13 @@
 ##########################################################################################
 #
 ##########################################################################################
-#' Access files in the current app
-#'
-#' NOTE: If you manually change your package name in the DESCRIPTION,
-#' don't forget to change it here too, and in the config file.
+#' @title Access files in the current app
+#' @description NOTE: If you manually change your package name in the
+#' DESCRIPTION, don't forget to change it here too, and in the config file.
 #' For a safer name change mechanism, use the `golem::set_golem_name()` function.
-#'
 #' @param ... character vectors, specifying subdirectory and file(s)
 #' within your package. The default, none, returns the root of the app.
-#'
 #' @noRd
-#'
 #' @examples
 #' \dontrun{
 #' app_sys("app/www")
@@ -23,16 +19,13 @@ app_sys <- function(...) {
 ##########################################################################################
 #
 ##########################################################################################
-#' Read App Config
-#'
+#' @title Read App Config
 #' @param value Value to retrieve from the config file.
 #' @param config GOLEM_CONFIG_ACTIVE value. If unset, R_CONFIG_ACTIVE.
 #' If unset, "default".
 #' @param use_parent Logical, scan the parent directory for config file.
 #' @param file Location of the config file
-#'
 #' @noRd
-#'
 #' @examples
 #' \dontrun{
 #' get_golem_config("golem_name")

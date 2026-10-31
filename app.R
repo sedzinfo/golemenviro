@@ -19,7 +19,7 @@ pimoroni(
     "http://pip1.crabdance.com:1507/api/v1/query_range",
     "http://pip1.crabdance.com:1505/api/v1/query_range"
   ),
-  analytics = TRUE # Google Analytics, after the visitor accepts the cookie banner
+  analytics = TRUE
 )
 
 

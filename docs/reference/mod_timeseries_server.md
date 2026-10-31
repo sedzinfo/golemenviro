@@ -1,9 +1,10 @@
 # Time Series module - server
 
-Downloads the readings of the chosen number of days when the server or
-the number of days changes, and renders a chart for each sensor. The
-charts of the sensors the device does not have stay empty, and when the
-server cannot be reached the charts say so.
+Downloads the readings of all the sensors for the chosen number of days
+when the server or the number of days changes, so that picking another
+sensor draws it without downloading again, and renders the chart of the
+picked sensor. When the server cannot be reached, or the device does not
+have the sensor, the chart says so.
 
 ## Usage
 

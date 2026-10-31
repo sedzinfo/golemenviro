@@ -4,8 +4,8 @@ Displays data of Pimoroni Enviro from Prometheus
 Live app: https://sedzinfo-golemenviro.share.connect.posit.cloud/  
 Documentation: https://sedzinfo.github.io/golemenviro/  
 
-![Alt text](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_front.png)
-![Alt text](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_back.png)
+![The Pimoroni Enviro+ board from the front, with its sensors and small screen](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_front.png)
+![The Pimoroni Enviro+ board from the back, with the header that plugs into the Raspberry Pi](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_back.png)
 
 ## Examples of how to set up your own Pimoroni Enviro
 [Getting Started with Enviro Plus](https://learn.pimoroni.com/article/getting-started-with-enviro-plus)  
@@ -50,8 +50,17 @@ When a server cannot be reached, its gauges and charts say so instead of showing
 - **About**: what each tab shows, what the sensors measure and how to read their numbers, such as the gas readings, which are resistances rather than concentrations. The text is in `inst/app/about.md`
 
 # Screenshots
-![Alt text](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/enviro1.png)
-![Alt text](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/enviro2.png)
+## Current
+![A gauge with the latest reading of each sensor](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/current.png)
+
+## Time Series
+![Temperature over the last week, with its moving average, its mean and a summary of the readings](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/time_series.png)
+
+## Daily Pattern (dark mode)
+![A heatmap of the hourly temperature, a column per day and a row per hour, and a typical day below it](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/daily_pattern.png)
+
+## Air Quality (dark mode)
+![The days above the WHO guidelines for PM2.5 and PM10, and their daily averages over the last month](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/air_quality.png)
 
 # Development
 

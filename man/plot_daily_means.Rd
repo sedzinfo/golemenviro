@@ -25,6 +25,7 @@ stand out. The axis starts at 0 and always reaches above the guideline.
 }
 \examples{
 daily <- data.frame(date = as.Date("2026-10-01") + 0:29, value = 8 + 10 * abs(sin(1:30)), hours = 24)
-golemenviro:::plot_daily_means(daily, "PM2.5", 15)
+plot_daily_means(daily, "PM2.5", 15)
+url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
+plot_daily_means(get_daily(url, "PM25", days = 30), "PM2.5", 15)
 }
-\keyword{internal}

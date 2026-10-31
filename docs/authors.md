@@ -10,12 +10,12 @@
 Source:
 [`DESCRIPTION`](https://github.com/sedzinfo/golemenviro/blob/HEAD/DESCRIPTION)
 
-Zacharatos D (2026). *golemenviro: Real-time visualization of Pimoroni
-Enviro sensor data from Prometheus*. R package version 0.0.0.9000,
+Zacharatos D (2026). *golemenviro: Real-Time Visualization of Pimoroni
+Enviro Sensor Data from Prometheus*. R package version 0.0.0.9000,
 <https://sedzinfo.github.io/golemenviro/>.
 
     @Manual{,
-      title = {golemenviro: Real-time visualization of Pimoroni Enviro sensor data from Prometheus},
+      title = {golemenviro: Real-Time Visualization of Pimoroni Enviro Sensor Data from Prometheus},
       author = {Dimitrios Zacharatos},
       year = {2026},
       note = {R package version 0.0.0.9000},

@@ -30,7 +30,6 @@ one hour earlier, in the time zone of the app.
 \examples{
 \dontrun{
 url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
-golemenviro:::get_hourly(url, "temperature", days = 7)
+get_hourly(url, "temperature", days = 7)
 }
 }
-\keyword{internal}

@@ -1,10 +1,8 @@
 ##########################################################################################
 #
 ##########################################################################################
-#' Greek mu and sigma, degrees Celsius, and micrograms per cubic metre
-#'
-#' Written as code points, as the R code of a package has to stay ASCII.
-#'
+#' @title Greek mu and sigma, degrees Celsius, and micrograms per cubic metre
+#' @description Written as code points, as the R code of a package has to stay ASCII.
 #' @noRd
 symbol_mean <- intToUtf8(0x03bc)
 symbol_sd <- intToUtf8(0x03c3)
@@ -266,11 +264,13 @@ app_time_zone <- function() {
 #' @param unit Unit of the readings, `""` for none.
 #' @param mode `"light"` or `"dark"`, the mode of the app.
 #' @return A plotly object.
-#' @keywords internal
+#' @export
 #' @examples
 #' hourly <- expand.grid(hour = 0:23, date = as.Date("2026-10-01") + 0:13)
 #' hourly$value <- 21 + 2 * sin((hourly$hour - 9) / 24 * 2 * pi)
-#' golemenviro:::plot_daily_pattern(hourly, "Temperature", "C")
+#' plot_daily_pattern(hourly, "Temperature", "C")
+#' url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
+#' plot_daily_pattern(get_hourly(url, "temperature", days = 30), "Temperature", "C")
 plot_daily_pattern <- function(hourly, variable, unit = "", mode = "light") {
   dates <- seq(min(hourly$date), max(hourly$date), by = "day")
   z <- matrix(NA_real_, nrow = 24, ncol = length(dates))
@@ -327,11 +327,13 @@ plot_daily_pattern <- function(hourly, variable, unit = "", mode = "light") {
 #' the same every day.
 #' @inheritParams plot_daily_pattern
 #' @return A plotly object.
-#' @keywords internal
+#' @export
 #' @examples
 #' hourly <- expand.grid(hour = 0:23, date = as.Date("2026-10-01") + 0:13)
 #' hourly$value <- 21 + 2 * sin((hourly$hour - 9) / 24 * 2 * pi) + rnorm(nrow(hourly), sd = 0.5)
-#' golemenviro:::plot_average_day(hourly, "Temperature", "C")
+#' plot_average_day(hourly, "Temperature", "C")
+#' url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
+#' plot_average_day(get_hourly(url, "humidity", days = 30), "Humidity", "%")
 plot_average_day <- function(hourly, variable, unit = "", mode = "light") {
   by_hour <- split(hourly$value, factor(hourly$hour, levels = 0:23))
   quartiles <- t(vapply(by_hour, function(x) {
@@ -397,10 +399,12 @@ who_guidelines <- data.frame(
 #' @param guideline The guideline for the average of a day.
 #' @param mode `"light"` or `"dark"`, the mode of the app.
 #' @return A plotly object.
-#' @keywords internal
+#' @export
 #' @examples
 #' daily <- data.frame(date = as.Date("2026-10-01") + 0:29, value = 8 + 10 * abs(sin(1:30)), hours = 24)
-#' golemenviro:::plot_daily_means(daily, "PM2.5", 15)
+#' plot_daily_means(daily, "PM2.5", 15)
+#' url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
+#' plot_daily_means(get_daily(url, "PM25", days = 30), "PM2.5", 15)
 plot_daily_means <- function(daily, variable, guideline, mode = "light") {
   dark <- identical(mode, "dark")
   unit <- micrograms_m3

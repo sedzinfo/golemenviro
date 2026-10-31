@@ -5,9 +5,11 @@ Displays data of Pimoroni Enviro from Prometheus
 Live app: <https://sedzinfo-golemenviro.share.connect.posit.cloud/>\
 Documentation: <https://sedzinfo.github.io/golemenviro/>
 
-![Alt
-text](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_front.png)![Alt
-text](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_back.png)
+![The Pimoroni Enviro+ board from the front, with its sensors and small
+screen](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_front.png)![The
+Pimoroni Enviro+ board from the back, with the header that plugs into
+the Raspberry
+Pi](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_back.png)
 
 ## Examples of how to set up your own Pimoroni Enviro
 
@@ -57,26 +59,61 @@ showing an error, and
 [`get_data()`](https://sedzinfo.github.io/golemenviro/reference/get_data.md)
 returns `NULL` with a message.
 
+# Tabs
+
+- **Current**: a gauge per sensor with its last reading, updated every 5
+  minutes
+- **Time Series**: a chart of one sensor, picked as in the Daily Pattern
+  tab, over a period from 6 hours to 1 year, with a moving average and a
+  summary
+- **Daily Pattern**: the hourly averages of one sensor as a heatmap, a
+  column per day and a row per hour, so that what repeats every day
+  shows as bands, and a typical day: the median of each hour and the
+  range of its middle half
+- **Air Quality**: the daily averages of PM2.5 and PM10 against the
+  guidelines of the World Health Organization, with the number of days
+  above them and the average of the period
+- **About**: what each tab shows, what the sensors measure and how to
+  read their numbers, such as the gas readings, which are resistances
+  rather than concentrations. The text is in `inst/app/about.md`
+
 # Screenshots
 
-![Alt
-text](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/enviro1.png)![Alt
-text](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/enviro2.png)
+## Current
+
+![A gauge with the latest reading of each
+sensor](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/current.png)
+
+A gauge with the latest reading of each sensor
+
+## Time Series
+
+![Temperature over the last week, with its moving average, its mean and
+a summary of the
+readings](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/time_series.png)
+
+Temperature over the last week, with its moving average, its mean and a
+summary of the readings
+
+## Daily Pattern (dark mode)
+
+![A heatmap of the hourly temperature, a column per day and a row per
+hour, and a typical day below
+it](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/daily_pattern.png)
+
+A heatmap of the hourly temperature, a column per day and a row per
+hour, and a typical day below it
+
+## Air Quality (dark mode)
+
+![The days above the WHO guidelines for PM2.5 and PM10, and their daily
+averages over the last
+month](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/air_quality.png)
+
+The days above the WHO guidelines for PM2.5 and PM10, and their daily
+averages over the last month
 
 # Development
-
-The package is a [golem](https://thinkr-open.github.io/golem/) app:
-
-| File | Contents |
-|----|----|
-| `R/run_app.R` | [`pimoroni()`](https://sedzinfo.github.io/golemenviro/reference/pimoroni.md), which starts the app |
-| `R/app_ui.R`, `R/app_server.R` | The navbar page and the server, which connect the modules |
-| `R/mod_current.R` | The Current tab: a gauge with the latest reading of each sensor |
-| `R/mod_timeseries.R` | The Time Series tab: a chart per sensor |
-| `R/fct_data.R` | [`get_data()`](https://sedzinfo.github.io/golemenviro/reference/get_data.md), which downloads the readings from Prometheus |
-| `R/fct_plots.R` | [`plot_time_series()`](https://sedzinfo.github.io/golemenviro/reference/plot_time_series.md) and [`plot_gauge()`](https://sedzinfo.github.io/golemenviro/reference/plot_gauge.md) |
-| `inst/app/www/` | The CSS, the full screen button of the charts and the favicon |
-| `tests/testthat/` | Tests, which run offline on saved Prometheus answers |
 
 Run the tests with
 [`devtools::test()`](https://devtools.r-lib.org/reference/test.html),
@@ -111,10 +148,20 @@ Status](https://img.shields.io/github/actions/workflow/status/sedzinfo/golemenvi
 
 ## All functions
 
+- [`get_daily()`](https://sedzinfo.github.io/golemenviro/reference/get_daily.md)
+  : Get the daily averages of one sensor
 - [`get_data()`](https://sedzinfo.github.io/golemenviro/reference/get_data.md)
   : Get Data from Prometheus
+- [`get_hourly()`](https://sedzinfo.github.io/golemenviro/reference/get_hourly.md)
+  : Get the hourly averages of one sensor
 - [`pimoroni()`](https://sedzinfo.github.io/golemenviro/reference/pimoroni.md)
   : Run the Pimoroni Enviro app
+- [`plot_average_day()`](https://sedzinfo.github.io/golemenviro/reference/plot_average_day.md)
+  : A typical day of one sensor
+- [`plot_daily_means()`](https://sedzinfo.github.io/golemenviro/reference/plot_daily_means.md)
+  : Bars of the daily averages of a particle sensor
+- [`plot_daily_pattern()`](https://sedzinfo.github.io/golemenviro/reference/plot_daily_pattern.md)
+  : Heatmap of the hourly averages of one sensor
 - [`plot_gauge()`](https://sedzinfo.github.io/golemenviro/reference/plot_gauge.md)
   : Plot Gauge
 - [`plot_time_series()`](https://sedzinfo.github.io/golemenviro/reference/plot_time_series.md)

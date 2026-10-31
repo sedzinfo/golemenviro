@@ -31,7 +31,6 @@ daily averages of air quality.
 \examples{
 \dontrun{
 url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
-golemenviro:::get_daily(url, "PM25", days = 30)
+get_daily(url, "PM25", days = 30)
 }
 }
-\keyword{internal}

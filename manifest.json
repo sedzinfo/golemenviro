@@ -2567,7 +2567,7 @@
       "checksum": "4cad7a97bb6c4402b48e873610e2d410"
     },
     "NAMESPACE": {
-      "checksum": "d5cff42392dc67dbdbec91197c960365"
+      "checksum": "18ac4bd0796276011da9e26d4d8e5f45"
     },
     "R/_disable_autoload.R": {
       "checksum": "1178c335d6c11555fd1c4ec6098dfee6"
@@ -2582,10 +2582,10 @@
       "checksum": "6a900138336fedf5f1a429dca9c7319f"
     },
     "R/fct_data.R": {
-      "checksum": "88a6baca459d59126563415997218c12"
+      "checksum": "a4496c9a81021cd9826c195ea176dea4"
     },
     "R/fct_plots.R": {
-      "checksum": "7948b22bcafbf46462c856b4483bded3"
+      "checksum": "da3cc49ceabe124a2efb3a360de39db1"
     },
     "R/mod_about.R": {
       "checksum": "e15352d24a05bcefc763fd456fc0dc2b"

@@ -5,16 +5,16 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Real-time visualization of Pimoroni Enviro sensor data from Prometheus • golemenviro</title>
+<title>Real-Time Visualization of Pimoroni Enviro Sensor Data from Prometheus • golemenviro</title>
 <!-- katex math --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script><script src="katex-auto.js"></script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
-<meta property="og:title" content="Real-time visualization of Pimoroni Enviro sensor data from Prometheus">
-<meta name="description" content="A Shiny application, built as a golem package, that displays the readings of Pimoroni Enviro and Enviro+ sensors exported to Prometheus: gauges with the latest readings, and a time series chart per sensor.">
-<meta property="og:description" content="A Shiny application, built as a golem package, that displays the readings of Pimoroni Enviro and Enviro+ sensors exported to Prometheus: gauges with the latest readings, and a time series chart per sensor.">
+<meta property="og:title" content="Real-Time Visualization of Pimoroni Enviro Sensor Data from Prometheus">
+<meta name="description" content="A shiny application, built as a golem package, that displays the readings of Pimoroni Enviro and Enviro+ sensors exported to Prometheus: gauges with the latest readings, and a time series chart per sensor.">
+<meta property="og:description" content="A shiny application, built as a golem package, that displays the readings of Pimoroni Enviro and Enviro+ sensors exported to Prometheus: gauges with the latest readings, and a time series chart per sensor.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -51,7 +51,7 @@
 <p>Displays data of Pimoroni Enviro from Prometheus</p>
 <p>Live app: <a href="https://sedzinfo-golemenviro.share.connect.posit.cloud/" class="external-link uri">https://sedzinfo-golemenviro.share.connect.posit.cloud/</a><br>
 Documentation: <a href="https://sedzinfo.github.io/golemenviro/" class="uri">https://sedzinfo.github.io/golemenviro/</a></p>
-<p><img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_front.png" alt="Alt text"><img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_back.png" alt="Alt text"></p>
+<p><img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_front.png" alt="The Pimoroni Enviro+ board from the front, with its sensors and small screen"><img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_back.png" alt="The Pimoroni Enviro+ board from the back, with the header that plugs into the Raspberry Pi"></p>
 <div class="section level2">
 <h2 id="examples-of-how-to-set-up-your-own-pimoroni-enviro">Examples of how to set up your own Pimoroni Enviro<a class="anchor" aria-label="anchor" href="#examples-of-how-to-set-up-your-own-pimoroni-enviro"></a>
 </h2>
@@ -86,64 +86,57 @@ installation instructions can be found here: <a href="https://posit.co/downloads
 <p>When a server cannot be reached, its gauges and charts say so instead of showing an error, and <code><a href="reference/get_data.html">get_data()</a></code> returns <code>NULL</code> with a message.</p>
 </div>
 <div class="section level1">
+<h1 id="tabs">Tabs<a class="anchor" aria-label="anchor" href="#tabs"></a>
+</h1>
+<ul>
+<li>
+<strong>Current</strong>: a gauge per sensor with its last reading, updated every 5 minutes</li>
+<li>
+<strong>Time Series</strong>: a chart of one sensor, picked as in the Daily Pattern tab, over a period from 6 hours to 1 year, with a moving average and a summary</li>
+<li>
+<strong>Daily Pattern</strong>: the hourly averages of one sensor as a heatmap, a column per day and a row per hour, so that what repeats every day shows as bands, and a typical day: the median of each hour and the range of its middle half</li>
+<li>
+<strong>Air Quality</strong>: the daily averages of PM2.5 and PM10 against the guidelines of the World Health Organization, with the number of days above them and the average of the period</li>
+<li>
+<strong>About</strong>: what each tab shows, what the sensors measure and how to read their numbers, such as the gas readings, which are resistances rather than concentrations. The text is in <code>inst/app/about.md</code>
+</li>
+</ul>
+</div>
+<div class="section level1">
 <h1 id="screenshots">Screenshots<a class="anchor" aria-label="anchor" href="#screenshots"></a>
 </h1>
-<p><img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/enviro1.png" alt="Alt text"><img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/enviro2.png" alt="Alt text"></p>
+<div class="section level2">
+<h2 id="current">Current<a class="anchor" aria-label="anchor" href="#current"></a>
+</h2>
+<div class="float">
+<img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/current.png" alt="A gauge with the latest reading of each sensor"><div class="figcaption">A gauge with the latest reading of each sensor</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="time-series">Time Series<a class="anchor" aria-label="anchor" href="#time-series"></a>
+</h2>
+<div class="float">
+<img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/time_series.png" alt="Temperature over the last week, with its moving average, its mean and a summary of the readings"><div class="figcaption">Temperature over the last week, with its moving average, its mean and a summary of the readings</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="daily-pattern-dark-mode">Daily Pattern (dark mode)<a class="anchor" aria-label="anchor" href="#daily-pattern-dark-mode"></a>
+</h2>
+<div class="float">
+<img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/daily_pattern.png" alt="A heatmap of the hourly temperature, a column per day and a row per hour, and a typical day below it"><div class="figcaption">A heatmap of the hourly temperature, a column per day and a row per hour, and a typical day below it</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="air-quality-dark-mode">Air Quality (dark mode)<a class="anchor" aria-label="anchor" href="#air-quality-dark-mode"></a>
+</h2>
+<div class="float">
+<img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/air_quality.png" alt="The days above the WHO guidelines for PM2.5 and PM10, and their daily averages over the last month"><div class="figcaption">The days above the WHO guidelines for PM2.5 and PM10, and their daily averages over the last month</div>
+</div>
+</div>
 </div>
 <div class="section level1">
 <h1 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>
 </h1>
-<p>The package is a <a href="https://thinkr-open.github.io/golem/" class="external-link">golem</a> app:</p>
-<table class="table">
-<colgroup>
-<col width="50%">
-<col width="50%">
-</colgroup>
-<thead><tr>
-<th>File</th>
-<th>Contents</th>
-</tr></thead>
-<tbody>
-<tr>
-<td><code>R/run_app.R</code></td>
-<td>
-<code><a href="reference/pimoroni.html">pimoroni()</a></code>, which starts the app</td>
-</tr>
-<tr>
-<td>
-<code>R/app_ui.R</code>, <code>R/app_server.R</code>
-</td>
-<td>The navbar page and the server, which connect the modules</td>
-</tr>
-<tr>
-<td><code>R/mod_current.R</code></td>
-<td>The Current tab: a gauge with the latest reading of each sensor</td>
-</tr>
-<tr>
-<td><code>R/mod_timeseries.R</code></td>
-<td>The Time Series tab: a chart per sensor</td>
-</tr>
-<tr>
-<td><code>R/fct_data.R</code></td>
-<td>
-<code><a href="reference/get_data.html">get_data()</a></code>, which downloads the readings from Prometheus</td>
-</tr>
-<tr>
-<td><code>R/fct_plots.R</code></td>
-<td>
-<code><a href="reference/plot_time_series.html">plot_time_series()</a></code> and <code><a href="reference/plot_gauge.html">plot_gauge()</a></code>
-</td>
-</tr>
-<tr>
-<td><code>inst/app/www/</code></td>
-<td>The CSS, the full screen button of the charts and the favicon</td>
-</tr>
-<tr>
-<td><code>tests/testthat/</code></td>
-<td>Tests, which run offline on saved Prometheus answers</td>
-</tr>
-</tbody>
-</table>
 <p>Run the tests with <code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test()</a></code>, and the full package check with <code><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">devtools::check()</a></code>.</p>
 <div class="section level2">
 <h2 id="deploying-to-posit-connect-cloud">Deploying to Posit Connect Cloud<a class="anchor" aria-label="anchor" href="#deploying-to-posit-connect-cloud"></a>

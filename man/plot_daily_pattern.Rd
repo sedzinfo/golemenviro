@@ -28,6 +28,7 @@ the hover label has the exact value.
 \examples{
 hourly <- expand.grid(hour = 0:23, date = as.Date("2026-10-01") + 0:13)
 hourly$value <- 21 + 2 * sin((hourly$hour - 9) / 24 * 2 * pi)
-golemenviro:::plot_daily_pattern(hourly, "Temperature", "C")
+plot_daily_pattern(hourly, "Temperature", "C")
+url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
+plot_daily_pattern(get_hourly(url, "temperature", days = 30), "Temperature", "C")
 }
-\keyword{internal}

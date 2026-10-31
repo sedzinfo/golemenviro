@@ -165,11 +165,11 @@ sensor_label <- function(metric) {
 #'   23) and `value`. It has no rows when the server has no readings of the
 #'   metric in that time, and is `NULL`, with a message, when the server
 #'   cannot be reached.
-#' @keywords internal
+#' @export
 #' @examples
 #' \dontrun{
 #' url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
-#' golemenviro:::get_hourly(url, "temperature", days = 7)
+#' get_hourly(url, "temperature", days = 7)
 #' }
 get_hourly <- function(urlq, metric, days = 30, end_time = Sys.time()) {
   end <- as.POSIXct(trunc(end_time, "hours"))
@@ -220,11 +220,11 @@ get_hourly <- function(urlq, metric, days = 30, end_time = Sys.time()) {
 #'   average) and `hours` (how many hours had readings). It has no rows when
 #'   no day has enough readings, and is `NULL`, with a message, when the
 #'   server cannot be reached.
-#' @keywords internal
+#' @export
 #' @examples
 #' \dontrun{
 #' url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
-#' golemenviro:::get_daily(url, "PM25", days = 30)
+#' get_daily(url, "PM25", days = 30)
 #' }
 get_daily <- function(urlq, metric, days = 30, end_time = Sys.time()) {
   hourly <- get_hourly(urlq, metric, days, end_time = as.POSIXct(trunc(end_time, "days")))

@@ -35,6 +35,6 @@ hourly$value <- 21 + 2 * sin((hourly$hour - 9) / 24 * 2 * pi)
 plot_daily_pattern(hourly, "Temperature", "C")
 plot_daily_pattern(hourly, "Temperature", "C", mid = 24)
 url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
-plot_daily_pattern(get_hourly(url, "temperature", days = 360), "Temperature", "C", mid = 24)
-plot_daily_pattern(get_hourly(url, "temperature", days = 360), "Temperature", "C")
+plot_daily_pattern(get_hourly(url, "temperature", days = 30), "Temperature", "C", mid = 30)
+plot_daily_pattern(get_hourly(url, "temperature", days = 360), "Temperature", "C", mid = 30)
 }

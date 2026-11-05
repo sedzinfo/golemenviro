@@ -30,4 +30,5 @@ hourly$value <- 21 + 2 * sin((hourly$hour - 9) / 24 * 2 * pi) + rnorm(nrow(hourl
 plot_average_day(hourly, "Temperature", "C")
 url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
 plot_average_day(get_hourly(url, "humidity", days = 30), "Humidity", "\%")
+plot_average_day(get_hourly(url, "humidity", days = 360), "Humidity", "\%")
 }

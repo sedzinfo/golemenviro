@@ -4,6 +4,7 @@
 #' @title Greek mu and sigma, degrees Celsius, and micrograms per cubic metre
 #' @description Written as code points, as the R code of a package has to stay ASCII.
 #' @noRd
+#' @export
 symbol_mean <- intToUtf8(0x03bc)
 symbol_sd <- intToUtf8(0x03c3)
 degrees_celsius <- paste0(intToUtf8(0x00b0), "C")
@@ -332,8 +333,8 @@ plot_gauge <- function(data, variable = "Temperature") {
 #' plot_daily_pattern(hourly, "Temperature", "C")
 #' plot_daily_pattern(hourly, "Temperature", "C", mid = 24)
 #' url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
-#' plot_daily_pattern(get_hourly(url, "temperature", days = 360), "Temperature", "C", mid = 24)
-#' plot_daily_pattern(get_hourly(url, "temperature", days = 360), "Temperature", "C")
+#' plot_daily_pattern(get_hourly(url, "temperature", days = 30), "Temperature", "C", mid = 30)
+#' plot_daily_pattern(get_hourly(url, "temperature", days = 360), "Temperature", "C", mid = 30)
 plot_daily_pattern <- function(hourly, variable, unit = "", mode = "light", mid = NULL) {
   dates <- seq(min(hourly$date), max(hourly$date), by = "day")
   z <- matrix(NA_real_, nrow = 24, ncol = length(dates))
@@ -355,8 +356,6 @@ plot_daily_pattern <- function(hourly, variable, unit = "", mode = "light", mid 
   if (is.null(mid)) {
     steps <- if (identical(mode, "dark")) rev(blue_steps) else blue_steps
   } else {
-    # diverging: mid is white, colder is blue, hotter is red; the range is made symmetric
-    # around mid, so white always falls exactly on it
     half <- max(abs(limits - mid))
     limits <- c(mid - half, mid + half)
     steps <- c("#2166AC", "#67A9CF", "#F7F7F7", "#EF8A62", "#B2182B") # ColorBrewer RdBu
@@ -379,16 +378,16 @@ plot_daily_pattern <- function(hourly, variable, unit = "", mode = "light", mid 
   ) |>
     plotly::layout(
       title = paste(variable, "by hour of the day"),
-      xaxis = list(title = "", showgrid = FALSE),
+      xaxis = list(title = "", showgrid = FALSE, tickangle = -90, nticks = 12),
       yaxis = list(
         title = paste0("Hour (", app_time_zone(), ")"),
         autorange = "reversed",
-        tickvals = seq(0, 21, 3),
-        ticktext = hours[seq(1, 22, 3)],
+        tickvals = seq(0, 23, 1),
+        ticktext = hours[seq(1, 24, 1)],
         showgrid = FALSE,
         zeroline = FALSE
       ),
-      margin = list(l = 80, r = 40, b = 50, t = 50)
+      margin = list(l = 80, r = 40, b = 90, t = 50)
     )
 }
 ##########################################################################################
@@ -408,6 +407,7 @@ plot_daily_pattern <- function(hourly, variable, unit = "", mode = "light", mid 
 #' plot_average_day(hourly, "Temperature", "C")
 #' url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
 #' plot_average_day(get_hourly(url, "humidity", days = 30), "Humidity", "%")
+#' plot_average_day(get_hourly(url, "humidity", days = 360), "Humidity", "%")
 plot_average_day <- function(hourly, variable, unit = "", mode = "light") {
   by_hour <- split(hourly$value, factor(hourly$hour, levels = 0:23))
   quartiles <- t(vapply(by_hour, function(x) {
@@ -441,7 +441,7 @@ plot_average_day <- function(hourly, variable, unit = "", mode = "light") {
     ) |>
     plotly::layout(
       title = paste("A typical day of", variable),
-      xaxis = list(title = paste0("Hour (", app_time_zone(), ")"), tickvals = seq(0, 21, 3), ticktext = labels[seq(1, 22, 3)]),
+      xaxis = list(title = paste0("Hour (", app_time_zone(), ")"), tickvals = seq(0, 23, 1), ticktext = labels[seq(1, 24, 1)]),
       yaxis = list(title = unit),
       legend = list(orientation = "h", x = 0, xanchor = "left", yref = "container", y = 0, yanchor = "bottom"),
       margin = list(l = 80, r = 40, b = 80, t = 50)

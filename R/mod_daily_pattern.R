@@ -70,7 +70,12 @@ mod_daily_pattern_server <- function(id, dark_mode) {
       hourly()
     })
     output$heatmap <- plotly::renderPlotly({
-      plot_daily_pattern(drawable(), label(), metric_units[[input$sensor]], dark_mode())
+      # white at the metric's reference value (metric_mid), blue below and red above;
+      # metrics without one keep the blue scale
+      mid <- metric_mid[[input$sensor]]
+      plot_daily_pattern(drawable(), label(), metric_units[[input$sensor]], dark_mode(),
+        mid = if (is.na(mid)) NULL else mid
+      )
     })
     output$average_day <- plotly::renderPlotly({
       plot_average_day(drawable(), label(), metric_units[[input$sensor]], dark_mode())

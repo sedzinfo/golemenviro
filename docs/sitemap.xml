@@ -4,10 +4,13 @@
 <url><loc>https://sedzinfo.github.io/golemenviro/authors.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/index.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/about_text.html</loc></url>
+<url><loc>https://sedzinfo.github.io/golemenviro/reference/app_time_zone.html</loc></url>
+<url><loc>https://sedzinfo.github.io/golemenviro/reference/blue_steps.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/get_daily.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/get_data.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/get_hourly.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/index.html</loc></url>
+<url><loc>https://sedzinfo.github.io/golemenviro/reference/metric_mid.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/mod_about_ui.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/mod_air_quality_server.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/mod_air_quality_ui.html</loc></url>
@@ -24,5 +27,7 @@
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/plot_gauge.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/plot_time_series.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/query_prometheus.html</loc></url>
+<url><loc>https://sedzinfo.github.io/golemenviro/reference/red_steps.html</loc></url>
+<url><loc>https://sedzinfo.github.io/golemenviro/reference/who_guidelines.html</loc></url>
 </urlset>
 

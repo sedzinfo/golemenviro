@@ -36,6 +36,29 @@ test_that("the daily pattern has a row per hour and a column per day, and turns 
   expect_equal(light$colorscale[[5]][[2]], dark$colorscale[[1]][[2]])
 })
 
+test_that("with mid, the daily pattern is blue below it, white at it and red above it", {
+  hourly <- expand.grid(hour = 0:23, date = as.Date("2023-11-01") + 0:2)
+  hourly$value <- 20 + hourly$hour / 2 # 20 to 31.5
+  heat <- plotly::plotly_build(plot_daily_pattern(hourly, "Temperature", "C", mid = 24))$x$data[[1]]
+  # the range is symmetric around mid, so white falls exactly on it
+  expect_equal(mean(c(heat$zmin, heat$zmax)), 24)
+  scale <- vapply(heat$colorscale, function(s) s[[2]], character(1))
+  expect_equal(scale[c(1, 3, 5)], c("#2166AC", "#F7F7F7", "#B2182B"))
+})
+
+test_that("metric_mid has a value or NA for every metric, the WHO guideline for particles", {
+  expect_setequal(names(metric_mid), metrics)
+  expect_equal(metric_mid[["PM25"]], who_guidelines$day[who_guidelines$metric == "PM25"])
+  expect_equal(metric_mid[["PM10"]], who_guidelines$day[who_guidelines$metric == "PM10"])
+  expect_true(is.na(metric_mid[["PM1"]]))
+})
+
+test_that("red_steps matches blue_steps: five colors, light to dark", {
+  expect_length(red_steps, length(blue_steps))
+  lightness <- function(x) colSums(grDevices::col2rgb(x))
+  expect_true(all(diff(lightness(red_steps)) < 0))
+})
+
 test_that("a typical day has the median of each hour between its quartiles", {
   hourly <- expand.grid(hour = 0:23, date = as.Date("2023-11-01") + 0:3)
   hourly$value <- hourly$hour + rep(1:4, each = 24)

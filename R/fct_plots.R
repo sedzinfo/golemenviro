@@ -27,8 +27,46 @@ metric_units <- c(
 #' @description The color scale of the daily pattern. In dark mode it runs the
 #' other way, so that low values fade into the dark page and high values stand
 #' out, as they do on a light page.
-#' @noRd
+#' @format A character vector of 5 hexadecimal colors.
+#' @export
+#' @examples
+#' blue_steps
 blue_steps <- c("#cde2fb", "#86b6ef", "#3987e5", "#1c5cab", "#0d366b")
+##########################################################################################
+#
+##########################################################################################
+#' @title Steps of one red, from light to dark
+#' @description The red counterpart of [blue_steps], with the same lightness at
+#' each step, for scales where higher means hotter or worse. Reverse it with
+#' `rev(red_steps)` in dark mode, as [plot_daily_pattern()] does with blue.
+#' @format A character vector of 5 hexadecimal colors.
+#' @export
+#' @examples
+#' red_steps
+#' # as a plotly color scale
+#' lapply(seq_along(red_steps), function(i) list((i - 1) / 4, red_steps[i]))
+red_steps <- c("#fbd3cf", "#f28d84", "#e0463b", "#a91f17", "#660d08")
+##########################################################################################
+#
+##########################################################################################
+#' @title The value colored white in the daily pattern of each metric
+#' @description By metric name, the value that [plot_daily_pattern()] colors
+#' white, with lower values in blue and higher in red: room temperature, the
+#' middle of the comfortable range of humidity (40 to 60\%), the standard
+#' atmospheric pressure at sea level, and for particles the daily guideline of
+#' the World Health Organization ([who_guidelines]). `NA` for the metrics with
+#' no such value (light, proximity, the gas sensors, whose resistance is only
+#' relative, and PM1, which has no guideline): these keep [blue_steps].
+#' @format A named numeric vector, in the units of the readings.
+#' @export
+#' @examples
+#' metric_mid
+#' metric_mid[["temperature"]]
+metric_mid <- c(
+  temperature = 24, humidity = 50, pressure = 1013.25, lux = NA, proximity = NA,
+  NH3 = NA, reducing = NA, oxidising = NA,
+  PM1 = NA, PM25 = 15, PM10 = 45
+)
 ##########################################################################################
 #
 ##########################################################################################
@@ -36,7 +74,9 @@ blue_steps <- c("#cde2fb", "#86b6ef", "#3987e5", "#1c5cab", "#0d366b")
 #' @description The one [pimoroni()] sets while the app runs, for the axis
 #' titles of the hours.
 #' @return The name of the time zone, such as "Europe/Bucharest".
-#' @noRd
+#' @export
+#' @examples
+#' app_time_zone()
 app_time_zone <- function() {
   Sys.timezone()
 }
@@ -48,7 +88,11 @@ app_time_zone <- function() {
 #' for the average of a day, which should not be exceeded on more than 3 to 4
 #' days a year (the 99th percentile), and for the average of a year. PM1 has
 #' none.
-#' @noRd
+#' @format A data frame with the columns `metric` (`"PM25"`, `"PM10"`), `day`
+#'   and `year`, in micrograms per cubic metre.
+#' @export
+#' @examples
+#' who_guidelines
 who_guidelines <- data.frame(
   metric = c("PM25", "PM10"),
   day = c(15, 45),
@@ -88,7 +132,7 @@ plot_time_series <- function(data, variable = "Temperature", scale = "", k = 30)
   max_value <- round(max(as.numeric(data[, variable]), na.rm = TRUE), 2)
   sd_value <- round(stats::sd(as.numeric(data[, variable]), na.rm = TRUE), 2)
   range_value <- round(max_value - min_value, 2)
-  plot_ts <- plot_ly(
+  plot_ts <- plotly::plot_ly(
     data = data,
     x = data[, "Date"],
     y = data[, variable],
@@ -96,8 +140,8 @@ plot_time_series <- function(data, variable = "Temperature", scale = "", k = 30)
     type = "scatter",
     mode = "lines",
     name = variable
-  ) %>%
-    add_lines(
+  ) |>
+    plotly::add_lines(
       data = data,
       x = data[, "Date"],
       y = smoothed,
@@ -105,15 +149,15 @@ plot_time_series <- function(data, variable = "Temperature", scale = "", k = 30)
       type = "scatter",
       mode = "lines",
       name = "Smoothing"
-    ) %>%
-    add_segments(
+    ) |>
+    plotly::add_segments(
       x = min(data[, "Date"]),
       xend = max(data[, "Date"]),
       y = mean_value,
       yend = mean_value,
       name = "Mean"
-    ) %>%
-    add_annotations(
+    ) |>
+    plotly::add_annotations(
       text = paste(
         "\n\n",
         "last:", current_value, "\n\n",
@@ -136,8 +180,8 @@ plot_time_series <- function(data, variable = "Temperature", scale = "", k = 30)
       showarrow = FALSE,
       font = list(size = 12),
       align = "left"
-    ) %>%
-    layout(
+    ) |>
+    plotly::layout(
       autosize = TRUE,
       # room on the right for the summary
       margin = list(l = 80, r = 140, b = 80, t = 50, pad = 50),
@@ -226,7 +270,7 @@ plot_gauge <- function(data, variable = "Temperature") {
     point_ideal <- value_mean
   }
 
-  plot_g <- plot_ly(
+  plot_g <- plotly::plot_ly(
     type = "indicator",
     mode = "gauge+number+delta",
     value = last_value,
@@ -250,13 +294,13 @@ plot_gauge <- function(data, variable = "Temperature") {
         value = point_ideal
       )
     )
-  ) %>%
-    layout(
+  ) |>
+    plotly::layout(
       margin = list(l = 80, r = 80, b = 80, t = 50, pad = 50),
       paper_bgcolor = "white",
       font = list(color = "darkblue")
-    ) %>%
-    add_annotations(
+    ) |>
+    plotly::add_annotations(
       text = reference$help,
       x = .5,
       y = -.1,
@@ -277,15 +321,20 @@ plot_gauge <- function(data, variable = "Temperature") {
 #' @param variable Name of the sensor, for the title and the hover labels.
 #' @param unit Unit of the readings, `""` for none.
 #' @param mode `"light"` or `"dark"`, the mode of the app.
+#' @param mid A value to color white, with lower values in blue and higher values
+#'   in red, such as room temperature; the color range is then made symmetric
+#'   around it. `NULL` (the default) for one blue, from light to dark.
 #' @return A plotly object.
 #' @export
 #' @examples
 #' hourly <- expand.grid(hour = 0:23, date = as.Date("2026-10-01") + 0:13)
 #' hourly$value <- 21 + 2 * sin((hourly$hour - 9) / 24 * 2 * pi)
 #' plot_daily_pattern(hourly, "Temperature", "C")
+#' plot_daily_pattern(hourly, "Temperature", "C", mid = 24)
 #' url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
-#' plot_daily_pattern(get_hourly(url, "temperature", days = 30), "Temperature", "C")
-plot_daily_pattern <- function(hourly, variable, unit = "", mode = "light") {
+#' plot_daily_pattern(get_hourly(url, "temperature", days = 360), "Temperature", "C", mid = 24)
+#' plot_daily_pattern(get_hourly(url, "temperature", days = 360), "Temperature", "C")
+plot_daily_pattern <- function(hourly, variable, unit = "", mode = "light", mid = NULL) {
   dates <- seq(min(hourly$date), max(hourly$date), by = "day")
   z <- matrix(NA_real_, nrow = 24, ncol = length(dates))
   z[cbind(hourly$hour + 1, match(hourly$date, dates))] <- hourly$value
@@ -300,9 +349,20 @@ plot_daily_pattern <- function(hourly, variable, unit = "", mode = "light") {
     rep(hours, length(dates)), "-", rep(c(hours[-1], hours[1]), length(dates)),
     "<br>", variable, ": ", value_text
   ), nrow = 24)
+  # limits <- stats::quantile(hourly$value, c(0.02, 0.98), na.rm = TRUE, names = FALSE)
+  # steps <- if (identical(mode, "dark")) rev(blue_steps) else blue_steps
   limits <- stats::quantile(hourly$value, c(0.02, 0.98), na.rm = TRUE, names = FALSE)
-  steps <- if (identical(mode, "dark")) rev(blue_steps) else blue_steps
-  plot_ly(
+  if (is.null(mid)) {
+    steps <- if (identical(mode, "dark")) rev(blue_steps) else blue_steps
+  } else {
+    # diverging: mid is white, colder is blue, hotter is red; the range is made symmetric
+    # around mid, so white always falls exactly on it
+    half <- max(abs(limits - mid))
+    limits <- c(mid - half, mid + half)
+    steps <- c("#2166AC", "#67A9CF", "#F7F7F7", "#EF8A62", "#B2182B") # ColorBrewer RdBu
+  }
+  
+  plotly::plot_ly(
     x = dates,
     y = 0:23,
     z = z,
@@ -316,8 +376,8 @@ plot_daily_pattern <- function(hourly, variable, unit = "", mode = "light") {
     # a thin gap of the page between the cells, left out when the days are too narrow for it
     xgap = if (length(dates) <= 120) 1 else 0,
     ygap = 1
-  ) %>%
-    layout(
+  ) |>
+    plotly::layout(
       title = paste(variable, "by hour of the day"),
       xaxis = list(title = "", showgrid = FALSE),
       yaxis = list(
@@ -358,17 +418,17 @@ plot_average_day <- function(hourly, variable, unit = "", mode = "light") {
   in_unit <- function(x) paste0(formatC(x, format = "f", digits = 1, big.mark = ","), if (nzchar(unit)) " ", unit)
   line <- if (identical(mode, "dark")) "#3987e5" else "#2a78d6"
   band <- if (identical(mode, "dark")) "rgba(57,135,229,0.3)" else "rgba(42,120,214,0.2)"
-  plot_ly(x = hours) %>%
-    add_lines(y = quartiles[, 1], line = list(width = 0), hoverinfo = "skip", showlegend = FALSE) %>%
-    add_lines(
+  plotly::plot_ly(x = hours) |>
+    plotly::add_lines(y = quartiles[, 1], line = list(width = 0), hoverinfo = "skip", showlegend = FALSE) |>
+    plotly::add_lines(
       y = quartiles[, 3],
       fill = "tonexty",
       fillcolor = band,
       line = list(width = 0),
       hoverinfo = "skip",
       name = "Middle half of the days"
-    ) %>%
-    add_lines(
+    ) |>
+    plotly::add_lines(
       y = quartiles[, 2],
       line = list(width = 2, color = line),
       name = "Median",
@@ -378,8 +438,8 @@ plot_average_day <- function(hourly, variable, unit = "", mode = "light") {
         "<br>middle half: ", in_unit(quartiles[, 1]), " to ", in_unit(quartiles[, 3])
       ),
       hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-    layout(
+    ) |>
+    plotly::layout(
       title = paste("A typical day of", variable),
       xaxis = list(title = paste0("Hour (", app_time_zone(), ")"), tickvals = seq(0, 21, 3), ticktext = labels[seq(1, 22, 3)]),
       yaxis = list(title = unit),
@@ -413,7 +473,7 @@ plot_daily_means <- function(daily, variable, guideline, mode = "light") {
     formatC(daily$value, format = "f", digits = 1), " ", unit,
     ifelse(daily$hours < 24, paste0(" (", daily$hours, " hours with readings)"), "")
   )
-  plot_ly(
+  plotly::plot_ly(
     x = daily$date,
     y = daily$value,
     type = "bar",
@@ -421,8 +481,8 @@ plot_daily_means <- function(daily, variable, guideline, mode = "light") {
     text = hover,
     textposition = "none",
     hovertemplate = "%{text}<extra></extra>"
-  ) %>%
-    layout(
+  ) |>
+    plotly::layout(
       title = paste(variable, "average of each day"),
       xaxis = list(title = ""),
       yaxis = list(title = unit, range = c(0, max(guideline * 1.25, daily$value * 1.05, na.rm = TRUE))),

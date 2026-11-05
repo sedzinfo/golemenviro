@@ -95,21 +95,21 @@ out, as the device does not have them.</p>
 <span class="r-in"><span><span class="va">filtered_df</span> <span class="op">&lt;-</span> <span class="fu">get_data</span><span class="op">(</span>start_time <span class="op">=</span> <span class="va">start_time</span>, end_time <span class="op">=</span> <span class="va">end_time</span>, urlq <span class="op">=</span> <span class="va">prometheus_url</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">filtered_df</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  Date  Timestamp Temperature Humidity Pressure Lux Proximity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2026-10-24 21:35:31 1792866931    28.58179 45.62881 1009.160   0        39</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2026-10-24 21:45:36 1792867536    28.54953 45.48142 1009.238   0        32</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2026-10-24 21:55:41 1792868141    28.59018 45.48176 1009.238   0        35</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2026-10-24 22:05:46 1792868746    28.46856 45.36896 1009.316   0        40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 2026-10-24 22:15:51 1792869351    28.35727 45.59156 1009.322   0        33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 2026-10-24 22:25:56 1792869956    28.50889 44.86911 1009.288   0        40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2026-10-29 16:07:55 1793282875    25.15116 44.28246 1009.246   0        39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2026-10-29 16:18:00 1793283480    25.33631 43.68759 1009.271   0        39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2026-10-29 16:28:05 1793284085    25.28309 43.81587 1009.307   0        42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2026-10-29 16:38:10 1793284690    25.21858 43.99078 1009.287   0        38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 2026-10-29 16:48:15 1793285295    25.11825 44.21796 1009.218   0        42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 2026-10-29 16:58:20 1793285900    25.23535 43.91492 1009.216   0        48</span>
 <span class="r-in"><span><span class="va">filtered_df</span> <span class="op">&lt;-</span> <span class="fu">get_data</span><span class="op">(</span>start_time <span class="op">=</span> <span class="va">start_time</span>, end_time <span class="op">=</span> <span class="va">end_time</span>, urlq <span class="op">=</span> <span class="va">prometheus_url</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">filtered_df</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  Date  Timestamp Temperature Humidity Pressure     Lux Proximity      NH3 Reducing Oxidising PM1 PM2.5 PM10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2026-10-24 21:35:31 1792866931    28.46241 42.69484 1008.018 1.16185         7 72316.63 294124.3  93582.64  11    16   16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2026-10-24 21:45:36 1792867536    28.56184 42.49412 1008.080 1.16185        11 71867.15 293132.1  93107.41  11    16   16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2026-10-24 21:55:41 1792868141    28.45291 42.64444 1008.107 0.00000         8 72033.26 294622.6  93537.25  10    14   14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2026-10-24 22:05:46 1792868746    28.42283 42.51561 1008.152 0.00000         5 72802.93 298023.0  94565.23  11    17   17</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 2026-10-24 22:15:51 1792869351    28.35063 42.42568 1008.184 0.00000        17 73581.91 301360.4  95351.35  12    17   17</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 2026-10-24 22:25:56 1792869956    28.37976 42.21335 1008.181 0.00000         9 73889.30 302791.4  95560.82  11    17   17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  Date  Timestamp Temperature Humidity Pressure Lux Proximity      NH3 Reducing Oxidising PM1 PM2.5 PM10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2026-10-29 16:07:55 1793282875    24.97951 42.29687 1008.100   0        13 79626.81 326311.9  95258.44   6     7    7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2026-10-29 16:18:00 1793283480    25.12612 41.93704 1008.147   0        12 79776.28 327352.8  95654.10   5     6    6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2026-10-29 16:28:05 1793284085    25.01276 42.05288 1008.124   0        10 79963.58 327950.1  95981.50   6     9    9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2026-10-29 16:38:10 1793284690    25.13024 41.78714 1008.133   0        11 80019.87 328399.4  96028.38   6    10   10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 2026-10-29 16:48:15 1793285295    24.82435 42.30682 1008.076   0         5 79982.34 328549.4  96122.24   6     8    8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 2026-10-29 16:58:20 1793285900    24.83417 42.24586 1008.049   0        10 80226.68 329451.7  96475.25   6     7    7</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

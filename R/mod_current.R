@@ -88,7 +88,7 @@ mod_current_server <- function(id) {
       render({
         req(variable %in% names(last_reading()))
         # all 7 days, as the gauges of the gas sensors are scaled to them
-        plot_gauge(variable = variable, data = gauge_data()) %>% plotly::as_widget()
+        plot_gauge(variable = variable, data = gauge_data()) |> plotly::as_widget()
       })
     }
     # in the time zone of the app; the 7 days come at points about 10 minutes apart, so the last

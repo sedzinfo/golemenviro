@@ -4,7 +4,7 @@
 \alias{plot_daily_pattern}
 \title{Heatmap of the hourly averages of one sensor}
 \usage{
-plot_daily_pattern(hourly, variable, unit = "", mode = "light")
+plot_daily_pattern(hourly, variable, unit = "", mode = "light", mid = NULL)
 }
 \arguments{
 \item{hourly}{Data frame from \code{\link[=get_hourly]{get_hourly()}}.}
@@ -14,6 +14,10 @@ plot_daily_pattern(hourly, variable, unit = "", mode = "light")
 \item{unit}{Unit of the readings, \code{""} for none.}
 
 \item{mode}{\code{"light"} or \code{"dark"}, the mode of the app.}
+
+\item{mid}{A value to color white, with lower values in blue and higher values
+in red, such as room temperature; the color range is then made symmetric
+around it. \code{NULL} (the default) for one blue, from light to dark.}
 }
 \value{
 A plotly object.
@@ -29,6 +33,8 @@ the hover label has the exact value.
 hourly <- expand.grid(hour = 0:23, date = as.Date("2026-10-01") + 0:13)
 hourly$value <- 21 + 2 * sin((hourly$hour - 9) / 24 * 2 * pi)
 plot_daily_pattern(hourly, "Temperature", "C")
+plot_daily_pattern(hourly, "Temperature", "C", mid = 24)
 url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
-plot_daily_pattern(get_hourly(url, "temperature", days = 30), "Temperature", "C")
+plot_daily_pattern(get_hourly(url, "temperature", days = 360), "Temperature", "C", mid = 24)
+plot_daily_pattern(get_hourly(url, "temperature", days = 360), "Temperature", "C")
 }

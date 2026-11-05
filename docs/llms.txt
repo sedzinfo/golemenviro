@@ -148,12 +148,18 @@ Status](https://img.shields.io/github/actions/workflow/status/sedzinfo/golemenvi
 
 ## All functions
 
+- [`app_time_zone()`](https://sedzinfo.github.io/golemenviro/reference/app_time_zone.md)
+  : The time zone of the app
+- [`blue_steps`](https://sedzinfo.github.io/golemenviro/reference/blue_steps.md)
+  : Steps of one blue, from light to dark
 - [`get_daily()`](https://sedzinfo.github.io/golemenviro/reference/get_daily.md)
   : Get the daily averages of one sensor
 - [`get_data()`](https://sedzinfo.github.io/golemenviro/reference/get_data.md)
   : Get Data from Prometheus
 - [`get_hourly()`](https://sedzinfo.github.io/golemenviro/reference/get_hourly.md)
   : Get the hourly averages of one sensor
+- [`metric_mid`](https://sedzinfo.github.io/golemenviro/reference/metric_mid.md)
+  : The value colored white in the daily pattern of each metric
 - [`pimoroni()`](https://sedzinfo.github.io/golemenviro/reference/pimoroni.md)
   : Run the Pimoroni Enviro app
 - [`plot_average_day()`](https://sedzinfo.github.io/golemenviro/reference/plot_average_day.md)
@@ -166,4 +172,8 @@ Status](https://img.shields.io/github/actions/workflow/status/sedzinfo/golemenvi
   : Plot Gauge
 - [`plot_time_series()`](https://sedzinfo.github.io/golemenviro/reference/plot_time_series.md)
   : Plot Time Series
+- [`red_steps`](https://sedzinfo.github.io/golemenviro/reference/red_steps.md)
+  : Steps of one red, from light to dark
+- [`who_guidelines`](https://sedzinfo.github.io/golemenviro/reference/who_guidelines.md)
+  : The guidelines of the World Health Organization for particles
 

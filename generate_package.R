@@ -21,7 +21,7 @@ document()
 install()
 library(golemenviro)
 
-pkgdown::build_site(getwd())
+pkgdown::build_site(getwd(), lazy = TRUE)
 system("R CMD Rd2pdf . --force --no-preview --output=golemenviro.pdf")
 if (.Platform$OS.type == "windows") shell.exec("golemenviro.pdf") else system("evince golemenviro.pdf")
 system("R CMD build . --resave-data")

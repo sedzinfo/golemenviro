@@ -35,6 +35,7 @@ app_ui <- function(request, analytics = FALSE) {
       tabPanel("Current", mod_current_ui("current", prometheus_url)),
       tabPanel("Time Series", mod_timeseries_ui("timeseries", prometheus_url)),
       tabPanel("Daily Pattern", mod_daily_pattern_ui("daily_pattern", prometheus_url)),
+      tabPanel("Comfort", mod_comfort_ui("comfort", prometheus_url)),
       tabPanel("Air Quality", mod_air_quality_ui("air_quality", prometheus_url)),
       tabPanel("About", mod_about_ui("about"))
     )

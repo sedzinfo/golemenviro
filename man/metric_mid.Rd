@@ -12,7 +12,7 @@ metric_mid
 \description{
 By metric name, the value that \code{\link[=plot_daily_pattern]{plot_daily_pattern()}} colors
 white, with lower values in blue and higher in red: room temperature, the
-middle of the comfortable range of humidity (40 to 60\\%), the standard
+middle of the comfortable range of humidity (40 to 60\%), the standard
 atmospheric pressure at sea level, and for particles the daily guideline of
 the World Health Organization (\link{who_guidelines}). \code{NA} for the metrics with
 no such value (light, proximity, the gas sensors, whose resistance is only

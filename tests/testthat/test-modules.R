@@ -126,7 +126,7 @@ test_that("the daily pattern tab draws the heatmap and the typical day", {
 
 test_that("the about tab explains every tab and every sensor", {
   page <- htmltools::renderTags(mod_about_ui("about"))$html
-  for (tab in c("Current", "Time Series", "Daily Pattern", "Air Quality")) {
+  for (tab in c("Current", "Time Series", "Daily Pattern", "Comfort", "Air Quality")) {
     expect_match(page, paste0(">", tab, "</h3>"), fixed = TRUE, label = tab)
   }
   for (sensor in sensor_label(metrics)) {
@@ -167,4 +167,34 @@ test_that("the air quality tab says when the device has no particle sensor, or c
     session$setInputs(server = "http://x", days = "30")
     expect_error(output$summary_pm10, "cannot be reached")
   })
+})
+
+test_that("the comfort tab draws the chart and the shares outside the zone, or says what is missing", {
+  hours <- expand.grid(hour = 0:23, date = as.Date("2023-11-01") + 0:1)
+  local_mocked_bindings(get_hourly = function(urlq, metric, days) {
+    if (metric == "temperature") transform(hours, value = 27) else transform(hours, value = 35)
+  })
+  testServer(mod_comfort_server, args = list(dark_mode = reactive("light")), {
+    session$setInputs(server = "http://x", days = "7")
+    expect_no_error(output$comfort)
+    # 27 C and 35%: every hour too warm and too dry
+    expect_match(output$summary$html, "too warm 100%, too cool 0%, too dry 100%, too humid 0%", fixed = TRUE)
+  })
+  local_mocked_bindings(get_hourly = function(urlq, metric, days) {
+    if (metric == "temperature") hours[0, ] else transform(hours, value = 50)
+  })
+  testServer(mod_comfort_server, args = list(dark_mode = reactive("light")), {
+    session$setInputs(server = "http://x", days = "7")
+    expect_error(output$comfort, "no Temperature readings")
+  })
+  local_mocked_bindings(get_hourly = function(...) NULL)
+  testServer(mod_comfort_server, args = list(dark_mode = reactive("light")), {
+    session$setInputs(server = "http://x", days = "7")
+    expect_error(output$comfort, "cannot be reached")
+  })
+})
+
+test_that("the comfort chart gets the full screen button", {
+  comfort <- htmltools::renderTags(mod_comfort_ui("comfort", "http://x"))$html
+  expect_match(comfort, "(?s)plotly-full-screen.*id=\"comfort-comfort\"", perl = TRUE)
 })

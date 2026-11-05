@@ -22,5 +22,6 @@ app_server <- function(input, output, session) {
   mod_current_server("current")
   mod_timeseries_server("timeseries")
   mod_daily_pattern_server("daily_pattern", dark_mode)
+  mod_comfort_server("comfort", dark_mode)
   mod_air_quality_server("air_quality", dark_mode)
 }

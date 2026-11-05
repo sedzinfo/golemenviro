@@ -1,6 +1,6 @@
 This app shows the readings of Pimoroni Enviro and Enviro+ sensor boards on a Raspberry Pi, as their Prometheus servers keep them. Each server in the Server box at the top of a tab is one device. Times are in {{timezone}}.
 
-**On this page:** [Current](#about-current) · [Time Series](#about-timeseries) · [Daily Pattern](#about-pattern) · [Air Quality](#about-airquality) · [The sensors](#about-sensors) · [Data](#about-data)
+**On this page:** [Current](#about-current) · [Time Series](#about-timeseries) · [Daily Pattern](#about-pattern) · [Comfort](#about-comfort) · [Air Quality](#about-airquality) · [The sensors](#about-sensors) · [Data](#about-data)
 
 <h3 id="about-current">Current</h3>
 
@@ -28,6 +28,16 @@ What repeats every day, for one sensor over the period you pick.
 - The button at the bottom right of each chart shows it full screen.
 
 The hours are in {{timezone}}. On the days the clocks change, one hour is missing or holds the average of two.
+
+<h3 id="about-comfort">Comfort</h3>
+
+How comfortable the room was, from temperature and humidity together, over the period you pick.
+
+- Each **point** is one hour, at its average temperature (across) and humidity (up), colored by the hour of the day: dark blue at night, orange in the morning, yellow at midday, red in the evening. Hover over a point for its day, hour and readings.
+- The **green box** is the comfort zone, the same ranges as the green bands of the Current tab: 20–25 °C and 40–60% humidity. The title says how many of the hours fell inside it.
+- The **corners** name what lies that way. Points to the right are too warm (ventilate or cool), to the left too cool (heat); points below are too dry (a humidifier, or plants), above too humid (ventilate, or a dehumidifier).
+- The line under the chart gives the share of the hours that were too warm, too cool, too dry or too humid; an hour can be both too warm and too dry.
+- Only the hours with both readings count. The button at the bottom right of the chart shows it full screen.
 
 <h3 id="about-airquality">Air Quality</h3>
 

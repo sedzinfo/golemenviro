@@ -79,3 +79,30 @@ test_that("the daily averages show the guideline, which the axis always reaches"
     expect_match(built$data[[1]]$text[2], "20 hours with readings")
   }
 })
+
+test_that("comfort_summary() counts the hours in the zone and on each side of it", {
+  hours <- expand.grid(hour = 0:3, date = as.Date("2023-11-01"))
+  temperature <- transform(hours, value = c(22, 27, 18, 22))
+  humidity <- transform(hours, value = c(50, 35, 50, 70))
+  s <- comfort_summary(temperature, humidity)
+  expect_equal(s$hours, 4)
+  expect_equal(s$comfortable, 25) # only the first hour
+  expect_equal(c(s$too_warm, s$too_cool, s$too_dry, s$too_humid), c(25, 25, 25, 25))
+  # an hour without humidity does not count
+  expect_equal(comfort_summary(temperature, humidity[-4, ])$hours, 3)
+})
+
+test_that("plot_comfort() draws a point per hour over the comfort zone", {
+  hours <- expand.grid(hour = 0:23, date = as.Date("2023-11-01") + 0:2)
+  temperature <- transform(hours, value = 22 + hour / 4)
+  humidity <- transform(hours, value = 45)
+  built <- plotly::plotly_build(plot_comfort(temperature, humidity))$x
+  expect_length(built$data[[1]]$x, 72)
+  zone <- built$layout$shapes[[1]]
+  expect_equal(c(zone$x0, zone$x1, zone$y0, zone$y1), c(20, 25, 40, 60))
+  # 22 + hour / 4 is at most 25 up to hour 12: 13 of the 24 hours of each day
+  title <- built$layout$title
+  if (is.list(title)) title <- title$text
+  expect_match(title, "54% of 72 hours", fixed = TRUE)
+  expect_no_error(plotly::plotly_build(plot_comfort(temperature, humidity, mode = "dark")))
+})

@@ -3,11 +3,19 @@
 ##########################################################################################
 #' @title Greek mu and sigma, degrees Celsius, and micrograms per cubic metre
 #' @description Written as code points, as the R code of a package has to stay ASCII.
-#' @noRd
+#' @format Character strings.
 #' @export
+#' @examples
+#' paste0("22 ", degrees_celsius, ", ", symbol_mean, " = 12 ", micrograms_m3)
 symbol_mean <- intToUtf8(0x03bc)
+#' @rdname symbol_mean
+#' @export
 symbol_sd <- intToUtf8(0x03c3)
+#' @rdname symbol_mean
+#' @export
 degrees_celsius <- paste0(intToUtf8(0x00b0), "C")
+#' @rdname symbol_mean
+#' @export
 micrograms_m3 <- paste0(intToUtf8(0x00b5), "g/m", intToUtf8(0x00b3))
 ##########################################################################################
 #
@@ -53,7 +61,7 @@ red_steps <- c("#fbd3cf", "#f28d84", "#e0463b", "#a91f17", "#660d08")
 #' @title The value colored white in the daily pattern of each metric
 #' @description By metric name, the value that [plot_daily_pattern()] colors
 #' white, with lower values in blue and higher in red: room temperature, the
-#' middle of the comfortable range of humidity (40 to 60\%), the standard
+#' middle of the comfortable range of humidity (40 to 60%), the standard
 #' atmospheric pressure at sea level, and for particles the daily guideline of
 #' the World Health Organization ([who_guidelines]). `NA` for the metrics with
 #' no such value (light, proximity, the gas sensors, whose resistance is only
@@ -498,5 +506,148 @@ plot_daily_means <- function(daily, variable, guideline, mode = "light") {
         align = "left", showarrow = FALSE, font = list(size = 12)
       )),
       margin = list(l = 80, r = 140, b = 50, t = 50)
+    )
+}
+##########################################################################################
+#
+##########################################################################################
+#' @title Share of hours in and around the comfort zone
+#' @description Pairs the hourly averages of temperature and humidity by hour
+#' and counts how many hours fall inside the comfortable ranges, and how many
+#' are too warm, too cool, too dry or too humid (an hour can be both too warm
+#' and too dry).
+#' @param temperature,humidity Data frames from [get_hourly()] of temperature
+#'   and humidity.
+#' @param temperature_range,humidity_range The comfortable ranges, the same as
+#'   the green bands of the Current tab: 20 to 25 degrees Celsius and 40 to 60%.
+#' @return A list: `hours`, the number of hours with both readings, and the
+#'   percentages `comfortable`, `too_warm`, `too_cool`, `too_dry` and `too_humid`.
+#' @export
+#' @examples
+#' hours <- expand.grid(hour = 0:23, date = as.Date("2026-10-01") + 0:6)
+#' temperature <- transform(hours, value = 22 + 4 * sin((hour - 9) / 24 * 2 * pi))
+#' humidity <- transform(hours, value = 45 - 8 * sin((hour - 9) / 24 * 2 * pi))
+#' comfort_summary(temperature, humidity)
+comfort_summary <- function(temperature, humidity, temperature_range = c(20, 25), humidity_range = c(40, 60)) {
+  both <- comfort_pairs(temperature, humidity)
+  share <- function(x) if (nrow(both)) 100 * mean(x) else NA_real_
+  list(
+    hours = nrow(both),
+    comfortable = share(both$temperature >= temperature_range[1] & both$temperature <= temperature_range[2] &
+      both$humidity >= humidity_range[1] & both$humidity <= humidity_range[2]),
+    too_warm = share(both$temperature > temperature_range[2]),
+    too_cool = share(both$temperature < temperature_range[1]),
+    too_dry = share(both$humidity < humidity_range[1]),
+    too_humid = share(both$humidity > humidity_range[2])
+  )
+}
+##########################################################################################
+#
+##########################################################################################
+#' @title Temperature and humidity of the same hours, side by side
+#' @param temperature,humidity Data frames from [get_hourly()].
+#' @return A data frame with the columns `date`, `hour`, `temperature` and
+#'   `humidity`, only the hours with both readings.
+#' @noRd
+comfort_pairs <- function(temperature, humidity) {
+  both <- merge(
+    stats::setNames(temperature[c("date", "hour", "value")], c("date", "hour", "temperature")),
+    stats::setNames(humidity[c("date", "hour", "value")], c("date", "hour", "humidity")),
+    by = c("date", "hour")
+  )
+  both[stats::complete.cases(both), , drop = FALSE]
+}
+##########################################################################################
+#
+##########################################################################################
+#' @title Comfort zone: temperature against humidity
+#' @description A point for every hour, at its average temperature and
+#' humidity, colored by the hour of the day (night blue, morning orange, midday
+#' yellow, evening red), over a shaded box for the comfortable ranges. The
+#' title says how many of the hours were inside the box, and the corners name
+#' what lies that way: warm and dry, warm and humid, cool and dry, cool and humid.
+#' @inheritParams comfort_summary
+#' @param mode `"light"` or `"dark"`, the mode of the app.
+#' @return A plotly object.
+#' @export
+#' @examples
+#' hours <- expand.grid(hour = 0:23, date = as.Date("2026-10-01") + 0:6)
+#' temperature <- transform(hours, value = 22 + 4 * sin((hour - 9) / 24 * 2 * pi))
+#' humidity <- transform(hours, value = 45 - 8 * sin((hour - 9) / 24 * 2 * pi))
+#' plot_comfort(temperature, humidity)
+#' plot_comfort(temperature, humidity, mode = "dark")
+plot_comfort <- function(temperature, humidity, mode = "light",
+                         temperature_range = c(20, 25), humidity_range = c(40, 60)) {
+  dark <- identical(mode, "dark")
+  both <- comfort_pairs(temperature, humidity)
+  summary <- comfort_summary(temperature, humidity, temperature_range, humidity_range)
+  hours <- sprintf("%02d:00", 0:23)
+  hover <- paste0(
+    format(both$date, "%a %d %b %Y"), ", ", hours[both$hour + 1], "<br>",
+    formatC(both$temperature, format = "f", digits = 1), " ", degrees_celsius, ", ",
+    formatC(both$humidity, format = "f", digits = 0), "% humidity"
+  )
+  # the hours around the clock: night blue, morning orange, midday yellow, evening red, night
+  # again; on a dark page the night blue is lighter, or the night points would vanish into it
+  night <- if (dark) "#6f86e8" else "#1b2a6b"
+  hour_colors <- list(
+    list(0, night), list(0.25, "#e07b39"), list(0.5, "#f2c14e"), list(0.75, "#c2185b"), list(1, night)
+  )
+  # the axes reach past the comfort zone on every side, whatever the readings
+  pad <- function(x, range) c(min(x, range[1] - 2, na.rm = TRUE) - 1, max(x, range[2] + 2, na.rm = TRUE) + 1)
+  x_range <- pad(both$temperature, temperature_range)
+  y_range <- pad(both$humidity, humidity_range)
+  ink <- if (dark) "#c3c2b7" else "#52514e"
+  zone <- if (dark) "#5fbf73" else "#2e8b47"
+  corner <- function(text, x, y, xanchor, yanchor) {
+    list(
+      text = text, xref = "paper", yref = "paper", x = x, y = y, xanchor = xanchor, yanchor = yanchor,
+      showarrow = FALSE, font = list(size = 12, color = ink)
+    )
+  }
+  title <- if (summary$hours) {
+    sprintf(
+      "%.0f%% of %d hours in the comfort zone (%g-%g %s, %g-%g%%)",
+      summary$comfortable, summary$hours, temperature_range[1], temperature_range[2], degrees_celsius,
+      humidity_range[1], humidity_range[2]
+    )
+  } else {
+    "No hours with both temperature and humidity"
+  }
+  plotly::plot_ly(
+    x = both$temperature,
+    y = both$humidity,
+    type = "scatter",
+    mode = "markers",
+    marker = list(
+      color = both$hour, cmin = 0, cmax = 24, colorscale = hour_colors, size = 7, opacity = 0.75,
+      colorbar = list(
+        title = list(text = "Hour"), thickness = 12,
+        tickvals = seq(0, 18, 6), ticktext = hours[seq(1, 19, 6)]
+      )
+    ),
+    text = hover,
+    hovertemplate = "%{text}<extra></extra>"
+  ) |>
+    plotly::layout(
+      title = title,
+      xaxis = list(title = paste0("Temperature (", degrees_celsius, ")"), range = x_range, zeroline = FALSE),
+      yaxis = list(title = "Humidity (%)", range = y_range, zeroline = FALSE),
+      shapes = list(list(
+        type = "rect", layer = "below",
+        x0 = temperature_range[1], x1 = temperature_range[2], y0 = humidity_range[1], y1 = humidity_range[2],
+        fillcolor = zone, opacity = 0.15, line = list(color = zone, width = 1.5)
+      )),
+      annotations = list(
+        list(
+          text = "comfort zone", x = mean(temperature_range), y = humidity_range[2], yanchor = "bottom",
+          showarrow = FALSE, font = list(size = 12, color = zone)
+        ),
+        corner("cool and humid", 0.01, 0.99, "left", "top"),
+        corner("warm and humid", 0.99, 0.99, "right", "top"),
+        corner("cool and dry", 0.01, 0.01, "left", "bottom"),
+        corner("warm and dry", 0.99, 0.01, "right", "bottom")
+      ),
+      margin = list(l = 80, r = 40, b = 60, t = 60)
     )
 }

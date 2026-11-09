@@ -4,8 +4,7 @@ Displays data of Pimoroni Enviro from Prometheus
 
 **[Open the live
 app](https://sedzinfo-golemenviro.share.connect.posit.cloud/)** ·
-[Website](https://sedzinfo.github.io/golemenviro/)\
-Documentation: <https://sedzinfo.github.io/golemenviro/>
+[Website](https://sedzinfo.github.io/golemenviro/)
 
 ![The Pimoroni Enviro+ board from the front, with its sensors and small
 screen](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_front.png)![The

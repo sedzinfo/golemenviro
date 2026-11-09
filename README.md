@@ -2,7 +2,6 @@
 Displays data of Pimoroni Enviro from Prometheus
 
 **[Open the live app](https://sedzinfo-golemenviro.share.connect.posit.cloud/)** · [Website](https://sedzinfo.github.io/golemenviro/)  
-Documentation: https://sedzinfo.github.io/golemenviro/  
 
 ![The Pimoroni Enviro+ board from the front, with its sensors and small screen](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_front.png)
 ![The Pimoroni Enviro+ board from the back, with the header that plugs into the Raspberry Pi](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_back.png)

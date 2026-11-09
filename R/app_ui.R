@@ -44,14 +44,32 @@ app_ui <- function(request, analytics = FALSE) {
 ##########################################################################################
 #
 ##########################################################################################
+#' Address and description of the live app, for search engines and link previews
+#'
+#' Used by `golem_add_external_resources()` for the description that search
+#' engines show and the Open Graph tags of the preview that other sites show
+#' for a link to the app. `title` is the window title that `app_ui()` gives the
+#' page, and `image` the first screenshot of the app in the README.
+#'
+#' @noRd
+app_meta <- list(
+  url = "https://sedzinfo-golemenviro.share.connect.posit.cloud/",
+  title = "Prometheus Enviro Data Visualization",
+  description = "Real-time gauges and time series charts of the readings of Pimoroni Enviro and Enviro+ sensors exported to Prometheus.",
+  image = "https://raw.githubusercontent.com/sedzinfo/golemenviro/main/screenshots/current.png"
+)
+##########################################################################################
+#
+##########################################################################################
 #' Add external resources to the application
 #'
-#' Internally used to add the favicon, the Font Awesome icons of the full
-#' screen buttons, and the CSS and JavaScript files of `inst/app/www` inside
-#' the Shiny application: those of the charts (`custom.css`, `plot_zoom.js`),
-#' of the analytics (`analytics.css`, `analytics.js`) and of the dark mode
-#' (`dark_mode.css`, `dark_mode.js`). A file put in that folder is added
-#' without any change here.
+#' Internally used to add the description and Open Graph tags of `app_meta`,
+#' the favicon, the Font Awesome icons of the full screen buttons, and the CSS
+#' and JavaScript files of `inst/app/www` inside the Shiny application: those
+#' of the charts (`custom.css`, `plot_zoom.js`), of the analytics
+#' (`analytics.css`, `analytics.js`) and of the dark mode (`dark_mode.css`,
+#' `dark_mode.js`). A file put in that folder is added without any change
+#' here.
 #'
 #' @import shiny
 #' @importFrom golem add_resource_path favicon bundle_resources
@@ -69,6 +87,14 @@ golem_add_external_resources <- function() {
   )
 
   tags$head(
+    tags$meta(name = "description", content = app_meta$description),
+    tags$meta(property = "og:type", content = "website"),
+    tags$meta(property = "og:site_name", content = "sedzinfo"),
+    tags$meta(property = "og:title", content = app_meta$title),
+    tags$meta(property = "og:description", content = app_meta$description),
+    tags$meta(property = "og:url", content = app_meta$url),
+    tags$meta(property = "og:image", content = app_meta$image),
+    tags$meta(name = "twitter:card", content = "summary_large_image"),
     favicon(ext = "svg"),
     bundle_resources(
       path = app_sys("app/www"),

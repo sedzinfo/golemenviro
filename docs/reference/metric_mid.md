@@ -3,9 +3,9 @@
 By metric name, the value that
 [`plot_daily_pattern()`](https://sedzinfo.github.io/golemenviro/reference/plot_daily_pattern.md)
 colors white, with lower values in blue and higher in red: room
-temperature, the middle of the comfortable range of humidity (40 to 60\\
-atmospheric pressure at sea level, and for particles the daily guideline
-of the World Health Organization
+temperature, the middle of the comfortable range of humidity (40 to
+60%), the standard atmospheric pressure at sea level, and for particles
+the daily guideline of the World Health Organization
 ([who_guidelines](https://sedzinfo.github.io/golemenviro/reference/who_guidelines.md)).
 `NA` for the metrics with no such value (light, proximity, the gas
 sensors, whose resistance is only relative, and PM1, which has no

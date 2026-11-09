@@ -1,11 +1,12 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://sedzinfo.github.io/golemenviro/404.html</loc></url>
-<url><loc>https://sedzinfo.github.io/golemenviro/LICENSE-text.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/authors.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/index.html</loc></url>
+<url><loc>https://sedzinfo.github.io/golemenviro/LICENSE-text.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/about_text.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/app_time_zone.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/blue_steps.html</loc></url>
+<url><loc>https://sedzinfo.github.io/golemenviro/reference/comfort_summary.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/get_daily.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/get_data.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/get_hourly.html</loc></url>
@@ -14,6 +15,8 @@
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/mod_about_ui.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/mod_air_quality_server.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/mod_air_quality_ui.html</loc></url>
+<url><loc>https://sedzinfo.github.io/golemenviro/reference/mod_comfort_server.html</loc></url>
+<url><loc>https://sedzinfo.github.io/golemenviro/reference/mod_comfort_ui.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/mod_current_server.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/mod_current_ui.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/mod_daily_pattern_server.html</loc></url>
@@ -22,12 +25,14 @@
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/mod_timeseries_ui.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/pimoroni.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/plot_average_day.html</loc></url>
+<url><loc>https://sedzinfo.github.io/golemenviro/reference/plot_comfort.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/plot_daily_means.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/plot_daily_pattern.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/plot_gauge.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/plot_time_series.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/query_prometheus.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/red_steps.html</loc></url>
+<url><loc>https://sedzinfo.github.io/golemenviro/reference/symbol_mean.html</loc></url>
 <url><loc>https://sedzinfo.github.io/golemenviro/reference/who_guidelines.html</loc></url>
 </urlset>
 

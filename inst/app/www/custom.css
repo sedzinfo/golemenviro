@@ -60,8 +60,14 @@ body > .container-fluid {
 }
 .tab-pane > .row.chart-row {
   flex: 1 1 0;
-  min-height: 0;
+  min-height: 270px;
   display: flex;
+}
+/* each chart keeps its min-height (250px, under the 20px of its box): in a window too low for
+   them, the row of two charts keeps room for both, and the tab scrolls, where they would run
+   over each other and over the rows under them */
+.tab-pane > .row.chart-row:has(.sensor-box + .sensor-box) {
+  min-height: 540px;
 }
 .chart-row > .plotly-full-screen {
   flex: 1;
@@ -71,7 +77,7 @@ body > .container-fluid {
 }
 .plotly-full-screen > .sensor-box {
   flex: 1 1 0;
-  min-height: 0;
+  min-height: 270px;
   display: flex;
   flex-direction: column;
 }
@@ -160,4 +166,94 @@ body:has(.full-screen) {
   font-size: 16px;
   font-weight: normal;
   margin-left: 6px;
+}
+
+/* Phones, upright (narrower than 768px) or sideways (500px high or less): the window is too small
+   for the charts to share it. The page scrolls as a whole, with the footer at its end, instead of
+   a tab scrolling inside a page as high as the window, and each chart is 70% of the window's
+   height: of its height with the address bar shown (svh), which does not change while the page
+   scrolls and the bar hides (dvh would, and the charts would be drawn again and again) */
+@media (max-width: 767px), (max-height: 500px) {
+  body {
+    display: block;
+    height: auto;
+  }
+  body > .container-fluid,
+  .tab-content,
+  .tab-pane > .row.chart-row,
+  .chart-row > .plotly-full-screen,
+  .plotly-full-screen > .sensor-box {
+    display: block;
+    min-height: 0;
+  }
+  .tab-content > .tab-pane.active {
+    display: block;
+    overflow: visible;
+  }
+  .plotly-full-screen .html-widget-output:not(.full-screen) {
+    height: 70vh !important;
+    height: 70svh !important;
+  }
+  .analytics-footer {
+    position: static;
+  }
+}
+
+/* Phones and tablets: the bar of plotly's buttons over the chart, in the gray band of its box,
+   where it does not cover the chart's title (it still does in full screen) */
+@media (max-width: 991px), (max-height: 500px) {
+  .plotly-full-screen .html-widget-output:not(.full-screen) .modebar-container {
+    top: -22px !important;
+  }
+}
+
+/* Phones upright: the tabs in the menu of the collapsed navbar (collapsible in app_ui()), as tall
+   as Bootstrap makes them, to be easy to tap; the title and the menu button on one line, the
+   title cut short on the narrowest phones */
+@media (max-width: 767px) {
+  .navbar-brand {
+    height: 40px;
+    padding: 10px 15px;
+    font-size: 15px;
+    max-width: calc(100% - 70px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .navbar-toggle {
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+  .navbar-nav > li > a {
+    height: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  /* iOS zooms into a field whose text is smaller than 16px when it is tapped */
+  .selectize-input input {
+    font-size: 16px !important;
+  }
+  /* the long title of the Comfort chart, smaller to fit */
+  #comfort-comfort .gtitle {
+    font-size: 12px !important;
+  }
+}
+
+/* Touch screens: the tabs, the full screen button and the footer links big enough for a finger */
+@media (pointer: coarse) {
+  .navbar-nav > li > a,
+  .navbar-brand {
+    height: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .plot-zoom {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+  .analytics-footer a {
+    display: inline-block;
+    padding: 12px 6px;
+  }
 }

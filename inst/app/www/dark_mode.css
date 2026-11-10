@@ -35,6 +35,20 @@ html.dark-mode .navbar-default .navbar-nav > .active > a:focus {
   background-color: #1e1e1e;
   color: #fff;
 }
+/* the button of the menu of the tabs, on phones, and the line above the open menu */
+html.dark-mode .navbar-default .navbar-toggle {
+  border-color: #555;
+}
+html.dark-mode .navbar-default .navbar-toggle:hover,
+html.dark-mode .navbar-default .navbar-toggle:focus {
+  background-color: #3a3a3a;
+}
+html.dark-mode .navbar-default .navbar-toggle .icon-bar {
+  background-color: #ccc;
+}
+html.dark-mode .navbar-default .navbar-collapse {
+  border-color: #3a3a3a;
+}
 
 /* the Server and Period dropdowns */
 html.dark-mode .selectize-input,

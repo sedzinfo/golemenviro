@@ -31,6 +31,9 @@ app_ui <- function(request, analytics = FALSE) {
     # Application UI logic
     navbarPage(
       "Prometheus Enviro Data Visualization",
+      # on phones the tabs fold into a menu behind a button (custom.css, navbar.js); a navbar that
+      # does not fold stacks them, a third of the screen of a phone above every tab
+      collapsible = TRUE,
       footer = if (analytics) analytics_footer(),
       tabPanel("Current", mod_current_ui("current", prometheus_url)),
       tabPanel("Time Series", mod_timeseries_ui("timeseries", prometheus_url)),
@@ -66,7 +69,8 @@ app_meta <- list(
 #' Internally used to add the description and Open Graph tags of `app_meta`,
 #' the favicon, the Font Awesome icons of the full screen buttons, and the CSS
 #' and JavaScript files of `inst/app/www` inside the Shiny application: those
-#' of the charts (`custom.css`, `plot_zoom.js`), of the analytics
+#' of the charts (`custom.css`, `plot_zoom.js`), of the menu of the tabs on
+#' phones (`navbar.js`), of the analytics
 #' (`analytics.css`, `analytics.js`) and of the dark mode (`dark_mode.css`,
 #' `dark_mode.js`). A file put in that folder is added without any change
 #' here.

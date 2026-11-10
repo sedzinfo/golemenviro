@@ -24,9 +24,9 @@ mod_comfort_ui <- function(id, prometheus_url) {
       column(width = 8, selectInput(ns("server"), label = "Server", choices = c(prometheus_url), selected = prometheus_url[1], width = "600px")),
       column(width = 4, selectInput(ns("days"), label = "Period", choices = periods, selected = 30))
     ),
-    fluidRow(div(
+    fluidRow(class = "chart-row", div(
       class = "plotly-full-screen",
-      column(width = 12, class = "sensor-box", plotly::plotlyOutput(ns("comfort"), height = "600px"))
+      column(width = 12, class = "sensor-box", plotly::plotlyOutput(ns("comfort"), height = "100%"))
     )),
     fluidRow(column(width = 12, uiOutput(ns("summary"))))
   )

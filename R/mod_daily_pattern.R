@@ -24,10 +24,10 @@ mod_daily_pattern_ui <- function(id, prometheus_url) {
       column(width = 4, selectInput(ns("sensor"), label = "Sensor", choices = stats::setNames(metrics, sensor_label(metrics)), selected = "temperature")),
       column(width = 4, selectInput(ns("days"), label = "Period", choices = periods, selected = 30))
     ),
-    fluidRow(div(
+    fluidRow(class = "chart-row", div(
       class = "plotly-full-screen",
-      column(width = 12, class = "sensor-box", plotly::plotlyOutput(ns("heatmap"), height = "480px")),
-      column(width = 12, class = "sensor-box", plotly::plotlyOutput(ns("average_day"), height = "340px"))
+      column(width = 12, class = "sensor-box", style = "flex-grow: 1.6;", plotly::plotlyOutput(ns("heatmap"), height = "100%")),
+      column(width = 12, class = "sensor-box", plotly::plotlyOutput(ns("average_day"), height = "100%"))
     ))
   )
 }

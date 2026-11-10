@@ -10,6 +10,76 @@
   padding-top: 20px;
 }
 
+/* the charts fill the space left under the navbar and the inputs, as in golemworldbank: the page
+   is as high as the window, the open tab takes what the navbar leaves, and the row of the charts
+   (`chart-row`) what the rows above and below it leave; there each chart's box shares it out
+   (Daily Pattern gives its heatmap more with flex-grow). A tab whose charts would be smaller than
+   their min-height scrolls, inside the tab */
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;  /* on phones, the height left by the address bar (100vh would hide the bottom) */
+  margin: 0;
+}
+/* the links of the cookie settings and the privacy policy (analytics_footer()) just under the
+   window, as in the other apps: the charts fill the window, and the links show when the page is
+   scrolled */
+.analytics-footer {
+  position: absolute;
+  top: 100vh;
+  top: 100dvh;
+  left: 0;
+  right: 0;
+}
+body > .container-fluid {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.tab-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+.tab-content > .tab-pane.active {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+/* a Bootstrap row sticks out 15px on the right (margin-right: -15px), which would make the
+   scrolling tab scroll sideways; the rows of inputs, tiles and text keep their own height */
+.tab-pane > .row {
+  margin-right: 0;
+  flex: none;
+}
+.tab-pane > .row.chart-row {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+}
+.chart-row > .plotly-full-screen {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.plotly-full-screen > .sensor-box {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.plotly-full-screen .html-widget-output {
+  flex: 1 1 0;
+  min-height: 250px;
+}
+
 /* the full screen button of the time series charts, see plot_zoom.js */
 .plot-zoom {
   position: absolute;
@@ -69,10 +139,10 @@ body:has(.full-screen) {
   vertical-align: top;
 }
 
-/* the numbers of the Air Quality tab: the days above the guideline, large, over the explanation,
-   with as much space under the two boxes as between them */
+/* the numbers of the Air Quality tab, under its two charts: the days above the guideline, large,
+   over the explanation, apart from the charts as the two boxes are apart from each other */
 .aq-tiles {
-  margin-bottom: 30px;
+  margin-top: 20px;
 }
 .aq-tile {
   padding: 0 15px 10px;

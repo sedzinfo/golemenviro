@@ -28,9 +28,9 @@ mod_timeseries_ui <- function(id, prometheus_url) {
       column(width = 4, selectInput(ns("sensor"), label = "Sensor", choices = stats::setNames(metrics, sensor_label(metrics)), selected = "temperature")),
       column(width = 4, selectInput(ns("days"), label = "Period", choices = periods, selected = 7))
     ),
-    fluidRow(div(
+    fluidRow(class = "chart-row", div(
       class = "plotly-full-screen",
-      column(width = 12, class = "sensor-box", plotly::plotlyOutput(ns("plot"), height = "600px"))
+      column(width = 12, class = "sensor-box", plotly::plotlyOutput(ns("plot"), height = "100%"))
     ))
   )
 }

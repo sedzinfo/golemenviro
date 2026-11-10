@@ -26,12 +26,13 @@ mod_air_quality_ui <- function(id, prometheus_url) {
       column(width = 4, selectInput(ns("server"), label = "Server", choices = c(prometheus_url), selected = prometheus_url[1], width = "600px")),
       column(width = 4, selectInput(ns("days"), label = "Period", choices = periods, selected = 30))
     ),
-    fluidRow(class = "aq-tiles", tile(uiOutput(ns("summary_pm25"))), tile(uiOutput(ns("summary_pm10")))),
-    fluidRow(div(
+    fluidRow(class = "chart-row", div(
       class = "plotly-full-screen",
-      column(width = 12, class = "sensor-box", plotly::plotlyOutput(ns("plot_pm25"), height = "340px")),
-      column(width = 12, class = "sensor-box", plotly::plotlyOutput(ns("plot_pm10"), height = "340px"))
-    ))
+      column(width = 12, class = "sensor-box", plotly::plotlyOutput(ns("plot_pm25"), height = "100%")),
+      column(width = 12, class = "sensor-box", plotly::plotlyOutput(ns("plot_pm10"), height = "100%"))
+    )),
+    # the numbers of the two charts under them
+    fluidRow(class = "aq-tiles", tile(uiOutput(ns("summary_pm25"))), tile(uiOutput(ns("summary_pm10"))))
   )
 }
 ##########################################################################################

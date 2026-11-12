@@ -1472,26 +1472,25 @@
       "description": {
         "Package": "otel",
         "Title": "OpenTelemetry R API",
-        "Version": "0.2.0",
+        "Version": "0.3.0",
         "Authors@R": "\n    person(\"Gábor\", \"Csárdi\", , \"csardi.gabor@gmail.com\", role = c(\"aut\", \"cre\"))",
         "Description": "High-quality, ubiquitous, and portable telemetry to enable\n    effective observability. OpenTelemetry is a collection of tools,\n    APIs, and SDKs used to instrument, generate, collect, and export\n    telemetry data (metrics, logs, and traces) for analysis in order to\n    understand your software's performance and behavior.\n    This package implements the OpenTelemetry API:\n    <https://opentelemetry.io/docs/specs/otel/>.\n    Use this package as a dependency if you want to instrument your R\n    package for OpenTelemetry.",
         "License": "MIT + file LICENSE",
         "Encoding": "UTF-8",
-        "RoxygenNote": "7.3.2.9000",
         "Depends": "R (>= 3.6.0)",
-        "Suggests": "callr, cli, glue, jsonlite, otelsdk, processx, shiny,\nspelling, testthat (>= 3.0.0), utils, withr",
+        "Suggests": "callr, cli, glue, jsonlite, otelsdk (>= 0.2.4), processx,\nshiny, spelling, testthat (>= 3.0.0), utils, withr",
         "Config/Needs/website": "tidyverse/tidytemplate",
         "Config/testthat/edition": "3",
         "URL": "https://otel.r-lib.org, https://github.com/r-lib/otel",
-        "Additional_repositories": "https://github.com/r-lib/otelsdk/releases/download/devel",
         "BugReports": "https://github.com/r-lib/otel/issues",
+        "Config/roxygen2/version": "8.1.1",
         "NeedsCompilation": "no",
-        "Packaged": "2025-08-29 12:46:28 UTC; gaborcsardi",
+        "Packaged": "2026-11-07 14:37:49 UTC; gaborcsardi",
         "Author": "Gábor Csárdi [aut, cre]",
         "Maintainer": "Gábor Csárdi <csardi.gabor@gmail.com>",
         "Repository": "CRAN",
-        "Date/Publication": "2025-08-29 13:30:07 UTC",
-        "Built": "R 4.6.0; ; 2026-05-04 09:22:57 UTC; unix"
+        "Date/Publication": "2026-11-07 15:20:02 UTC",
+        "Built": "R 4.6.2; ; 2026-11-12 08:01:35 UTC; unix"
       }
     },
     "pillar": {
@@ -2528,16 +2527,19 @@
       "checksum": "d70745cc1e51281b3e849cc90734326a"
     },
     "inst/app/www/custom.css": {
-      "checksum": "5449bf5a33425c50412468fac39d7f40"
+      "checksum": "9793a49f783eac702ed076e0bc391b07"
     },
     "inst/app/www/dark_mode.css": {
-      "checksum": "387686162f20c37d55eb9c0046a8d362"
+      "checksum": "5a3bee5d20399c26d7a875c9cc07a726"
     },
     "inst/app/www/dark_mode.js": {
       "checksum": "08af4323cf2b1de6dd21aecd80c2b744"
     },
     "inst/app/www/favicon.svg": {
       "checksum": "b6b9fb54a5f6ac675a21bee6188829e4"
+    },
+    "inst/app/www/navbar.js": {
+      "checksum": "be6171a49b40246d1aea4c6a60f555c5"
     },
     "inst/app/www/plot_zoom.js": {
       "checksum": "6dabf267094756727038f9f19e85431a"
@@ -2558,7 +2560,7 @@
       "checksum": "d497ab8f15806942aa41fb37f6d5a311"
     },
     "R/app_ui.R": {
-      "checksum": "f1995c37adf842ee586e4825dd7293ca"
+      "checksum": "4a71a708dc1d628b72a8a2c6b98f0d72"
     },
     "R/fct_data.R": {
       "checksum": "a4496c9a81021cd9826c195ea176dea4"
@@ -2570,19 +2572,19 @@
       "checksum": "e15352d24a05bcefc763fd456fc0dc2b"
     },
     "R/mod_air_quality.R": {
-      "checksum": "a62bd60eced38f6281d298f4cafbee2d"
+      "checksum": "00a6a1c582c06201bb1280a4c6295287"
     },
     "R/mod_comfort.R": {
-      "checksum": "ed66a4465a40b5e034cb320cfc404689"
+      "checksum": "32ee183e04030b82662542349cf9ed38"
     },
     "R/mod_current.R": {
       "checksum": "c53abcd6e3c3db1de07fd341366a326a"
     },
     "R/mod_daily_pattern.R": {
-      "checksum": "23364f111cd6f46292d727d70e190872"
+      "checksum": "151fcdd9feed6ad97c91f18e7c4ee0a2"
     },
     "R/mod_timeseries.R": {
-      "checksum": "6f71a0231e0f46b67abdab4b93592a4f"
+      "checksum": "ff5761eea8fd9ed53e7435d45c5644ed"
     },
     "R/run_app.R": {
       "checksum": "2d07992a80432b1e37c5388db7fe11a2"

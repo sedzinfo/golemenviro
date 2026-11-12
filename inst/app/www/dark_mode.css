@@ -108,8 +108,22 @@ html.dark-mode .js-plotly-plot .gridlayer path,
 html.dark-mode .js-plotly-plot .zerolinelayer path {
   stroke: #444 !important;
 }
-html.dark-mode .js-plotly-plot .modebar-btn path {
-  fill: #888 !important;
+/* plotly's toolbar (modebar): plotly colors it once, when it draws the chart, from the chart's
+   white background: the buttons on half-transparent white, the icons light gray (darker on hover
+   and for the active button). The same in dark: half-transparent color of the panel behind the
+   chart (.sensor-box, or .full-screen) and light icons. */
+html.dark-mode .js-plotly-plot .modebar-group {
+  background-color: rgba(38, 38, 38, 0.5) !important;
+}
+html.dark-mode .js-plotly-plot.full-screen .modebar-group {
+  background-color: rgba(30, 30, 30, 0.5) !important;
+}
+html.dark-mode .js-plotly-plot .modebar-btn .icon path {
+  fill: rgba(255, 255, 255, 0.35) !important;
+}
+html.dark-mode .js-plotly-plot .modebar-btn:hover .icon path,
+html.dark-mode .js-plotly-plot .modebar-btn.active .icon path {
+  fill: rgba(255, 255, 255, 0.8) !important;
 }
 
 /* the gauges: the white face (the first arc; the others are the green ideal ranges), the

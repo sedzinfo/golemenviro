@@ -11,24 +11,25 @@
 }
 
 /* the charts fill the space left under the navbar and the inputs, as in golemworldbank: the page
-   is as high as the window, the open tab takes what the navbar leaves, and the row of the charts
-   (`chart-row`) what the rows above and below it leave; there each chart's box shares it out
-   (Daily Pattern gives its heatmap more with flex-grow). A tab whose charts would be smaller than
-   their min-height scrolls, inside the tab */
+   is at least as high as the window, the open tab takes what the navbar leaves, and the row of the
+   charts (`chart-row`) what the rows above and below it leave; there each chart's box shares it out
+   (Daily Pattern gives its heatmap more with flex-grow). A tab taller than the window (the gauges
+   of Current, the text of About, charts that would be smaller than their min-height) makes the
+   page taller, and the page scrolls: one scroll bar, never a tab scrolling inside the page */
 body {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  height: 100dvh;  /* on phones, the height left by the address bar (100vh would hide the bottom) */
+  min-height: 100vh;
+  min-height: 100dvh;  /* on phones, the height left by the address bar (100vh would hide the bottom) */
   margin: 0;
+  position: relative;  /* for the links under it, below */
 }
 /* the links of the cookie settings and the privacy policy (analytics_footer()) just under the
-   window, as in the other apps: the charts fill the window, and the links show when the page is
-   scrolled */
+   page, as in the other apps: under the window when the tab fits in it (the charts fill the
+   window, and the links show when the page is scrolled), after the tab when it is taller */
 .analytics-footer {
   position: absolute;
-  top: 100vh;
-  top: 100dvh;
+  top: 100%;
   left: 0;
   right: 0;
 }
@@ -50,7 +51,6 @@ body > .container-fluid {
   min-height: 0;
   display: flex;
   flex-direction: column;
-  overflow: auto;
 }
 /* a Bootstrap row sticks out 15px on the right (margin-right: -15px), which would make the
    scrolling tab scroll sideways; the rows of inputs, tiles and text keep their own height */
@@ -64,7 +64,7 @@ body > .container-fluid {
   display: flex;
 }
 /* each chart keeps its min-height (250px, under the 20px of its box): in a window too low for
-   them, the row of two charts keeps room for both, and the tab scrolls, where they would run
+   them, the row of two charts keeps room for both, and the page scrolls, where they would run
    over each other and over the rows under them */
 .tab-pane > .row.chart-row:has(.sensor-box + .sensor-box) {
   min-height: 540px;

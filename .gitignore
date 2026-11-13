@@ -6,3 +6,8 @@
 .Rd2pdf*/
 *.Rcheck/
 rsconnect/shinyapps.io/sedzinfo/
+
+# the package tarball and the PDF manual: the Build package tarball workflow publishes them
+# on the "latest" release, so they are not committed
+/*.tar.gz
+/golemenviro.pdf

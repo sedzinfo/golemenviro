@@ -30,3 +30,13 @@ test_that("the pickers of both tabs offer the servers", {
     expect_match(ui, "<option value=\"http://b\">http://b</option>", fixed = TRUE)
   }
 })
+
+test_that("the files shared by the apps (dark_mode.js, analytics.js, analytics.css) come from sedzinfo.github.io, not from inst/app/www", {
+  head <- htmltools::renderTags(app_ui(NULL, analytics = TRUE))$head
+  expect_match(head, "https://sedzinfo.github.io/shiny/dark_mode.js", fixed = TRUE)
+  expect_no_match(head, "www/dark_mode.js", fixed = TRUE)
+  expect_match(head, "https://sedzinfo.github.io/shiny/analytics.js", fixed = TRUE)
+  expect_no_match(head, "www/analytics.js", fixed = TRUE)
+  expect_match(head, "https://sedzinfo.github.io/shiny/analytics.css", fixed = TRUE)
+  expect_no_match(head, "www/analytics.css", fixed = TRUE)
+})

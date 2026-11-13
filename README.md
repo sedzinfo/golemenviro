@@ -29,6 +29,15 @@ library(devtools)
 install_github("sedzinfo/golemenviro")
 ```
 
+Without devtools, install the source tarball of the [latest release](https://github.com/sedzinfo/golemenviro/releases/tag/latest), which is rebuilt from `main` on every change, together with the PDF manual:
+
+```r
+install.packages(
+  "https://github.com/sedzinfo/golemenviro/releases/download/latest/golemenviro_0.0.0.9000.tar.gz",
+  repos = NULL, type = "source"
+)
+```
+
 # Usage
 ```
 library(golemenviro)

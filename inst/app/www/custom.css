@@ -124,25 +124,10 @@ body:has(.full-screen) {
   min-height: 25px;
 }
 
-/* the About tab: a column of text that stays easy to read on wide screens, with lines between
-   the rows of its table (dark_mode.css has the dark ones) */
+/* the About tab: the column of apps.css, in a larger text than the 14px of Bootstrap 3 */
 .about {
-  max-width: 52em;
-  margin: 0 auto 2em;
   font-size: 15px;
   line-height: 1.55;
-}
-.about h3 {
-  margin-top: 1.6em;
-}
-.about table {
-  margin-bottom: 1em;
-}
-.about th,
-.about td {
-  padding: 6px 12px;
-  border-bottom: 1px solid #ddd;
-  vertical-align: top;
 }
 
 /* the numbers of the Air Quality tab, under its two charts: the days above the guideline, large,
@@ -229,17 +214,13 @@ body:has(.full-screen) {
     padding-top: 10px;
     padding-bottom: 10px;
   }
-  /* iOS zooms into a field whose text is smaller than 16px when it is tapped */
-  .selectize-input input {
-    font-size: 16px !important;
-  }
   /* the long title of the Comfort chart, smaller to fit */
   #comfort-comfort .gtitle {
     font-size: 12px !important;
   }
 }
 
-/* Touch screens: the tabs, the full screen button and the footer links big enough for a finger */
+/* Touch screens: the tabs and the full screen button big enough for a finger (the footer links: apps.css) */
 @media (pointer: coarse) {
   .navbar-nav > li > a,
   .navbar-brand {
@@ -251,9 +232,5 @@ body:has(.full-screen) {
     width: 44px;
     height: 44px;
     font-size: 18px;
-  }
-  .analytics-footer a {
-    display: inline-block;
-    padding: 12px 6px;
   }
 }

@@ -2521,10 +2521,10 @@
       "checksum": "406a96890881bae168708930918082b8"
     },
     "inst/app/www/custom.css": {
-      "checksum": "9793a49f783eac702ed076e0bc391b07"
+      "checksum": "2bdcdc7af989791f234d9cc00673a917"
     },
     "inst/app/www/dark_mode.css": {
-      "checksum": "5a3bee5d20399c26d7a875c9cc07a726"
+      "checksum": "22a4cce4fa49cc0155d0b55b32560d0f"
     },
     "inst/app/www/favicon.svg": {
       "checksum": "b6b9fb54a5f6ac675a21bee6188829e4"
@@ -2551,7 +2551,7 @@
       "checksum": "d497ab8f15806942aa41fb37f6d5a311"
     },
     "R/app_ui.R": {
-      "checksum": "b00e1f0e799c4c573631aacea89925ba"
+      "checksum": "6e7c3a1cb41b44a651da704265387309"
     },
     "R/fct_data.R": {
       "checksum": "a4496c9a81021cd9826c195ea176dea4"
@@ -2581,7 +2581,7 @@
       "checksum": "2d07992a80432b1e37c5388db7fe11a2"
     },
     "R/utils_analytics.R": {
-      "checksum": "ff55a48ceba9231f9f6961a2340d718f"
+      "checksum": "f20bbb664cacd01676fc59773a1d387c"
     }
   },
   "users": null

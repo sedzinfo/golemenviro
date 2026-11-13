@@ -70,10 +70,11 @@ app_meta <- list(
 #' the favicon, the Font Awesome icons of the full screen buttons, and the CSS
 #' and JavaScript files of `inst/app/www` inside the Shiny application: those
 #' of the charts (`custom.css`, `plot_zoom.js`), of the menu of the tabs on
-#' phones (`navbar.js`) and of the dark mode (`dark_mode.css`). A file put in
-#' that folder is added without any change here. The script of the dark mode
-#' (`dark_mode.js`) is shared by the apps: it comes from sedzinfo.github.io
-#' (`shared_url`), as do the files of the analytics (`analytics_resources()`).
+#' phones (`navbar.js`) and of the dark mode of the panels (`dark_mode.css`). A
+#' file put in that folder is added without any change here. The stylesheet
+#' (`shared_css()`) and the dark mode (`dark_mode.js`) are shared by the apps:
+#' they come from sedzinfo.github.io (`shared_url`), as do the files of the
+#' analytics (`analytics_resources()`).
 #'
 #' @import shiny
 #' @importFrom golem add_resource_path favicon bundle_resources
@@ -100,6 +101,7 @@ golem_add_external_resources <- function() {
     tags$meta(property = "og:image", content = app_meta$image),
     tags$meta(name = "twitter:card", content = "summary_large_image"),
     favicon(ext = "svg"),
+    shared_css(),
     bundle_resources(
       path = app_sys("app/www"),
       app_title = "Prometheus Enviro Data Visualization"

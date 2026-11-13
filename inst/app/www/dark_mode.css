@@ -1,129 +1,24 @@
-/* Dark mode, switched on by dark_mode.js with the dark-mode class of <html>.
-   plotly writes its colors inline, which only !important overrides. */
-#dark-mode-toggle {
-  font-size: 16px;
-  line-height: 17px;
-  margin-right: 15px;
-}
-html.dark-mode {
-  color-scheme: dark;
-}
-html.dark-mode body {
-  background-color: #1e1e1e;
-  color: #ddd;
-}
-html.dark-mode a {
-  color: #6ea8fe;
-}
+/* Dark mode of golemenviro, switched on by dark_mode.js (https://sedzinfo.github.io/shiny/) with the dark-mode
+   class of <html>. The page, the navbar, the dropdowns and the charts are in the stylesheet shared by the
+   apps (apps.css, same place); this has what is golemenviro's own. plotly writes its colors inline, which
+   only !important overrides. */
 
-/* navbar */
-html.dark-mode .navbar-default {
-  background-color: #2b2b2b;
-  border-color: #3a3a3a;
-}
-html.dark-mode .navbar-default .navbar-brand,
-html.dark-mode .navbar-default .navbar-nav > li > a {
-  color: #ccc;
-}
-html.dark-mode .navbar-default .navbar-brand:hover,
-html.dark-mode .navbar-default .navbar-nav > li > a:hover {
-  color: #fff;
-}
-html.dark-mode .navbar-default .navbar-nav > .active > a,
-html.dark-mode .navbar-default .navbar-nav > .active > a:hover,
-html.dark-mode .navbar-default .navbar-nav > .active > a:focus {
-  background-color: #1e1e1e;
-  color: #fff;
-}
-/* the button of the menu of the tabs, on phones, and the line above the open menu */
-html.dark-mode .navbar-default .navbar-toggle {
-  border-color: #555;
-}
-html.dark-mode .navbar-default .navbar-toggle:hover,
-html.dark-mode .navbar-default .navbar-toggle:focus {
-  background-color: #3a3a3a;
-}
-html.dark-mode .navbar-default .navbar-toggle .icon-bar {
-  background-color: #ccc;
-}
-html.dark-mode .navbar-default .navbar-collapse {
-  border-color: #3a3a3a;
-}
-
-/* the Server and Period dropdowns */
-html.dark-mode .selectize-input,
-html.dark-mode .selectize-input.full,
-html.dark-mode .selectize-dropdown {
-  background: #2b2b2b;
-  color: #ddd;
-  border-color: #555;
-  box-shadow: none;
-}
-/* while open, selectize turns the box white (.input-active, .focus): keep it dark */
-html.dark-mode .selectize-control .selectize-input.focus,
-html.dark-mode .selectize-control .selectize-input.input-active,
-html.dark-mode .selectize-control.single .selectize-input.input-active {
-  background: #2b2b2b !important;
-  border-color: #777;
-}
-html.dark-mode .selectize-control .selectize-input input {
-  color: #fff !important;
-  -webkit-text-fill-color: #fff;
-  caret-color: #fff;
-}
-html.dark-mode .selectize-dropdown .option {
-  color: #ddd;
-}
-html.dark-mode .selectize-dropdown .active {
-  background-color: #3d4b5c;
-  color: #fff;
-}
-
-/* the panels of the gauges and charts, a chart in full screen, and its button */
+/* the panels of the gauges and charts, and a chart in full screen; their color is also the one of
+   plotly's toolbar over them (--chart-bg-rgb, see apps.css) */
 html.dark-mode .sensor-box {
   background-color: #262626;
+  --chart-bg-rgb: 38, 38, 38;
 }
 html.dark-mode .full-screen {
   background-color: #1e1e1e;
+  --chart-bg-rgb: 30, 30, 30;
 }
+/* the full screen button, and the time of the last reading when it is old */
 html.dark-mode .plot-zoom {
   color: #ccc;
 }
 html.dark-mode .reading-old {
   color: #ff6b6b;
-}
-
-/* plotly: a transparent background and light text, axes and grid */
-html.dark-mode .js-plotly-plot .main-svg {
-  background: transparent !important;
-}
-html.dark-mode .js-plotly-plot .bg,
-html.dark-mode .js-plotly-plot .legend .bg {
-  fill: transparent !important;
-}
-html.dark-mode .js-plotly-plot .main-svg text:not(.hoverlayer *) {
-  fill: #ddd !important;
-}
-html.dark-mode .js-plotly-plot .gridlayer path,
-html.dark-mode .js-plotly-plot .zerolinelayer path {
-  stroke: #444 !important;
-}
-/* plotly's toolbar (modebar): plotly colors it once, when it draws the chart, from the chart's
-   white background: the buttons on half-transparent white, the icons light gray (darker on hover
-   and for the active button). The same in dark: half-transparent color of the panel behind the
-   chart (.sensor-box, or .full-screen) and light icons. */
-html.dark-mode .js-plotly-plot .modebar-group {
-  background-color: rgba(38, 38, 38, 0.5) !important;
-}
-html.dark-mode .js-plotly-plot.full-screen .modebar-group {
-  background-color: rgba(30, 30, 30, 0.5) !important;
-}
-html.dark-mode .js-plotly-plot .modebar-btn .icon path {
-  fill: rgba(255, 255, 255, 0.35) !important;
-}
-html.dark-mode .js-plotly-plot .modebar-btn:hover .icon path,
-html.dark-mode .js-plotly-plot .modebar-btn.active .icon path {
-  fill: rgba(255, 255, 255, 0.8) !important;
 }
 
 /* the gauges: the white face (the first arc; the others are the green ideal ranges), the
@@ -136,14 +31,4 @@ html.dark-mode .js-plotly-plot .angularaxis path {
 }
 html.dark-mode .js-plotly-plot .threshold-arc path {
   stroke: #ddd !important;
-}
-
-/* the About tab: the lines of its table and the code */
-html.dark-mode .about th,
-html.dark-mode .about td {
-  border-color: #3a3a3a;
-}
-html.dark-mode .about code {
-  background-color: #2b2b2b;
-  color: #f0a0b0;
 }

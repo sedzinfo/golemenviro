@@ -20,6 +20,19 @@ shared_url <- "https://sedzinfo.github.io/shiny/"
 ##########################################################################################
 #
 ##########################################################################################
+#' The stylesheet shared by the Shiny apps
+#'
+#' \code{https://sedzinfo.github.io/shiny/apps.css}, as a link for the head of the page, before
+#' the app's own stylesheets. Shiny puts the head after the stylesheets of Bootstrap and of the
+#' inputs, so the page loads those, then this, then the app's own, which can override it.
+#'
+#' @noRd
+shared_css <- function() {
+  tags$link(rel = "stylesheet", href = paste0(shared_url, "apps.css"))
+}
+##########################################################################################
+#
+##########################################################################################
 #' Google Analytics for the public deployment
 #'
 #' Loads the cookie banner shared with the sites of sedzinfo.github.io, which

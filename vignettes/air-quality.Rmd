@@ -1,5 +1,6 @@
 ---
 title: "Air quality"
+description: "Compare the particles measured by the Enviro sensor with the air quality guidelines of the World Health Organization (2021) in R."
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Air quality}

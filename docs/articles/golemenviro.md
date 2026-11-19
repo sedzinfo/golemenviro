@@ -78,9 +78,9 @@ names(week)
 #>  [1] "Date"        "Timestamp"   "Temperature" "Humidity"    "Pressure"    "Lux"         "Proximity"   "NH3"         "Reducing"    "Oxidising"   "PM1"         "PM2.5"       "PM10"
 tail(week[, c("Date", "Temperature", "Humidity", "Pressure", "PM2.5")], 3)
 #>                     Date Temperature Humidity Pressure PM2.5
-#> 998  2026-11-19 14:17:30    28.15113 43.44154 1002.216     5
-#> 999  2026-11-19 14:27:35    28.48205 42.56074 1002.034     5
-#> 1000 2026-11-19 14:37:40    28.17583 43.00584 1001.933     5
+#> 998  2026-11-19 15:41:17    28.54316 42.51079 1002.505     4
+#> 999  2026-11-19 15:51:22    28.46843 42.59421 1002.485     7
+#> 1000 2026-11-19 16:01:27    28.60681 42.41048 1002.458     6
 ```
 
 It returns about 1,000 rows: over 7 days, a reading every 10 minutes.

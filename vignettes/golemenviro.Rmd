@@ -1,5 +1,6 @@
 ---
 title: "Gauges and time series"
+description: "Download Pimoroni Enviro sensor readings from Prometheus in R and draw them as interactive gauges and time series."
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Gauges and time series}

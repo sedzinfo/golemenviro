@@ -7,6 +7,12 @@ template:
   includes:
     # cookie banner and Google Analytics, shared by every site under sedzinfo.github.io (consent.js in that repository)
     after_body: '<script src="/consent.js" defer></script>'
+  # the preview card that LinkedIn, Bluesky, Mastodon, Slack and others show when a page is shared:
+  # pkgdown/assets/card.png (1200x630), which pkgdown copies to the root of the site
+  opengraph:
+    image:
+      src: card.png
+      alt: "golemenviro: Real-Time Visualization of Pimoroni Enviro Sensor Data from Prometheus, with gauges of the latest reading of each sensor"
 
 code:
   width: 200

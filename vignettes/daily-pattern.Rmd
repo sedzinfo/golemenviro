@@ -1,5 +1,6 @@
 ---
 title: "Daily pattern and comfort"
+description: "The hourly averages of the Enviro sensors in R: a heatmap of the daily pattern, a typical day and how comfortable the room was."
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Daily pattern and comfort}

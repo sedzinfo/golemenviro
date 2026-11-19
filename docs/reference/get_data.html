@@ -25,7 +25,13 @@ show up as noise; otherwise it is the reading at that time."></head><body>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/golemenviro.html">Get started</a></li>
+<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/daily-pattern.html">Daily pattern and comfort</a></li>
+    <li><a class="dropdown-item" href="../articles/air-quality.html">Air quality</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://sedzinfo-golemenviro.share.connect.posit.cloud/" aria-label="Open the live app"><span class="fa fas fa-play"></span> live app</a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://sedzinfo.github.io/" aria-label="sedzinfo home page"><span class="fa fas fa-house"></span> home</a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/sedzinfo/golemenviro" aria-label="GitHub"><span class="fa fab fa-github"></span></a></li>
@@ -96,21 +102,21 @@ out, as the device does not have them.</p>
 <span class="r-in"><span><span class="va">filtered_df</span> <span class="op">&lt;-</span> <span class="fu">get_data</span><span class="op">(</span>start_time <span class="op">=</span> <span class="va">start_time</span>, end_time <span class="op">=</span> <span class="va">end_time</span>, urlq <span class="op">=</span> <span class="va">prometheus_url</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">filtered_df</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  Date  Timestamp Temperature Humidity Pressure Lux Proximity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2026-11-05 15:53:59 1793886839    25.15600 45.53830 1017.116   0        37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2026-11-05 16:04:04 1793887444    25.18696 45.71966 1017.172   0        44</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2026-11-05 16:14:09 1793888049    25.10696 46.64126 1017.171   0        43</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2026-11-05 16:24:14 1793888654    25.10116 45.93480 1017.100   0        42</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 2026-11-05 16:34:19 1793889259    25.09696 46.09823 1017.101   0        38</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 2026-11-05 16:44:24 1793889864    25.06664 46.44813 1017.144   0        37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2026-11-12 14:51:27 1794487887    24.74342 53.12224 1008.572   0        39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2026-11-12 15:01:32 1794488492    24.79697 52.89661 1008.557   0        38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2026-11-12 15:11:37 1794489097    24.77955 53.01260 1008.460   0        37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2026-11-12 15:21:42 1794489702    24.90310 52.56744 1008.294   0        38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 2026-11-12 15:31:47 1794490307    24.60472 53.38036 1008.431   0        38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 2026-11-12 15:41:52 1794490912    24.87858 52.78813 1008.378   0        43</span>
 <span class="r-in"><span><span class="va">filtered_df</span> <span class="op">&lt;-</span> <span class="fu">get_data</span><span class="op">(</span>start_time <span class="op">=</span> <span class="va">start_time</span>, end_time <span class="op">=</span> <span class="va">end_time</span>, urlq <span class="op">=</span> <span class="va">prometheus_url</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">filtered_df</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  Date  Timestamp Temperature Humidity Pressure Lux Proximity      NH3 Reducing Oxidising PM1 PM2.5 PM10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2026-11-05 15:53:59 1793886839    28.88009 33.65611 1015.843   0        10 85711.00 330661.4  105230.2   4     6    6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2026-11-05 16:04:04 1793887444    28.42536 33.92569 1015.884   0        13 87841.21 336669.3  107503.6   5     7    7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2026-11-05 16:14:09 1793888049    28.68598 33.68114 1015.882   0        13 87110.21 333719.3  106855.3   3     5    5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2026-11-05 16:24:14 1793888654    28.38103 33.89261 1015.847   0         4 87589.74 336044.6  108047.9   4     6    7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 2026-11-05 16:34:19 1793889259    28.90891 33.20664 1015.794   0         5 86324.91 332490.3  106052.0   4     7    7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 2026-11-05 16:44:24 1793889864    28.44753 33.83569 1015.853   0         8 86551.35 333257.5  106318.8   4     5    5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2026-11-12 14:51:27 1794487887    26.96398 45.05798 1007.289   0        10 70407.59 265147.0  92255.11  17    23   23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 2026-11-12 15:01:32 1794488492    26.92693 45.09649 1007.189   0         9 70879.51 267147.5  92590.38  17    22   23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 2026-11-12 15:11:37 1794489097    26.73979 45.46710 1007.173   0         6 71503.23 270573.9  93650.77  14    18   19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 2026-11-12 15:21:42 1794489702    26.99691 45.00826 1007.032   0        10 71635.33 272862.2  93673.50  16    19   19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 2026-11-12 15:31:47 1794490307    26.93453 45.19685 1007.088   0        11 70977.58 271441.9  93129.97  16    20   20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 2026-11-12 15:41:52 1794490912    26.85663 45.40744 1007.093   0         5 71190.61 273411.8  93446.55  14    19   19</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

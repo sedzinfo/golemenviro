@@ -13,6 +13,15 @@ code:
 
 destination: docs
 
+# the vignettes, which r-universe shows too, in the order to read them
+articles:
+  - title: Charts in R
+    navbar: ~
+    contents:
+      - golemenviro
+      - daily-pattern
+      - air-quality
+
 navbar:
   structure:
     left: [intro, reference, articles]

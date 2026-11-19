@@ -1,0 +1,105 @@
+---
+title: "Air quality"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Air quality}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", out.width = "100%", fig.width = 7, fig.height = 5)
+# The article downloads its readings from a Prometheus server of the live app while it is
+# built. They are downloaded here first, out of sight, to check that the server answers with
+# what the chunks below need: without it the code is shown without its results instead of
+# failing the build. The chunks download the readings again, which takes a second.
+online <- tryCatch(
+  local({
+    url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
+    daily <- list(golemenviro::get_daily(url, "PM25", days = 30), golemenviro::get_daily(url, "PM10", days = 365))
+    all(vapply(daily, function(x) NROW(x) > 1 && isTRUE(stats::sd(x$value) > 0), logical(1)))
+  }),
+  error = function(e) FALSE
+)
+knitr::opts_chunk$set(eval = online)
+```
+
+`r if (!online) "> The readings could not be downloaded when this page was built, so the code is shown without its results."`
+
+The Air Quality tab of the [golemenviro app](https://sedzinfo-golemenviro.share.connect.posit.cloud/) compares the particles with the air quality guidelines of the World Health Organization (2021). The guidelines are for the averages of whole days and years, not for single readings. In R, `get_daily()` downloads the averages of the days, `who_guidelines` holds the guidelines, and `plot_daily_means()` draws the days against them. [Gauges and time series](golemenviro.html) shows how to install the package and which servers it reads.
+
+```{r library}
+library(golemenviro)
+Sys.setenv(TZ = "Europe/Bucharest")
+url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
+```
+
+The days run from midnight to midnight in the time zone of the R session, here the one of the app, as [Gauges and time series](golemenviro.html#time-zone) explains.
+
+## The guidelines
+
+```{r guidelines}
+who_guidelines
+```
+
+`day` is the guideline for the average of a day, which should not be exceeded on more than 3 to 4 days a year, and `year` the one for the average of a year, both in µg/m³. PM1 has none.
+
+## Download the daily averages
+
+`get_daily()` downloads the average of each whole day of one sensor, over the `days` days before today, 30 by default. Like `get_hourly()`, it takes the name of the sensor in Prometheus, `"PM25"` for PM2.5. Today, still running, is left out, and so is a day with readings in fewer than 18 of its hours, as in the usual rules for daily averages of air quality:
+
+```{r daily}
+pm25 <- get_daily(url, "PM25", days = 30)
+tail(pm25)
+```
+
+It has a row per day: its `date`, the average `value`, and how many `hours` had readings. When the server cannot be reached, `get_daily()` returns `NULL` with a message.
+
+## Days against the guideline
+
+`plot_daily_means()` draws the days of a particle sensor as bars, with the guideline for a day as a dashed line, so that the days above it stand out. `variable` names the sensor in the title and the hover labels, and `guideline` sets the line. The axis starts at 0 and always reaches above the guideline:
+
+```{r pm25}
+guideline <- who_guidelines$day[who_guidelines$metric == "PM25"]
+plot_daily_means(pm25, "PM2.5", guideline)
+```
+
+The app counts the days above the guideline, and sets the average of the period against the guideline for a year:
+
+```{r pm25-numbers}
+sum(pm25$value > guideline)
+round(mean(pm25$value), 1)
+```
+
+The guideline for a year is for the average of a whole year, so for a shorter period it is only a pointer.
+
+## A year of PM10
+
+For a longer period, raise `days`:
+
+```{r pm10}
+pm10 <- get_daily(url, "PM10", days = 365)
+guideline_pm10 <- who_guidelines$day[who_guidelines$metric == "PM10"]
+plot_daily_means(pm10, "PM10", guideline_pm10)
+```
+
+The guideline allows 3 to 4 days above it in a year. To count them over this year:
+
+```{r pm10-numbers}
+sum(pm10$value > guideline_pm10)
+```
+
+## Dark mode and saving
+
+Like the charts of [Daily pattern and comfort](daily-pattern.html#dark-mode), `plot_daily_means()` takes `mode = "dark"`, which makes the bars and the dashed line lighter for a dark page. It leaves the background white, so the code is not run here:
+
+```{r dark, eval = FALSE}
+plot_daily_means(pm25, "PM2.5", guideline, mode = "dark")
+```
+
+The charts are plotly objects, so `htmlwidgets::saveWidget()` saves any of them as a web page:
+
+```{r save, eval = FALSE}
+chart <- plot_daily_means(pm25, "PM2.5", guideline)
+htmlwidgets::saveWidget(chart, "pm25.html")
+```

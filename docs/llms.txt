@@ -47,6 +47,19 @@ open RStudio and type in the console:
     library(devtools)
     install_github("sedzinfo/golemenviro")
 
+Without devtools, install the source tarball of the [latest
+release](https://github.com/sedzinfo/golemenviro/releases/tag/latest),
+which is rebuilt from `main` on every change, together with the PDF
+manual:
+
+``` r
+
+install.packages(
+  "https://github.com/sedzinfo/golemenviro/releases/download/latest/golemenviro_0.0.0.9000.tar.gz",
+  repos = NULL, type = "source"
+)
+```
+
 # Usage
 
     library(golemenviro)
@@ -187,3 +200,13 @@ Status](https://img.shields.io/github/actions/workflow/status/sedzinfo/golemenvi
 - [`who_guidelines`](https://sedzinfo.github.io/golemenviro/reference/who_guidelines.md)
   : The guidelines of the World Health Organization for particles
 
+# Articles
+
+### Charts in R
+
+- [Gauges and time
+  series](https://sedzinfo.github.io/golemenviro/articles/golemenviro.md):
+- [Daily pattern and
+  comfort](https://sedzinfo.github.io/golemenviro/articles/daily-pattern.md):
+- [Air
+  quality](https://sedzinfo.github.io/golemenviro/articles/air-quality.md):

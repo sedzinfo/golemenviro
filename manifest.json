@@ -2509,13 +2509,13 @@
   },
   "files": {
     ".Rbuildignore": {
-      "checksum": "87f9d4ec0ffedff42d9aa1a7e04c6c96"
+      "checksum": "149af699bfe29b874f0c0aaf4d952e73"
     },
     "app.R": {
       "checksum": "1a995e39b7ccac88d3a949d075b9c1b5"
     },
     "DESCRIPTION": {
-      "checksum": "f3ef42d19db0b37c242b20d984b90535"
+      "checksum": "2693a0cfbf4cd5ab2daa2ed469553b03"
     },
     "inst/app/about.md": {
       "checksum": "406a96890881bae168708930918082b8"

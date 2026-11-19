@@ -11,3 +11,7 @@ rsconnect/shinyapps.io/sedzinfo/
 # on the "latest" release, so they are not committed
 /*.tar.gz
 /golemenviro.pdf
+
+# built vignettes, left by devtools::build_vignettes()
+/doc/
+/Meta/

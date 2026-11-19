@@ -1,0 +1,21 @@
+# How to cite this package. GitHub shows it as "Cite this repository"; Zenodo uses it for the DOI of each release.
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "golemenviro: Real-Time Visualization of Pimoroni Enviro Sensor Data from Prometheus"
+abstract: "A 'shiny' application, built as a 'golem' package, that displays the readings of Pimoroni Enviro and Enviro+ sensors exported to 'Prometheus': gauges with the latest readings, and a time series chart per sensor."
+authors:
+  - family-names: "Zacharatos"
+    given-names: "Dimitrios"
+    orcid: "https://orcid.org/0000-0003-1789-8294"
+license: GPL-3.0-only
+repository-code: "https://github.com/sedzinfo/golemenviro"
+url: "https://sedzinfo.github.io/golemenviro/"
+keywords:
+  - "golem"
+  - "shiny"
+  - "environmental-monitoring"
+  - "iot"
+  - "pimoroni"
+  - "prometheus"
+  - "raspberry-pi"

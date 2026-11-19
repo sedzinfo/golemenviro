@@ -1,0 +1,43 @@
+<div class="row">
+  <main id="main" class="col-md-9">
+{{{index}}}
+  </main>
+
+  <aside class="col-md-3">
+{{#sidebar}}
+{{{.}}}
+{{/sidebar}}
+  </aside>
+</div>
+<!-- Above: pkgdown's own content-home.html. Below: structured data (JSON-LD) for search engines, on the
+     home page only. Check it at https://search.google.com/test/rich-results -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "golemenviro",
+  "alternateName": "Real-Time Visualization of Pimoroni Enviro Sensor Data from Prometheus",
+  "description": "A 'shiny' application, built as a 'golem' package, that displays the readings of Pimoroni Enviro and Enviro+ sensors exported to 'Prometheus': gauges with the latest readings, and a time series chart per sensor.",
+  "url": "https://sedzinfo-golemenviro.share.connect.posit.cloud/",
+  "mainEntityOfPage": "https://sedzinfo.github.io/golemenviro/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR"
+  },
+  "isAccessibleForFree": true,
+  "sameAs": "https://github.com/sedzinfo/golemenviro",
+  "image": "https://sedzinfo.github.io/golemenviro/card.png",
+  "license": "https://www.gnu.org/licenses/gpl-3.0.html",
+  "author": {
+    "@type": "Person",
+    "@id": "https://sedzinfo.github.io/#person",
+    "name": "Dimitrios Zacharatos",
+    "url": "https://sedzinfo.github.io/",
+    "sameAs": ["https://github.com/sedzinfo", "https://orcid.org/0000-0003-1789-8294"]
+  }
+}
+</script>

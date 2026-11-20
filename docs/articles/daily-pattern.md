@@ -16,12 +16,7 @@ how comfortable the room was. [Gauges and time
 series](https://sedzinfo.github.io/golemenviro/articles/golemenviro.md)
 shows how to install the package and which servers it reads.
 
-``` r
-
-library(golemenviro)
-Sys.setenv(TZ = "Europe/Bucharest")
-url <- "http://pip1.crabdance.com:1507/api/v1/query_range"
-```
+[`library`](https://rdrr.io/r/base/library.html)`(`[`golemenviro`](https://sedzinfo.github.io/golemenviro/)`)`` `[`Sys.setenv`](https://rdrr.io/r/base/Sys.setenv.html)`(``TZ ``=`` ``"Europe/Bucharest"``)`` ``url`` ``<-`` ``"http://pip1.crabdance.com:1507/api/v1/query_range"`
 
 The hours are those of the time zone of the R session, here the one of
 the app, as [Gauges and time
@@ -38,20 +33,7 @@ takes the name of the sensor in Prometheus, such as `"temperature"` or
 [`get_data()`](https://sedzinfo.github.io/golemenviro/reference/get_data.md).
 The names of `metric_mid` list them all:
 
-``` r
-
-names(metric_mid)
-#>  [1] "temperature" "humidity"    "pressure"    "lux"         "proximity"   "NH3"         "reducing"    "oxidising"   "PM1"         "PM25"        "PM10"
-temperature <- get_hourly(url, "temperature", days = 30)
-head(temperature)
-#>         date hour    value
-#> 1 2026-10-20   16 27.49795
-#> 2 2026-10-20   17 27.64899
-#> 3 2026-10-20   18 27.62837
-#> 4 2026-10-20   19 28.04423
-#> 5 2026-10-20   20 28.26109
-#> 6 2026-10-20   21 28.84418
-```
+[`names`](https://rdrr.io/r/base/names.html)`(``metric_mid``)`` ``#> [1] "temperature" "humidity" "pressure" "lux" "proximity" "NH3" "reducing" "oxidising" "PM1" "PM25" "PM10"`` ``temperature`` ``<-`` `[`get_hourly`](https://sedzinfo.github.io/golemenviro/reference/get_hourly.md)`(``url``, ``"temperature"``, days ``=`` ``30``)`` `[`head`](https://rdrr.io/r/utils/head.html)`(``temperature``)`` ``#> date hour value`` ``#> 1 2026-10-21 11 29.00866`` ``#> 2 2026-10-21 12 29.01257`` ``#> 3 2026-10-21 13 28.91041`` ``#> 4 2026-10-21 14 28.92850`` ``#> 5 2026-10-21 15 28.79946`` ``#> 6 2026-10-21 16 28.99500`
 
 It has a row per hour: its `date`, its `hour` from 0 to 23 and the
 average `value`. When the server cannot be reached,
@@ -68,10 +50,7 @@ colored by the average of that hour. What happens at the same time every
 day shows as a horizontal band. `variable` names the sensor in the title
 and the hover labels, and `unit` is the unit of the readings:
 
-``` r
-
-plot_daily_pattern(temperature, "Temperature", degrees_celsius)
-```
+[`plot_daily_pattern`](https://sedzinfo.github.io/golemenviro/reference/plot_daily_pattern.md)`(``temperature``, ``"Temperature"``, ``degrees_celsius``)`
 
 The colors run from light blue for low values to dark blue for high
 ones, the five steps of `blue_steps`. They stop at the 2nd and 98th
@@ -85,14 +64,7 @@ the standard air pressure at sea level, and for PM2.5 and PM10 the
 guidelines of the World Health Organization for a day. It is `NA` for
 the sensors with no such value, which keep the blue scale:
 
-``` r
-
-metric_mid
-#> temperature    humidity    pressure         lux   proximity         NH3    reducing   oxidising         PM1        PM25        PM10 
-#>       24.00       50.00     1013.25          NA          NA          NA          NA          NA          NA       15.00       45.00
-plot_daily_pattern(temperature, "Temperature", degrees_celsius,
-  mid = metric_mid[["temperature"]])
-```
+`metric_mid`` ``#> temperature humidity pressure lux proximity NH3 reducing oxidising PM1 PM25 PM10 `` ``#> 24.00 50.00 1013.25 NA NA NA NA NA NA 15.00 45.00`` `[`plot_daily_pattern`](https://sedzinfo.github.io/golemenviro/reference/plot_daily_pattern.md)`(``temperature``, ``"Temperature"``, ``degrees_celsius``,`` `` mid ``=`` ``metric_mid``[[``"temperature"``]``]``)`
 
 `red_steps` has five reds with the same lightness as the blues, for
 color scales of your own where higher means hotter or worse.
@@ -105,10 +77,7 @@ median over all the days (the line) and the middle half of the days,
 between the 25th and 75th percentiles (the band). A narrow band means
 that hour is much the same every day:
 
-``` r
-
-plot_average_day(temperature, "Temperature", degrees_celsius)
-```
+[`plot_average_day`](https://sedzinfo.github.io/golemenviro/reference/plot_average_day.md)`(``temperature``, ``"Temperature"``, ``degrees_celsius``)`
 
 ## Comfort
 
@@ -120,28 +89,14 @@ morning, yellow at midday and red in the evening. The green box is the
 comfort zone, 20 to 25 °C and 40 to 60% humidity, and the title says how
 many of the hours were inside it. The corners name what lies that way:
 
-``` r
-
-humidity <- get_hourly(url, "humidity", days = 30)
-plot_comfort(temperature, humidity)
-```
+`humidity`` ``<-`` `[`get_hourly`](https://sedzinfo.github.io/golemenviro/reference/get_hourly.md)`(``url``, ``"humidity"``, days ``=`` ``30``)`` `[`plot_comfort`](https://sedzinfo.github.io/golemenviro/reference/plot_comfort.md)`(``temperature``, ``humidity``)`
 
 [`comfort_summary()`](https://sedzinfo.github.io/golemenviro/reference/comfort_summary.md)
 gives the numbers: how many hours had both readings, and the percentages
 of them that were comfortable, too warm, too cool, too dry and too
 humid. An hour can be both too warm and too dry:
 
-``` r
-
-str(comfort_summary(temperature, humidity))
-#> List of 6
-#>  $ hours      : int 720
-#>  $ comfortable: num 1.94
-#>  $ too_warm   : num 89.7
-#>  $ too_cool   : num 0
-#>  $ too_dry    : num 25.3
-#>  $ too_humid  : num 0
-```
+[`str`](https://rdrr.io/r/utils/str.html)`(`[`comfort_summary`](https://sedzinfo.github.io/golemenviro/reference/comfort_summary.md)`(``temperature``, ``humidity``)``)`` ``#> List of 6`` ``#> $ hours : int 720`` ``#> $ comfortable: num 1.94`` ``#> $ too_warm : num 89.7`` ``#> $ too_cool : num 0`` ``#> $ too_dry : num 24.2`` ``#> $ too_humid : num 0`
 
 Both functions take other comfortable ranges with `temperature_range`
 and `humidity_range`.
@@ -163,14 +118,7 @@ darkens them with its stylesheet. On a page of your own, set them with
 `plotly::layout()`. On this light page the dark colors would not read
 well, so the code is not run here:
 
-``` r
-
-plot_comfort(temperature, humidity, mode = "dark") |>
-  plotly::layout(
-    paper_bgcolor = "#222222", plot_bgcolor = "#222222",
-    font = list(color = "#dddddd")
-  )
-```
+[`plot_comfort`](https://sedzinfo.github.io/golemenviro/reference/plot_comfort.md)`(``temperature``, ``humidity``, mode ``=`` ``"dark"``)`` ``|>`` `` ``plotly``::``layout``(`` `` paper_bgcolor ``=`` ``"#222222"``, plot_bgcolor ``=`` ``"#222222"``,`` `` font ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``color ``=`` ``"#dddddd"``)`` `` ``)`
 
 The charts are plotly objects, so
 [`htmlwidgets::saveWidget()`](https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html)

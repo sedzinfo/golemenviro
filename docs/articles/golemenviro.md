@@ -17,16 +17,9 @@ Health Organization.
 
 ## Install and load the package
 
-``` r
+[`install.packages`](https://rdrr.io/r/utils/install.packages.html)`(``"golemenviro"``,`` `` repos ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"https://sedzinfo.r-universe.dev"``, ``"https://cloud.r-project.org"``)``)`
 
-install.packages("golemenviro",
-  repos = c("https://sedzinfo.r-universe.dev", "https://cloud.r-project.org"))
-```
-
-``` r
-
-library(golemenviro)
-```
+[`library`](https://rdrr.io/r/base/library.html)`(`[`golemenviro`](https://sedzinfo.github.io/golemenviro/)`)`
 
 ## The servers
 
@@ -36,13 +29,7 @@ which reads its sensors, and a Prometheus server, which collects and
 keeps the readings. The functions take the `query_range` address of that
 server. The two servers of the live app need no API key or password:
 
-``` r
-
-prometheus_url <- c(
-  "http://pip1.crabdance.com:1507/api/v1/query_range",
-  "http://pip1.crabdance.com:1505/api/v1/query_range"
-)
-```
+`prometheus_url`` ``<-`` `[`c`](https://rdrr.io/r/base/c.html)`(`` `` ``"http://pip1.crabdance.com:1507/api/v1/query_range"``,`` `` ``"http://pip1.crabdance.com:1505/api/v1/query_range"`` ``)`
 
 The first device has all the sensors of an Enviro+. The second, like an
 Enviro, has no gas or particle sensors. The
@@ -58,12 +45,7 @@ returns. The app shows them in the time zone given to
 `"Europe/Bucharest"` by default. To see the same times as the app, set
 it at the start of the session:
 
-``` r
-
-Sys.setenv(TZ = "Europe/Bucharest")
-app_time_zone()
-#> [1] "Europe/Bucharest"
-```
+[`Sys.setenv`](https://rdrr.io/r/base/Sys.setenv.html)`(``TZ ``=`` ``"Europe/Bucharest"``)`` `[`app_time_zone`](https://sedzinfo.github.io/golemenviro/reference/app_time_zone.md)`(``)`` ``#> [1] "Europe/Bucharest"`
 
 ## Download the readings
 
@@ -71,17 +53,7 @@ app_time_zone()
 downloads the readings of all the sensors of one server, by default over
 the last 7 days:
 
-``` r
-
-week <- get_data(urlq = prometheus_url[1])
-names(week)
-#>  [1] "Date"        "Timestamp"   "Temperature" "Humidity"    "Pressure"    "Lux"         "Proximity"   "NH3"         "Reducing"    "Oxidising"   "PM1"         "PM2.5"       "PM10"
-tail(week[, c("Date", "Temperature", "Humidity", "Pressure", "PM2.5")], 3)
-#>                     Date Temperature Humidity Pressure PM2.5
-#> 998  2026-11-19 15:41:17    28.54316 42.51079 1002.505     4
-#> 999  2026-11-19 15:51:22    28.46843 42.59421 1002.485     7
-#> 1000 2026-11-19 16:01:27    28.60681 42.41048 1002.458     6
-```
+`week`` ``<-`` `[`get_data`](https://sedzinfo.github.io/golemenviro/reference/get_data.md)`(``urlq ``=`` ``prometheus_url``[``1``]``)`` `[`names`](https://rdrr.io/r/base/names.html)`(``week``)`` ``#> [1] "Date" "Timestamp" "Temperature" "Humidity" "Pressure" "Lux" "Proximity" "NH3" "Reducing" "Oxidising" "PM1" "PM2.5" "PM10"`` `[`tail`](https://rdrr.io/r/utils/head.html)`(``week``[``, `[`c`](https://rdrr.io/r/base/c.html)`(``"Date"``, ``"Temperature"``, ``"Humidity"``, ``"Pressure"``, ``"PM2.5"``)``]``, ``3``)`` ``#> Date Temperature Humidity Pressure PM2.5`` ``#> 998 2026-11-20 10:40:53 28.90416 46.66471 1004.913 17`` ``#> 999 2026-11-20 10:50:58 28.94532 46.50876 1004.871 17`` ``#> 1000 2026-11-20 11:01:03 29.07579 46.36527 1004.982 16`
 
 It returns about 1,000 rows: over 7 days, a reading every 10 minutes.
 `Date` is the time of the reading and `Timestamp` the same time in
@@ -91,11 +63,7 @@ Sensors whose readings never change are left out, as the device does not
 have them. The second server has no columns for the gases and the
 particles:
 
-``` r
-
-names(get_data(urlq = prometheus_url[2]))
-#> [1] "Date"        "Timestamp"   "Temperature" "Humidity"    "Pressure"    "Lux"         "Proximity"
-```
+[`names`](https://rdrr.io/r/base/names.html)`(`[`get_data`](https://sedzinfo.github.io/golemenviro/reference/get_data.md)`(``urlq ``=`` ``prometheus_url``[``2``]``)``)`` ``#> [1] "Date" "Timestamp" "Temperature" "Humidity" "Pressure" "Lux" "Proximity"`
 
 When a server cannot be reached, or sends no data,
 [`get_data()`](https://sedzinfo.github.io/golemenviro/reference/get_data.md)
@@ -107,10 +75,7 @@ returns `NULL` with a message.
 draws the last reading of one sensor as a gauge, as the Current tab
 does. `variable` is the name of its column:
 
-``` r
-
-plot_gauge(week, "Temperature")
-```
+[`plot_gauge`](https://sedzinfo.github.io/golemenviro/reference/plot_gauge.md)`(``week``, ``"Temperature"``)`
 
 The big number is the last reading, and the small one under it its
 difference from the reference point, the thin line across the gauge. The
@@ -122,10 +87,7 @@ World Health Organization for the average of a day. PM1, which has none,
 gets that of PM2.5. A note under the gauges of the particles and the
 gases says what they measure:
 
-``` r
-
-plot_gauge(week, "PM2.5")
-```
+[`plot_gauge`](https://sedzinfo.github.io/golemenviro/reference/plot_gauge.md)`(``week``, ``"PM2.5"``)`
 
 The gas and proximity sensors have no fixed scale, so their gauge is
 scaled to all the readings you pass: from the lowest to the highest,
@@ -133,10 +95,7 @@ widened by one standard deviation. The green band is the mean plus or
 minus one standard deviation, and the reference point is the mean. The
 app passes the last 7 days, as here:
 
-``` r
-
-plot_gauge(week, "Reducing")
-```
+[`plot_gauge`](https://sedzinfo.github.io/golemenviro/reference/plot_gauge.md)`(``week``, ``"Reducing"``)`
 
 ## Time series
 
@@ -147,10 +106,7 @@ last reading, the mean (μ), the minimum and maximum, the standard
 deviation (σ), the range, and the first and last day. `scale` is the
 title of the y axis:
 
-``` r
-
-plot_time_series(week, "Temperature", scale = degrees_celsius)
-```
+[`plot_time_series`](https://sedzinfo.github.io/golemenviro/reference/plot_time_series.md)`(``week``, ``"Temperature"``, scale ``=`` ``degrees_celsius``)`
 
 `degrees_celsius` and `micrograms_m3` hold the units with their special
 characters, as `symbol_mean` and `symbol_sd` hold μ and σ.
@@ -166,13 +122,7 @@ For another period, pass its start, and its end if not now, with
 returns about 1,000 readings, so a chart of a year is as light as one of
 a week:
 
-``` r
-
-a_year_ago <- Sys.time() - 365 * 24 * 60 * 60
-start_time <- format(a_year_ago, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
-year <- get_data(start_time = start_time, urlq = prometheus_url[1])
-plot_time_series(year, "PM2.5", scale = micrograms_m3)
-```
+`a_year_ago`` ``<-`` `[`Sys.time`](https://rdrr.io/r/base/Sys.time.html)`(``)`` ``-`` ``365`` ``*`` ``24`` ``*`` ``60`` ``*`` ``60`` ``start_time`` ``<-`` `[`format`](https://rdrr.io/r/base/format.html)`(``a_year_ago``, ``"%Y-%m-%dT%H:%M:%SZ"``, tz ``=`` ``"UTC"``)`` ``year`` ``<-`` `[`get_data`](https://sedzinfo.github.io/golemenviro/reference/get_data.md)`(``start_time ``=`` ``start_time``, urlq ``=`` ``prometheus_url``[``1``]``)`` `[`plot_time_series`](https://sedzinfo.github.io/golemenviro/reference/plot_time_series.md)`(``year``, ``"PM2.5"``, scale ``=`` ``micrograms_m3``)`
 
 From about 6 weeks on, the readings are an hour or more apart, and each
 is the average of the readings since the previous one, so short spikes
@@ -185,18 +135,11 @@ The charts are plotly objects, so the functions of the plotly and
 htmlwidgets packages work on them. To save a chart as a web page that
 opens in any browser:
 
-``` r
-
-chart <- plot_time_series(week, "Temperature", scale = degrees_celsius)
-htmlwidgets::saveWidget(chart, "temperature.html")
-```
+`chart`` ``<-`` `[`plot_time_series`](https://sedzinfo.github.io/golemenviro/reference/plot_time_series.md)`(``week``, ``"Temperature"``, scale ``=`` ``degrees_celsius``)`` ``htmlwidgets``::`[`saveWidget`](https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html)`(``chart``, ``"temperature.html"``)`
 
 To change the layout, for example the title:
 
-``` r
-
-plotly::layout(chart, title = "Temperature over the last week")
-```
+`plotly``::``layout``(``chart``, title ``=`` ``"Temperature over the last week"``)`
 
 ## Run the app
 
@@ -204,7 +147,4 @@ plotly::layout(chart, title = "Temperature over the last week")
 starts the app with the servers you give it and opens it in your
 browser. Its `timezone` argument sets the time zone of the app:
 
-``` r
-
-pimoroni(prometheus_url = prometheus_url)
-```
+[`pimoroni`](https://sedzinfo.github.io/golemenviro/reference/pimoroni.md)`(``prometheus_url ``=`` ``prometheus_url``)`

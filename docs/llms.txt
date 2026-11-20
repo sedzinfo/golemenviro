@@ -31,36 +31,36 @@ oxidising, PM1, PM25, PM10). On an Enviro (not Enviro+), start it with
 4. After you deploy the server use the url as an argument in
 prometheus_url (see below)
 
-# Installation Instructions
+## Installation
 
-## install R
+### Prerequisites
 
-installation instructions can be found here:
-<https://cran.r-project.org/>\
-\## install RStudio IDE (optional but a good idea)\
-installation instructions can be found here:
-<https://posit.co/downloads/>
+1.  **Install R** (version 4.1 or higher): <https://cran.r-project.org/>
+2.  **Install RStudio** (optional but recommended):
+    <https://posit.co/downloads/>
 
-open RStudio and type in the console:
+### Package Installation
 
-    install.packages("devtools")
-    library(devtools)
-    install_github("sedzinfo/golemenviro")
+Open RStudio (or an R console) and run:
 
-Without devtools, install the source tarball of the [latest
+[`install.packages`](https://rdrr.io/r/utils/install.packages.html)`(`` `` ``"golemenviro"``,`` `` repos ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"https://sedzinfo.r-universe.dev"``, ``"https://cloud.r-project.org"``)`` ``)`
+
+[R-universe](https://sedzinfo.r-universe.dev/golemenviro) builds
+golemenviro from this repository, and CRAN provides the packages it
+needs.
+
+To install from GitHub instead:
+
+`# Install devtools if you haven't already`` `[`install.packages`](https://rdrr.io/r/utils/install.packages.html)`(``"devtools"``)`` ``# Install golemenviro from GitHub`` ``devtools``::`[`install_github`](https://devtools.r-lib.org/reference/install-deprecated.html)`(``"sedzinfo/golemenviro"``)`
+
+Or install the source tarball of the [latest
 release](https://github.com/sedzinfo/golemenviro/releases/tag/latest),
 which is rebuilt from `main` on every change, together with the PDF
 manual:
 
-``` r
+[`install.packages`](https://rdrr.io/r/utils/install.packages.html)`(`` `` ``"https://github.com/sedzinfo/golemenviro/releases/download/latest/golemenviro_0.0.0.9000.tar.gz"``,`` `` repos ``=`` ``NULL``, type ``=`` ``"source"`` ``)`
 
-install.packages(
-  "https://github.com/sedzinfo/golemenviro/releases/download/latest/golemenviro_0.0.0.9000.tar.gz",
-  repos = NULL, type = "source"
-)
-```
-
-# Usage
+## Usage
 
     library(golemenviro)
 
@@ -73,7 +73,7 @@ showing an error, and
 [`get_data()`](https://sedzinfo.github.io/golemenviro/reference/get_data.md)
 returns `NULL` with a message.
 
-# Tabs
+## Tabs
 
 - **Current**: a gauge per sensor with its last reading, updated every 5
   minutes
@@ -91,16 +91,16 @@ returns `NULL` with a message.
   read their numbers, such as the gas readings, which are resistances
   rather than concentrations. The text is in `inst/app/about.md`
 
-# Screenshots
+## Screenshots
 
-## Current
+### Current
 
 ![A gauge with the latest reading of each
 sensor](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/current.png)
 
 A gauge with the latest reading of each sensor
 
-## Time Series
+### Time Series
 
 ![Temperature over the last week, with its moving average, its mean and
 a summary of the
@@ -109,7 +109,7 @@ readings](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/time_seri
 Temperature over the last week, with its moving average, its mean and a
 summary of the readings
 
-## Daily Pattern (dark mode)
+### Daily Pattern (dark mode)
 
 ![A heatmap of the hourly temperature, a column per day and a row per
 hour, and a typical day below
@@ -118,7 +118,7 @@ it](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/daily_pattern.p
 A heatmap of the hourly temperature, a column per day and a row per
 hour, and a typical day below it
 
-## Air Quality (dark mode)
+### Air Quality (dark mode)
 
 ![The days above the WHO guidelines for PM2.5 and PM10, and their daily
 averages over the last
@@ -127,14 +127,14 @@ month](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/air_quality.
 The days above the WHO guidelines for PM2.5 and PM10, and their daily
 averages over the last month
 
-# Development
+## Development
 
 Run the tests with
 [`devtools::test()`](https://devtools.r-lib.org/reference/test.html),
 and the full package check with
 [`devtools::check()`](https://devtools.r-lib.org/reference/check.html).
 
-## Deploying to Posit Connect Cloud
+### Deploying to Posit Connect Cloud
 
 The live app runs on Posit Connect Cloud, which deploys it from this
 GitHub repository using `manifest.json`. `app.R` starts the app with the
@@ -152,6 +152,7 @@ needs.
 
 ------------------------------------------------------------------------
 
+[![R-universe](https://sedzinfo.r-universe.dev/golemenviro/badges/version)](https://sedzinfo.r-universe.dev/golemenviro)
 ![Stars](https://img.shields.io/github/stars/sedzinfo/golemenviro)![Watchers](https://img.shields.io/github/watchers/sedzinfo/golemenviro)![Repo
 Size](https://img.shields.io/github/repo-size/sedzinfo/golemenviro)![Open
 Issues](https://img.shields.io/github/issues/sedzinfo/golemenviro)![Forks](https://img.shields.io/github/forks/sedzinfo/golemenviro)![Last

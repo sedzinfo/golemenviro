@@ -71,42 +71,56 @@
 3. Deploy a Prometheus server on the Pi that scrapes the exporter<br>
 4. After you deploy the server use the url as an argument in prometheus_url (see below)</p>
 </div>
-</div>
-<div class="section level1">
-<h1 id="installation-instructions">Installation Instructions<a class="anchor" aria-label="anchor" href="#installation-instructions"></a>
-</h1>
 <div class="section level2">
-<h2 id="install-r">install R<a class="anchor" aria-label="anchor" href="#install-r"></a>
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>installation instructions can be found here: <a href="https://cran.r-project.org/" class="external-link uri">https://cran.r-project.org/</a></p>
+<div class="section level3">
+<h3 id="prerequisites">Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"></a>
+</h3>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Install R</strong> (version 4.1 or higher): <a href="https://cran.r-project.org/" class="external-link uri">https://cran.r-project.org/</a>
+</li>
+<li>
+<strong>Install RStudio</strong> (optional but recommended): <a href="https://posit.co/downloads/" class="external-link uri">https://posit.co/downloads/</a>
+</li>
+</ol>
 </div>
-<div class="section level2">
-<h2 id="install-rstudio-ide-optional-but-a-good-idea">install RStudio IDE (optional but a good idea)<a class="anchor" aria-label="anchor" href="#install-rstudio-ide-optional-but-a-good-idea"></a>
-</h2>
-<p>installation instructions can be found here: <a href="https://posit.co/downloads/" class="external-link uri">https://posit.co/downloads/</a></p>
-<p>open RStudio and type in the console:</p>
-<pre><code><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://devtools.r-lib.org/reference/install-deprecated.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"sedzinfo/golemenviro"</span><span class="op">)</span></span></code></pre>
-<p>Without devtools, install the source tarball of the <a href="https://github.com/sedzinfo/golemenviro/releases/tag/latest" class="external-link">latest release</a>, which is rebuilt from <code>main</code> on every change, together with the PDF manual:</p>
+<div class="section level3">
+<h3 id="package-installation">Package Installation<a class="anchor" aria-label="anchor" href="#package-installation"></a>
+</h3>
+<p>Open RStudio (or an R console) and run:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span></span>
+<span>  <span class="st">"golemenviro"</span>,</span>
+<span>  repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://sedzinfo.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><a href="https://sedzinfo.r-universe.dev/golemenviro" class="external-link">R-universe</a> builds golemenviro from this repository, and CRAN provides the packages it needs.</p>
+<p>To install from GitHub instead:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Install devtools if you haven't already</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="co"># Install golemenviro from GitHub</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/install-deprecated.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"sedzinfo/golemenviro"</span><span class="op">)</span></span></code></pre></div>
+<p>Or install the source tarball of the <a href="https://github.com/sedzinfo/golemenviro/releases/tag/latest" class="external-link">latest release</a>, which is rebuilt from <code>main</code> on every change, together with the PDF manual:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span></span>
 <span>  <span class="st">"https://github.com/sedzinfo/golemenviro/releases/download/latest/golemenviro_0.0.0.9000.tar.gz"</span>,</span>
 <span>  repos <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">"source"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
-</h1>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
 <pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sedzinfo.github.io/golemenviro/">golemenviro</a></span><span class="op">)</span></span></code></pre>
 <p>substitute the url from your prometheus server</p>
 <pre><code><span><span class="fu"><a href="reference/pimoroni.html">pimoroni</a></span><span class="op">(</span>prometheus_url<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"http://pip1.crabdance.com:1507/api/v1/query_range"</span>,<span class="st">"http://pip1.crabdance.com:1505/api/v1/query_range"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 <p>When a server cannot be reached, its gauges and charts say so instead of showing an error, and <code><a href="reference/get_data.html">get_data()</a></code> returns <code>NULL</code> with a message.</p>
 </div>
-<div class="section level1">
-<h1 id="tabs">Tabs<a class="anchor" aria-label="anchor" href="#tabs"></a>
-</h1>
+<div class="section level2">
+<h2 id="tabs">Tabs<a class="anchor" aria-label="anchor" href="#tabs"></a>
+</h2>
 <ul>
 <li>
 <strong>Current</strong>: a gauge per sensor with its last reading, updated every 5 minutes</li>
@@ -121,51 +135,51 @@
 </li>
 </ul>
 </div>
-<div class="section level1">
-<h1 id="screenshots">Screenshots<a class="anchor" aria-label="anchor" href="#screenshots"></a>
-</h1>
 <div class="section level2">
-<h2 id="current">Current<a class="anchor" aria-label="anchor" href="#current"></a>
+<h2 id="screenshots">Screenshots<a class="anchor" aria-label="anchor" href="#screenshots"></a>
 </h2>
+<div class="section level3">
+<h3 id="current">Current<a class="anchor" aria-label="anchor" href="#current"></a>
+</h3>
 <div class="float">
 <img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/current.png" alt="A gauge with the latest reading of each sensor"><div class="figcaption">A gauge with the latest reading of each sensor</div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="time-series">Time Series<a class="anchor" aria-label="anchor" href="#time-series"></a>
-</h2>
+<div class="section level3">
+<h3 id="time-series">Time Series<a class="anchor" aria-label="anchor" href="#time-series"></a>
+</h3>
 <div class="float">
 <img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/time_series.png" alt="Temperature over the last week, with its moving average, its mean and a summary of the readings"><div class="figcaption">Temperature over the last week, with its moving average, its mean and a summary of the readings</div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="daily-pattern-dark-mode">Daily Pattern (dark mode)<a class="anchor" aria-label="anchor" href="#daily-pattern-dark-mode"></a>
-</h2>
+<div class="section level3">
+<h3 id="daily-pattern-dark-mode">Daily Pattern (dark mode)<a class="anchor" aria-label="anchor" href="#daily-pattern-dark-mode"></a>
+</h3>
 <div class="float">
 <img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/daily_pattern.png" alt="A heatmap of the hourly temperature, a column per day and a row per hour, and a typical day below it"><div class="figcaption">A heatmap of the hourly temperature, a column per day and a row per hour, and a typical day below it</div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="air-quality-dark-mode">Air Quality (dark mode)<a class="anchor" aria-label="anchor" href="#air-quality-dark-mode"></a>
-</h2>
+<div class="section level3">
+<h3 id="air-quality-dark-mode">Air Quality (dark mode)<a class="anchor" aria-label="anchor" href="#air-quality-dark-mode"></a>
+</h3>
 <div class="float">
 <img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/air_quality.png" alt="The days above the WHO guidelines for PM2.5 and PM10, and their daily averages over the last month"><div class="figcaption">The days above the WHO guidelines for PM2.5 and PM10, and their daily averages over the last month</div>
 </div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>
-</h1>
-<p>Run the tests with <code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test()</a></code>, and the full package check with <code><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">devtools::check()</a></code>.</p>
 <div class="section level2">
-<h2 id="deploying-to-posit-connect-cloud">Deploying to Posit Connect Cloud<a class="anchor" aria-label="anchor" href="#deploying-to-posit-connect-cloud"></a>
+<h2 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>
 </h2>
+<p>Run the tests with <code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test()</a></code>, and the full package check with <code><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">devtools::check()</a></code>.</p>
+<div class="section level3">
+<h3 id="deploying-to-posit-connect-cloud">Deploying to Posit Connect Cloud<a class="anchor" aria-label="anchor" href="#deploying-to-posit-connect-cloud"></a>
+</h3>
 <p>The live app runs on Posit Connect Cloud, which deploys it from this GitHub repository using <code>manifest.json</code>. <code>app.R</code> starts the app with the two servers above; change them there for your own. It also sets <code>analytics = TRUE</code>, which adds the cookie banner of the sedzinfo.github.io sites and, once a visitor accepts, Google Analytics; <code><a href="reference/pimoroni.html">pimoroni()</a></code> leaves them out unless asked, so running the app yourself sends nothing. Whenever you add or remove files or change the packages the app uses, regenerate <code>manifest.json</code> from the package folder with <code>rsconnect::writeManifest(appDir = ".", appPrimaryDoc = "app.R")</code> (the command is commented at the bottom of <code>app.R</code>) and push it with the other changes. <code>.rscignore</code> keeps the manifest to the files the app needs.</p>
 <hr>
-<p><img src="https://img.shields.io/github/stars/sedzinfo/golemenviro" alt="Stars"><img src="https://img.shields.io/github/watchers/sedzinfo/golemenviro" alt="Watchers"><img src="https://img.shields.io/github/repo-size/sedzinfo/golemenviro" alt="Repo Size"><img src="https://img.shields.io/github/issues/sedzinfo/golemenviro" alt="Open Issues"><img src="https://img.shields.io/github/forks/sedzinfo/golemenviro" alt="Forks"><img src="https://img.shields.io/github/last-commit/sedzinfo/golemenviro" alt="Last Commit"><img src="https://img.shields.io/github/contributors/sedzinfo/golemenviro" alt="Contributors"><img src="https://img.shields.io/github/license/sedzinfo/golemenviro" alt="License"><img src="https://img.shields.io/github/actions/workflow/status/sedzinfo/golemenviro/build-tarball.yml" alt="Workflow Status"><img src="https://github.com/sedzinfo/golemenviro/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></p>
+<p><a href="https://sedzinfo.r-universe.dev/golemenviro" class="external-link"><img src="https://sedzinfo.r-universe.dev/golemenviro/badges/version" alt="R-universe"></a> <img src="https://img.shields.io/github/stars/sedzinfo/golemenviro" alt="Stars"><img src="https://img.shields.io/github/watchers/sedzinfo/golemenviro" alt="Watchers"><img src="https://img.shields.io/github/repo-size/sedzinfo/golemenviro" alt="Repo Size"><img src="https://img.shields.io/github/issues/sedzinfo/golemenviro" alt="Open Issues"><img src="https://img.shields.io/github/forks/sedzinfo/golemenviro" alt="Forks"><img src="https://img.shields.io/github/last-commit/sedzinfo/golemenviro" alt="Last Commit"><img src="https://img.shields.io/github/contributors/sedzinfo/golemenviro" alt="Contributors"><img src="https://img.shields.io/github/license/sedzinfo/golemenviro" alt="License"><img src="https://img.shields.io/github/actions/workflow/status/sedzinfo/golemenviro/build-tarball.yml" alt="Workflow Status"><img src="https://github.com/sedzinfo/golemenviro/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></p>
 </div>
 </div>
-
+</div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">

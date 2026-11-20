@@ -16,22 +16,36 @@ In order to create your own server you need to:
 3. Deploy a Prometheus server on the Pi that scrapes the exporter  
 4. After you deploy the server use the url as an argument in prometheus_url (see below)  
 
-# Installation Instructions
-## install R
-installation instructions can be found here: https://cran.r-project.org/
+## Installation
 
-## install RStudio IDE (optional but a good idea)
+### Prerequisites
 
-installation instructions can be found here: https://posit.co/downloads/
+1. **Install R** (version 4.1 or higher): https://cran.r-project.org/
+2. **Install RStudio** (optional but recommended): https://posit.co/downloads/
 
-open RStudio and type in the console:
+### Package Installation
+
+Open RStudio (or an R console) and run:
+
+```r
+install.packages(
+  "golemenviro",
+  repos = c("https://sedzinfo.r-universe.dev", "https://cloud.r-project.org")
+)
 ```
+
+[R-universe](https://sedzinfo.r-universe.dev/golemenviro) builds golemenviro from this repository, and CRAN provides the packages it needs.
+
+To install from GitHub instead:
+
+```r
+# Install devtools if you haven't already
 install.packages("devtools")
-library(devtools)
-install_github("sedzinfo/golemenviro")
+# Install golemenviro from GitHub
+devtools::install_github("sedzinfo/golemenviro")
 ```
 
-Without devtools, install the source tarball of the [latest release](https://github.com/sedzinfo/golemenviro/releases/tag/latest), which is rebuilt from `main` on every change, together with the PDF manual:
+Or install the source tarball of the [latest release](https://github.com/sedzinfo/golemenviro/releases/tag/latest), which is rebuilt from `main` on every change, together with the PDF manual:
 
 ```r
 install.packages(
@@ -40,7 +54,7 @@ install.packages(
 )
 ```
 
-# Usage
+## Usage
 ```
 library(golemenviro)
 ```
@@ -52,36 +66,37 @@ pimoroni(prometheus_url=c("http://pip1.crabdance.com:1507/api/v1/query_range","h
 
 When a server cannot be reached, its gauges and charts say so instead of showing an error, and `get_data()` returns `NULL` with a message.
 
-# Tabs
+## Tabs
 - **Current**: a gauge per sensor with its last reading, updated every 5 minutes
 - **Time Series**: a chart of one sensor, picked as in the Daily Pattern tab, over a period from 6 hours to 1 year, with a moving average and a summary
 - **Daily Pattern**: the hourly averages of one sensor as a heatmap, a column per day and a row per hour, so that what repeats every day shows as bands, and a typical day: the median of each hour and the range of its middle half
 - **Air Quality**: the daily averages of PM2.5 and PM10 against the guidelines of the World Health Organization, with the number of days above them and the average of the period
 - **About**: what each tab shows, what the sensors measure and how to read their numbers, such as the gas readings, which are resistances rather than concentrations. The text is in `inst/app/about.md`
 
-# Screenshots
-## Current
+## Screenshots
+### Current
 ![A gauge with the latest reading of each sensor](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/current.png)
 
-## Time Series
+### Time Series
 ![Temperature over the last week, with its moving average, its mean and a summary of the readings](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/time_series.png)
 
-## Daily Pattern (dark mode)
+### Daily Pattern (dark mode)
 ![A heatmap of the hourly temperature, a column per day and a row per hour, and a typical day below it](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/daily_pattern.png)
 
-## Air Quality (dark mode)
+### Air Quality (dark mode)
 ![The days above the WHO guidelines for PM2.5 and PM10, and their daily averages over the last month](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/air_quality.png)
 
-# Development
+## Development
 
 Run the tests with `devtools::test()`, and the full package check with `devtools::check()`.
 
-## Deploying to Posit Connect Cloud
+### Deploying to Posit Connect Cloud
 
 The live app runs on Posit Connect Cloud, which deploys it from this GitHub repository using `manifest.json`. `app.R` starts the app with the two servers above; change them there for your own. It also sets `analytics = TRUE`, which adds the cookie banner of the sedzinfo.github.io sites and, once a visitor accepts, Google Analytics; `pimoroni()` leaves them out unless asked, so running the app yourself sends nothing. Whenever you add or remove files or change the packages the app uses, regenerate `manifest.json` from the package folder with `rsconnect::writeManifest(appDir = ".", appPrimaryDoc = "app.R")` (the command is commented at the bottom of `app.R`) and push it with the other changes. `.rscignore` keeps the manifest to the files the app needs.
 
 ---
 
+[![R-universe](https://sedzinfo.r-universe.dev/golemenviro/badges/version)](https://sedzinfo.r-universe.dev/golemenviro)
 ![Stars](https://img.shields.io/github/stars/sedzinfo/golemenviro)
 ![Watchers](https://img.shields.io/github/watchers/sedzinfo/golemenviro)
 ![Repo Size](https://img.shields.io/github/repo-size/sedzinfo/golemenviro)

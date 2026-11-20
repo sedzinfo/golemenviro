@@ -1,31 +1,43 @@
 # Data Visualization for Enviro Using Prometheus
-Displays data of Pimoroni Enviro from Prometheus
 
-**[Open the live app](https://sedzinfo-golemenviro.share.connect.posit.cloud/)** · [Website](https://sedzinfo.github.io/golemenviro/)  
+**[Open the live app](https://sedzinfo-golemenviro.share.connect.posit.cloud/)** · [Help pages](https://sedzinfo.github.io/golemenviro/reference/)
 
-![The Pimoroni Enviro+ board from the front, with its sensors and small screen](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_front.png)
-![The Pimoroni Enviro+ board from the back, with the header that plugs into the Raspberry Pi](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_back.png)
+## What it does
 
-## Examples of how to set up your own Pimoroni Enviro
-[Getting Started with Enviro Plus](https://learn.pimoroni.com/article/getting-started-with-enviro-plus)  
-[Enviro Plus Python GitHub Repository](https://github.com/pimoroni/enviroplus-python)  
+**golemenviro** is an R package with a [Shiny](https://shiny.posit.co/) app, built with
+[golem](https://thinkr-open.github.io/golem/), that shows the readings of
+[Pimoroni Enviro](https://learn.pimoroni.com/article/getting-started-with-enviro-plus) sensor boards on a Raspberry Pi:
+temperature, humidity, pressure, light, gases and particulate matter. It reads them from
+the [Prometheus](https://prometheus.io/) servers that collect them, and shows the latest
+readings as gauges, their history, their daily pattern, and the air quality against the
+guidelines of the World Health Organization.
 
-In order to create your own server you need to: 
-1. Install the Pimoroni drivers on the Pi  
-2. Install [enviroplus_exporter](https://github.com/tijmenvandenbrink/enviroplus_exporter) on the Pi; it exports the readings under the metric names the app reads (temperature, humidity, pressure, lux, proximity, NH3, reducing, oxidising, PM1, PM25, PM10). On an Enviro (not Enviro+), start it with `--enviro=true`, as it has no gas or particulate sensors  
-3. Deploy a Prometheus server on the Pi that scrapes the exporter  
-4. After you deploy the server use the url as an argument in prometheus_url (see below)  
+## Tabs
+
+- **Current**: a gauge per sensor with its last reading, updated every 5 minutes
+- **Time Series**: a chart of one sensor, picked as in the Daily Pattern tab, over a period from 6 hours to 1 year, with a moving average and a summary
+- **Daily Pattern**: the hourly averages of one sensor as a heatmap, a column per day and a row per hour, so that what repeats every day shows as bands, and a typical day: the median of each hour and the range of its middle half
+- **Air Quality**: the daily averages of PM2.5 and PM10 against the guidelines of the World Health Organization, with the number of days above them and the average of the period
+- **About**: what each tab shows, what the sensors measure and how to read their numbers, such as the gas readings, which are resistances rather than concentrations. The text is in `inst/app/about.md`
 
 ## Installation
 
-### Prerequisites
+### 1. Install R
 
-1. **Install R** (version 4.1 or higher): https://cran.r-project.org/
-2. **Install RStudio** (optional but recommended): https://posit.co/downloads/
+Download R 4.1 or newer from [CRAN](https://cran.r-project.org/), for Windows, macOS or Linux, and run the installer.
 
-### Package Installation
+### 2. Install RStudio or Positron
 
-Open RStudio (or an R console) and run:
+An editor makes R easier to use. It is optional, and both are free, from Posit:
+
+- [RStudio Desktop](https://posit.co/download/rstudio-desktop/)
+- [Positron](https://positron.posit.co/download.html), which also runs Python
+
+### 3. Install golemenviro
+
+Run one of these in RStudio, Positron or the R console. Each one also installs the packages golemenviro needs.
+
+#### From R-universe (recommended)
 
 ```r
 install.packages(
@@ -34,27 +46,39 @@ install.packages(
 )
 ```
 
-[R-universe](https://sedzinfo.r-universe.dev/golemenviro) builds golemenviro from this repository, and CRAN provides the packages it needs.
+[R-universe](https://sedzinfo.r-universe.dev/golemenviro) builds golemenviro from this repository after every change, ready to install on Windows, macOS and Linux, and CRAN provides the packages it needs.
 
-To install from GitHub instead:
+#### From GitHub
 
 ```r
-# Install devtools if you haven't already
-install.packages("devtools")
-# Install golemenviro from GitHub
-devtools::install_github("sedzinfo/golemenviro")
+install.packages("pak")   # once
+pak::pak("sedzinfo/golemenviro")
 ```
 
-Or install the source tarball of the [latest release](https://github.com/sedzinfo/golemenviro/releases/tag/latest), which is rebuilt from `main` on every change, together with the PDF manual:
+#### From the release tarball
+
+The [latest release](https://github.com/sedzinfo/golemenviro/releases/tag/latest) has the source tarball and the PDF manual, rebuilt from `main` on every change:
 
 ```r
-install.packages(
-  "https://github.com/sedzinfo/golemenviro/releases/download/latest/golemenviro_0.0.0.9000.tar.gz",
-  repos = NULL, type = "source"
-)
+install.packages("pak")   # once
+pak::pak("url::https://github.com/sedzinfo/golemenviro/releases/download/latest/golemenviro_0.0.0.9000.tar.gz")
+```
+
+#### From a clone of the repository
+
+This repository keeps no files in [Git LFS](https://git-lfs.com), so a plain clone with [Git](https://git-scm.com/downloads) has everything:
+
+```bash
+git clone https://github.com/sedzinfo/golemenviro.git
+```
+
+```r
+install.packages("pak")   # once
+pak::local_install("path/to/golemenviro")
 ```
 
 ## Usage
+
 ```
 library(golemenviro)
 ```
@@ -66,14 +90,8 @@ pimoroni(prometheus_url=c("http://pip1.crabdance.com:1507/api/v1/query_range","h
 
 When a server cannot be reached, its gauges and charts say so instead of showing an error, and `get_data()` returns `NULL` with a message.
 
-## Tabs
-- **Current**: a gauge per sensor with its last reading, updated every 5 minutes
-- **Time Series**: a chart of one sensor, picked as in the Daily Pattern tab, over a period from 6 hours to 1 year, with a moving average and a summary
-- **Daily Pattern**: the hourly averages of one sensor as a heatmap, a column per day and a row per hour, so that what repeats every day shows as bands, and a typical day: the median of each hour and the range of its middle half
-- **Air Quality**: the daily averages of PM2.5 and PM10 against the guidelines of the World Health Organization, with the number of days above them and the average of the period
-- **About**: what each tab shows, what the sensors measure and how to read their numbers, such as the gas readings, which are resistances rather than concentrations. The text is in `inst/app/about.md`
-
 ## Screenshots
+
 ### Current
 ![A gauge with the latest reading of each sensor](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/current.png)
 
@@ -85,6 +103,20 @@ When a server cannot be reached, its gauges and charts say so instead of showing
 
 ### Air Quality (dark mode)
 ![The days above the WHO guidelines for PM2.5 and PM10, and their daily averages over the last month](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/air_quality.png)
+
+## Set up your own Pimoroni Enviro
+
+![The Pimoroni Enviro+ board from the front, with its sensors and small screen](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_front.png)
+![The Pimoroni Enviro+ board from the back, with the header that plugs into the Raspberry Pi](https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_back.png)
+
+[Getting Started with Enviro Plus](https://learn.pimoroni.com/article/getting-started-with-enviro-plus)  
+[Enviro Plus Python GitHub Repository](https://github.com/pimoroni/enviroplus-python)  
+
+In order to create your own server you need to: 
+1. Install the Pimoroni drivers on the Pi  
+2. Install [enviroplus_exporter](https://github.com/tijmenvandenbrink/enviroplus_exporter) on the Pi; it exports the readings under the metric names the app reads (temperature, humidity, pressure, lux, proximity, NH3, reducing, oxidising, PM1, PM25, PM10). On an Enviro (not Enviro+), start it with `--enviro=true`, as it has no gas or particulate sensors  
+3. Deploy a Prometheus server on the Pi that scrapes the exporter  
+4. After you deploy the server use the url as an argument in prometheus_url (see [Usage](#usage))  
 
 ## Development
 

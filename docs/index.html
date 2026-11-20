@@ -59,64 +59,11 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="data-visualization-for-enviro-using-prometheus">Data Visualization for Enviro Using Prometheus<a class="anchor" aria-label="anchor" href="#data-visualization-for-enviro-using-prometheus"></a>
 </h1></div>
-<p>Displays data of Pimoroni Enviro from Prometheus</p>
-<p><strong><a href="https://sedzinfo-golemenviro.share.connect.posit.cloud/" class="external-link">Open the live app</a></strong> · <a href="https://sedzinfo.github.io/golemenviro/">Website</a></p>
-<p><img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_front.png" alt="The Pimoroni Enviro+ board from the front, with its sensors and small screen"><img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_back.png" alt="The Pimoroni Enviro+ board from the back, with the header that plugs into the Raspberry Pi"></p>
+<p><strong><a href="https://sedzinfo-golemenviro.share.connect.posit.cloud/" class="external-link">Open the live app</a></strong> · <a href="https://sedzinfo.github.io/golemenviro/reference/">Help pages</a></p>
 <div class="section level2">
-<h2 id="examples-of-how-to-set-up-your-own-pimoroni-enviro">Examples of how to set up your own Pimoroni Enviro<a class="anchor" aria-label="anchor" href="#examples-of-how-to-set-up-your-own-pimoroni-enviro"></a>
+<h2 id="what-it-does">What it does<a class="anchor" aria-label="anchor" href="#what-it-does"></a>
 </h2>
-<p><a href="https://learn.pimoroni.com/article/getting-started-with-enviro-plus" class="external-link">Getting Started with Enviro Plus</a><br><a href="https://github.com/pimoroni/enviroplus-python" class="external-link">Enviro Plus Python GitHub Repository</a></p>
-<p>In order to create your own server you need to: 1. Install the Pimoroni drivers on the Pi<br>
-2. Install <a href="https://github.com/tijmenvandenbrink/enviroplus_exporter" class="external-link">enviroplus_exporter</a> on the Pi; it exports the readings under the metric names the app reads (temperature, humidity, pressure, lux, proximity, NH3, reducing, oxidising, PM1, PM25, PM10). On an Enviro (not Enviro+), start it with <code>--enviro=true</code>, as it has no gas or particulate sensors<br>
-3. Deploy a Prometheus server on the Pi that scrapes the exporter<br>
-4. After you deploy the server use the url as an argument in prometheus_url (see below)</p>
-</div>
-<div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
-<div class="section level3">
-<h3 id="prerequisites">Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"></a>
-</h3>
-<ol style="list-style-type: decimal">
-<li>
-<strong>Install R</strong> (version 4.1 or higher): <a href="https://cran.r-project.org/" class="external-link uri">https://cran.r-project.org/</a>
-</li>
-<li>
-<strong>Install RStudio</strong> (optional but recommended): <a href="https://posit.co/downloads/" class="external-link uri">https://posit.co/downloads/</a>
-</li>
-</ol>
-</div>
-<div class="section level3">
-<h3 id="package-installation">Package Installation<a class="anchor" aria-label="anchor" href="#package-installation"></a>
-</h3>
-<p>Open RStudio (or an R console) and run:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span></span>
-<span>  <span class="st">"golemenviro"</span>,</span>
-<span>  repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://sedzinfo.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><a href="https://sedzinfo.r-universe.dev/golemenviro" class="external-link">R-universe</a> builds golemenviro from this repository, and CRAN provides the packages it needs.</p>
-<p>To install from GitHub instead:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Install devtools if you haven't already</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
-<span><span class="co"># Install golemenviro from GitHub</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/install-deprecated.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"sedzinfo/golemenviro"</span><span class="op">)</span></span></code></pre></div>
-<p>Or install the source tarball of the <a href="https://github.com/sedzinfo/golemenviro/releases/tag/latest" class="external-link">latest release</a>, which is rebuilt from <code>main</code> on every change, together with the PDF manual:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span></span>
-<span>  <span class="st">"https://github.com/sedzinfo/golemenviro/releases/download/latest/golemenviro_0.0.0.9000.tar.gz"</span>,</span>
-<span>  repos <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">"source"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
-</h2>
-<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sedzinfo.github.io/golemenviro/">golemenviro</a></span><span class="op">)</span></span></code></pre>
-<p>substitute the url from your prometheus server</p>
-<pre><code><span><span class="fu"><a href="reference/pimoroni.html">pimoroni</a></span><span class="op">(</span>prometheus_url<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"http://pip1.crabdance.com:1507/api/v1/query_range"</span>,<span class="st">"http://pip1.crabdance.com:1505/api/v1/query_range"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
-<p>When a server cannot be reached, its gauges and charts say so instead of showing an error, and <code><a href="reference/get_data.html">get_data()</a></code> returns <code>NULL</code> with a message.</p>
+<p><strong>golemenviro</strong> is an R package with a <a href="https://shiny.posit.co/" class="external-link">Shiny</a> app, built with <a href="https://thinkr-open.github.io/golem/" class="external-link">golem</a>, that shows the readings of <a href="https://learn.pimoroni.com/article/getting-started-with-enviro-plus" class="external-link">Pimoroni Enviro</a> sensor boards on a Raspberry Pi: temperature, humidity, pressure, light, gases and particulate matter. It reads them from the <a href="https://prometheus.io/" class="external-link">Prometheus</a> servers that collect them, and shows the latest readings as gauges, their history, their daily pattern, and the air quality against the guidelines of the World Health Organization.</p>
 </div>
 <div class="section level2">
 <h2 id="tabs">Tabs<a class="anchor" aria-label="anchor" href="#tabs"></a>
@@ -134,6 +81,72 @@
 <strong>About</strong>: what each tab shows, what the sensors measure and how to read their numbers, such as the gas readings, which are resistances rather than concentrations. The text is in <code>inst/app/about.md</code>
 </li>
 </ul>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<div class="section level3">
+<h3 id="id_1-install-r">1. Install R<a class="anchor" aria-label="anchor" href="#id_1-install-r"></a>
+</h3>
+<p>Download R 4.1 or newer from <a href="https://cran.r-project.org/" class="external-link">CRAN</a>, for Windows, macOS or Linux, and run the installer.</p>
+</div>
+<div class="section level3">
+<h3 id="id_2-install-rstudio-or-positron">2. Install RStudio or Positron<a class="anchor" aria-label="anchor" href="#id_2-install-rstudio-or-positron"></a>
+</h3>
+<p>An editor makes R easier to use. It is optional, and both are free, from Posit:</p>
+<ul>
+<li><a href="https://posit.co/download/rstudio-desktop/" class="external-link">RStudio Desktop</a></li>
+<li>
+<a href="https://positron.posit.co/download.html" class="external-link">Positron</a>, which also runs Python</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="id_3-install-golemenviro">3. Install golemenviro<a class="anchor" aria-label="anchor" href="#id_3-install-golemenviro"></a>
+</h3>
+<p>Run one of these in RStudio, Positron or the R console. Each one also installs the packages golemenviro needs.</p>
+<div class="section level4">
+<h4 id="from-r-universe-recommended">From R-universe (recommended)<a class="anchor" aria-label="anchor" href="#from-r-universe-recommended"></a>
+</h4>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span></span>
+<span>  <span class="st">"golemenviro"</span>,</span>
+<span>  repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://sedzinfo.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><a href="https://sedzinfo.r-universe.dev/golemenviro" class="external-link">R-universe</a> builds golemenviro from this repository after every change, ready to install on Windows, macOS and Linux, and CRAN provides the packages it needs.</p>
+</div>
+<div class="section level4">
+<h4 id="from-github">From GitHub<a class="anchor" aria-label="anchor" href="#from-github"></a>
+</h4>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span>   <span class="co"># once</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"sedzinfo/golemenviro"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="from-the-release-tarball">From the release tarball<a class="anchor" aria-label="anchor" href="#from-the-release-tarball"></a>
+</h4>
+<p>The <a href="https://github.com/sedzinfo/golemenviro/releases/tag/latest" class="external-link">latest release</a> has the source tarball and the PDF manual, rebuilt from <code>main</code> on every change:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span>   <span class="co"># once</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"url::https://github.com/sedzinfo/golemenviro/releases/download/latest/golemenviro_0.0.0.9000.tar.gz"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="from-a-clone-of-the-repository">From a clone of the repository<a class="anchor" aria-label="anchor" href="#from-a-clone-of-the-repository"></a>
+</h4>
+<p>This repository keeps no files in <a href="https://git-lfs.com" class="external-link">Git LFS</a>, so a plain clone with <a href="https://git-scm.com/downloads" class="external-link">Git</a> has everything:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/sedzinfo/golemenviro.git</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span>   <span class="co"># once</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/local_install.html" class="external-link">local_install</a></span><span class="op">(</span><span class="st">"path/to/golemenviro"</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
+<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sedzinfo.github.io/golemenviro/">golemenviro</a></span><span class="op">)</span></span></code></pre>
+<p>substitute the url from your prometheus server</p>
+<pre><code><span><span class="fu"><a href="reference/pimoroni.html">pimoroni</a></span><span class="op">(</span>prometheus_url<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"http://pip1.crabdance.com:1507/api/v1/query_range"</span>,<span class="st">"http://pip1.crabdance.com:1505/api/v1/query_range"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<p>When a server cannot be reached, its gauges and charts say so instead of showing an error, and <code><a href="reference/get_data.html">get_data()</a></code> returns <code>NULL</code> with a message.</p>
 </div>
 <div class="section level2">
 <h2 id="screenshots">Screenshots<a class="anchor" aria-label="anchor" href="#screenshots"></a>
@@ -166,6 +179,16 @@
 <img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/air_quality.png" alt="The days above the WHO guidelines for PM2.5 and PM10, and their daily averages over the last month"><div class="figcaption">The days above the WHO guidelines for PM2.5 and PM10, and their daily averages over the last month</div>
 </div>
 </div>
+</div>
+<div class="section level2">
+<h2 id="set-up-your-own-pimoroni-enviro">Set up your own Pimoroni Enviro<a class="anchor" aria-label="anchor" href="#set-up-your-own-pimoroni-enviro"></a>
+</h2>
+<p><img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_front.png" alt="The Pimoroni Enviro+ board from the front, with its sensors and small screen"><img src="https://github.com/sedzinfo/golemenviro/raw/main/screenshots/pimoroni_back.png" alt="The Pimoroni Enviro+ board from the back, with the header that plugs into the Raspberry Pi"></p>
+<p><a href="https://learn.pimoroni.com/article/getting-started-with-enviro-plus" class="external-link">Getting Started with Enviro Plus</a><br><a href="https://github.com/pimoroni/enviroplus-python" class="external-link">Enviro Plus Python GitHub Repository</a></p>
+<p>In order to create your own server you need to: 1. Install the Pimoroni drivers on the Pi<br>
+2. Install <a href="https://github.com/tijmenvandenbrink/enviroplus_exporter" class="external-link">enviroplus_exporter</a> on the Pi; it exports the readings under the metric names the app reads (temperature, humidity, pressure, lux, proximity, NH3, reducing, oxidising, PM1, PM25, PM10). On an Enviro (not Enviro+), start it with <code>--enviro=true</code>, as it has no gas or particulate sensors<br>
+3. Deploy a Prometheus server on the Pi that scrapes the exporter<br>
+4. After you deploy the server use the url as an argument in prometheus_url (see <a href="#usage">Usage</a>)</p>
 </div>
 <div class="section level2">
 <h2 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>

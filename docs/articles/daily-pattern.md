@@ -33,7 +33,7 @@ takes the name of the sensor in Prometheus, such as `"temperature"` or
 [`get_data()`](https://sedzinfo.github.io/golemenviro/reference/get_data.md).
 The names of `metric_mid` list them all:
 
-[`names`](https://rdrr.io/r/base/names.html)`(``metric_mid``)`` ``#> [1] "temperature" "humidity" "pressure" "lux" "proximity" "NH3" "reducing" "oxidising" "PM1" "PM25" "PM10"`` ``temperature`` ``<-`` `[`get_hourly`](https://sedzinfo.github.io/golemenviro/reference/get_hourly.md)`(``url``, ``"temperature"``, days ``=`` ``30``)`` `[`head`](https://rdrr.io/r/utils/head.html)`(``temperature``)`` ``#> date hour value`` ``#> 1 2026-10-22 15 29.97733`` ``#> 2 2026-10-22 16 30.02577`` ``#> 3 2026-10-22 17 30.00611`` ``#> 4 2026-10-22 18 29.82130`` ``#> 5 2026-10-22 19 29.37329`` ``#> 6 2026-10-22 20 29.99080`
+[`names`](https://rdrr.io/r/base/names.html)`(``metric_mid``)`` ``#> [1] "temperature" "humidity" "pressure" "lux" "proximity" "NH3" "reducing" "oxidising" "PM1" "PM25" "PM10"`` ``temperature`` ``<-`` `[`get_hourly`](https://sedzinfo.github.io/golemenviro/reference/get_hourly.md)`(``url``, ``"temperature"``, days ``=`` ``30``)`` `[`head`](https://rdrr.io/r/utils/head.html)`(``temperature``)`` ``#> date hour value`` ``#> 1 2026-10-22 17 30.00611`` ``#> 2 2026-10-22 18 29.82130`` ``#> 3 2026-10-22 19 29.37329`` ``#> 4 2026-10-22 20 29.99080`` ``#> 5 2026-10-22 21 30.08549`` ``#> 6 2026-10-22 22 30.22740`
 
 It has a row per hour: its `date`, its `hour` from 0 to 23 and the
 average `value`. When the server cannot be reached,
@@ -96,7 +96,7 @@ gives the numbers: how many hours had both readings, and the percentages
 of them that were comfortable, too warm, too cool, too dry and too
 humid. An hour can be both too warm and too dry:
 
-[`str`](https://rdrr.io/r/utils/str.html)`(`[`comfort_summary`](https://sedzinfo.github.io/golemenviro/reference/comfort_summary.md)`(``temperature``, ``humidity``)``)`` ``#> List of 6`` ``#> $ hours : int 720`` ``#> $ comfortable: num 1.94`` ``#> $ too_warm : num 89.7`` ``#> $ too_cool : num 0`` ``#> $ too_dry : num 25.6`` ``#> $ too_humid : num 0`
+[`str`](https://rdrr.io/r/utils/str.html)`(`[`comfort_summary`](https://sedzinfo.github.io/golemenviro/reference/comfort_summary.md)`(``temperature``, ``humidity``)``)`` ``#> List of 6`` ``#> $ hours : int 720`` ``#> $ comfortable: num 1.94`` ``#> $ too_warm : num 89.7`` ``#> $ too_cool : num 0`` ``#> $ too_dry : num 25.8`` ``#> $ too_humid : num 0`
 
 Both functions take other comfortable ranges with `temperature_range`
 and `humidity_range`.

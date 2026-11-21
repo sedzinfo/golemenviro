@@ -53,7 +53,7 @@ it at the start of the session:
 downloads the readings of all the sensors of one server, by default over
 the last 7 days:
 
-`week`` ``<-`` `[`get_data`](https://sedzinfo.github.io/golemenviro/reference/get_data.md)`(``urlq ``=`` ``prometheus_url``[``1``]``)`` `[`names`](https://rdrr.io/r/base/names.html)`(``week``)`` ``#> [1] "Date" "Timestamp" "Temperature" "Humidity" "Pressure" "Lux" "Proximity" "NH3" "Reducing" "Oxidising" "PM1" "PM2.5" "PM10"`` `[`tail`](https://rdrr.io/r/utils/head.html)`(``week``[``, `[`c`](https://rdrr.io/r/base/c.html)`(``"Date"``, ``"Temperature"``, ``"Humidity"``, ``"Pressure"``, ``"PM2.5"``)``]``, ``3``)`` ``#> Date Temperature Humidity Pressure PM2.5`` ``#> 998 2026-11-20 10:40:53 28.90416 46.66471 1004.913 17`` ``#> 999 2026-11-20 10:50:58 28.94532 46.50876 1004.871 17`` ``#> 1000 2026-11-20 11:01:03 29.07579 46.36527 1004.982 16`
+`week`` ``<-`` `[`get_data`](https://sedzinfo.github.io/golemenviro/reference/get_data.md)`(``urlq ``=`` ``prometheus_url``[``1``]``)`` `[`names`](https://rdrr.io/r/base/names.html)`(``week``)`` ``#> [1] "Date" "Timestamp" "Temperature" "Humidity" "Pressure" "Lux" "Proximity" "NH3" "Reducing" "Oxidising" "PM1" "PM2.5" "PM10"`` `[`tail`](https://rdrr.io/r/utils/head.html)`(``week``[``, `[`c`](https://rdrr.io/r/base/c.html)`(``"Date"``, ``"Temperature"``, ``"Humidity"``, ``"Pressure"``, ``"PM2.5"``)``]``, ``3``)`` ``#> Date Temperature Humidity Pressure PM2.5`` ``#> 998 2026-11-21 15:00:28 29.44249 34.42958 1008.209 1`` ``#> 999 2026-11-21 15:10:33 29.35414 34.75643 1008.440 1`` ``#> 1000 2026-11-21 15:20:38 29.51184 34.35570 1008.465 1`
 
 It returns about 1,000 rows: over 7 days, a reading every 10 minutes.
 `Date` is the time of the reading and `Timestamp` the same time in

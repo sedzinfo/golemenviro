@@ -39,7 +39,7 @@ Today, still running, is left out, and so is a day with readings in
 fewer than 18 of its hours, as in the usual rules for daily averages of
 air quality:
 
-`pm25`` ``<-`` `[`get_daily`](https://sedzinfo.github.io/golemenviro/reference/get_daily.md)`(``url``, ``"PM25"``, days ``=`` ``30``)`` `[`tail`](https://rdrr.io/r/utils/head.html)`(``pm25``)`` ``#> date value hours`` ``#> 25 2026-11-14 19.09444 24`` ``#> 26 2026-11-15 16.05972 24`` ``#> 27 2026-11-16 17.94028 24`` ``#> 28 2026-11-17 19.78750 24`` ``#> 29 2026-11-18 11.55347 24`` ``#> 30 2026-11-19 19.13194 24`
+`pm25`` ``<-`` `[`get_daily`](https://sedzinfo.github.io/golemenviro/reference/get_daily.md)`(``url``, ``"PM25"``, days ``=`` ``30``)`` `[`tail`](https://rdrr.io/r/utils/head.html)`(``pm25``)`` ``#> date value hours`` ``#> 25 2026-11-15 16.05972 24`` ``#> 26 2026-11-16 17.94028 24`` ``#> 27 2026-11-17 19.78750 24`` ``#> 28 2026-11-18 11.55347 24`` ``#> 29 2026-11-19 19.13194 24`` ``#> 30 2026-11-20 16.12361 24`
 
 It has a row per day: its `date`, the average `value`, and how many
 `hours` had readings. When the server cannot be reached,
@@ -59,7 +59,7 @@ the line. The axis starts at 0 and always reaches above the guideline:
 The app counts the days above the guideline, and sets the average of the
 period against the guideline for a year:
 
-[`sum`](https://rdrr.io/r/base/sum.html)`(``pm25``$``value`` ``>`` ``guideline``)`` ``#> [1] 18`` `[`round`](https://rdrr.io/r/base/Round.html)`(`[`mean`](https://rdrr.io/r/base/mean.html)`(``pm25``$``value``)``, ``1``)`` ``#> [1] 19.3`
+[`sum`](https://rdrr.io/r/base/sum.html)`(``pm25``$``value`` ``>`` ``guideline``)`` ``#> [1] 18`` `[`round`](https://rdrr.io/r/base/Round.html)`(`[`mean`](https://rdrr.io/r/base/mean.html)`(``pm25``$``value``)``, ``1``)`` ``#> [1] 18.3`
 
 The guideline for a year is for the average of a whole year, so for a
 shorter period it is only a pointer.
